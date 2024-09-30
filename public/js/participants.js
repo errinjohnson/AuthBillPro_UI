@@ -41,7 +41,7 @@ function addParticipant(participant) {
 
 function fetchParticipants() {
 
-    fetch('/api/participants')
+    fetch('https://plankton-app-2-9k8uf.ondigitalocean.app/api/participants')
 
     .then(response => {
 
@@ -74,7 +74,7 @@ function fetchParticipants() {
 
 function updateParticipant(participantId, participant) {
 
-    fetch(`/api/participants/${participantId}`, {
+    fetch(`https://plankton-app-2-9k8uf.ondigitalocean.app/api/participants/${participantId}`, {
 
         method: 'PUT',
 
@@ -107,7 +107,7 @@ function updateParticipant(participantId, participant) {
 
 function deleteParticipant(participantId) {
 
-    fetch(`/api/participants/${participantId}`, {
+    fetch(`https://plankton-app-2-9k8uf.ondigitalocean.app/api/participants/${participantId}`, {
 
         method: 'DELETE',
 
