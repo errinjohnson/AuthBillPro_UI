@@ -32,7 +32,7 @@ app.use(session({
 
     cookie: {
 
-        domain: '.plankton-app-2-9k8uf.ondigitalocean.app', // Set the cookie domain to your root domain
+        domain: 'plankton-app-2-9k8uf.ondigitalocean.app', // Set the cookie domain to your root domain
 
         path: '/',
 
