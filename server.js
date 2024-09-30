@@ -18,34 +18,7 @@ app.use(cors({
     origin: 'https://plankton-app-2-9k8uf.ondigitalocean.app' // Replace with your actual front-end domain
 
 }));
-
-
-// Set up express-session middleware
-
-app.use(session({
-
-    secret: process.env.SESSION_SECRET, // Use a strong secret from your environment
-
-    resave: false,
-
-    saveUninitialized: false,
-
-    cookie: {
-
-        domain: 'plankton-app-2-9k8uf.ondigitalocean.app', // Set the cookie domain to your root domain
-
-        path: '/',
-
-        secure: true, // Use HTTPS
-
-        httpOnly: true,
-
-        sameSite: 'Lax',
-
-    }
-
-}));
-  
+ 
  // Serve static files from the 'public' directory
 app.use(express.static(path.join(__dirname, 'public')));
 
