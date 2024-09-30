@@ -2,6 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const mysql = require('mysql2');
 const path = require('path');
+const session = require('express-session'); // Import the express-session middleware
 const app = express();
 require('dotenv').config(); // Load environment variables
 
