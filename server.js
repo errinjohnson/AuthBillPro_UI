@@ -2,7 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const mysql = require('mysql2');
 const path = require('path');
-const session = require('express-session'); // Import the express-session middleware
+const session = require('express-session');
 const app = express();
 require('dotenv').config(); // Load environment variables
 
@@ -10,16 +10,34 @@ const dbHost = process.env.DB_HOST;
 const dbUser = process.env.DB_USER;
 const dbPassword = process.env.DB_PASSWORD;
 const dbName = process.env.DB_NAME;
+const sessionSecret = process.env.SESSION_SECRET || 'your-super-secret-key';
+
+// Configure CORS middleware
+const corsOptions = {
+    origin: ['https://plankton-app-2-9k8uf.ondigitalocean.app', 'http://localhost:3000'],
+    credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization']
+};
+app.use(cors(corsOptions));
 
 app.use(express.json()); // Parse JSON bodies
 
-app.use(cors({
-
-    origin: 'https://plankton-app-2-9k8uf.ondigitalocean.app' // Replace with your actual front-end domain
-
+// Set up express-session middleware
+app.use(session({
+    secret: sessionSecret,
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+        domain: '.plankton-app-2-9k8uf.ondigitalocean.app', // Set the cookie domain to your root domain
+        path: '/',
+        secure: true,
+        httpOnly: true,
+        sameSite: 'Lax'
+    }
 }));
- 
- // Serve static files from the 'public' directory
+
+// Serve static files from the 'public' directory
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Create a MySQL connection
@@ -39,67 +57,7 @@ db.connect((err) => {
     console.log('Connected to the database.');
 });
 
-// Get all participants
-app.get('/api/participants', (req, res) => {
-    const query = 'SELECT * FROM participants';
-    db.query(query, (err, results) => {
-        if (err) {
-            res.status(500).json({ error: err.message });
-            return;
-        }
-        res.json(results);
-    });
-});
-
-// Get a single participant by ID
-app.get('/api/participants/:id', (req, res) => {
-    const query = 'SELECT * FROM participants WHERE participant_id = ?';
-    db.query(query, [req.params.id], (err, results) => {
-        if (err) {
-            res.status(500).json({ error: err.message });
-            return;
-        }
-        res.json(results[0]);
-    });
-});
-
-// Add a new participant
-app.post('/api/participants', (req, res) => {
-    const { email, first_name, last_name, phone, registration } = req.body;
-    const query = 'INSERT INTO participants (email, first_name, last_name, phone, registration) VALUES (?, ?, ?, ?, ?)';
-    db.query(query, [email, first_name, last_name, phone, registration], (err, results) => {
-        if (err) {
-            res.status(500).json({ error: err.message });
-            return;
-        }
-        res.status(201).json({ message: 'Participant added', participant_id: results.insertId });
-    });
-});
-
-// Update a participant
-app.put('/api/participants/:id', (req, res) => {
-    const { email, first_name, last_name, phone, registration } = req.body;
-    const query = 'UPDATE participants SET email = ?, first_name = ?, last_name = ?, phone = ?, registration = ? WHERE participant_id = ?';
-    db.query(query, [email, first_name, last_name, phone, registration, req.params.id], (err, results) => {
-        if (err) {
-            res.status(500).json({ error: err.message });
-            return;
-        }
-        res.json({ message: 'Participant updated' });
-    });
-});
-
-// Delete a participant
-app.delete('/api/participants/:id', (req, res) => {
-    const query = 'DELETE FROM participants WHERE participant_id = ?';
-    db.query(query, [req.params.id], (err, results) => {
-        if (err) {
-            res.status(500).json({ error: err.message });
-            return;
-        }
-        res.json({ message: 'Participant deleted' });
-    });
-});
+// Your existing API routes...
 
 // Start the server
 const PORT = process.env.PORT || 3000;
