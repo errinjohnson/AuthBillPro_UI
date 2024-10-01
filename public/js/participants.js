@@ -20,7 +20,7 @@ function addParticipant(participant) {
 
 // Fetch all participants from the API and display them
 function fetchParticipants() {
-    fetch('https://plankton-app-2-9k8uf.ondigitalocean.app/participants')
+    fetch('/participants')
     .then(response => {
         if (!response.ok) {
             throw new Error('Network response was not ok ' + response.statusText);
