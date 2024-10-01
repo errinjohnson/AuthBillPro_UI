@@ -2,7 +2,7 @@
 
 function addParticipant(participant) {
 
-    fetch('/api/participants', {
+    fetch('https://plankton-app-2-9k8uf.ondigitalocean.app/api/participants', {
 
         method: 'POST',
 
@@ -12,7 +12,8 @@ function addParticipant(participant) {
 
         },
 
-        body: JSON.stringify(participant)
+        body: JSON.stringify(participant),
+        credentials: "include" //This allows cookies to be sent
 
     })
 
@@ -41,7 +42,7 @@ function addParticipant(participant) {
 
 function fetchParticipants() {
 
-    fetch('/api/participants')
+    fetch('https://plankton-app-2-9k8uf.ondigitalocean.app/api/participants')
 
     .then(response => {
 
@@ -74,7 +75,7 @@ function fetchParticipants() {
 
 function updateParticipant(participantId, participant) {
 
-    fetch(`/api/participants/${participantId}`, {
+    fetch(`https://plankton-app-2-9k8uf.ondigitalocean.app/api/participants/${participantId}`, {
 
         method: 'PUT',
 
@@ -107,7 +108,7 @@ function updateParticipant(participantId, participant) {
 
 function deleteParticipant(participantId) {
 
-    fetch(`/api/participants/${participantId}`, {
+    fetch(`https://plankton-app-2-9k8uf.ondigitalocean.app/api/participants/${participantId}`, {
 
         method: 'DELETE',
 
