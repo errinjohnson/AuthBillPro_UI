@@ -58,7 +58,7 @@ db.connect((err) => {
 });
 
 // Your existing API routes...
-app.get('/api/participants', async (req, res) => {
+app.get('/participants', async (req, res) => {
 
     try {
 
@@ -77,7 +77,7 @@ app.get('/api/participants', async (req, res) => {
 });
 
 
-app.post('/api/participants', async (req, res) => {
+app.post('/participants', async (req, res) => {
 
     try {
 
@@ -100,7 +100,7 @@ app.post('/api/participants', async (req, res) => {
 });
 
 
-app.put('/api/participants/:participantId', async (req, res) => {
+app.put('/participants/:participantId', async (req, res) => {
 
     try {
 
@@ -129,7 +129,7 @@ app.put('/api/participants/:participantId', async (req, res) => {
 });
 
 
-app.delete('/api/participants/:participantId', async (req, res) => {
+app.delete('/participants/:participantId', async (req, res) => {
 
     try {
 
