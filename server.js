@@ -58,9 +58,106 @@ db.connect((err) => {
 });
 
 // Your existing API routes...
+app.get('/api/participants', async (req, res) => {
+
+    try {
+
+        const [rows] = await pool.query('SELECT * FROM participants');
+
+        res.json(rows);
+
+    } catch (err) {
+
+        console.error('Error fetching participants:', err);
+
+        res.status(500).json({ error: 'Failed to fetch participants' });
+
+    }
+
+});
+
+
+app.post('/api/participants', async (req, res) => {
+
+    try {
+
+        const { name, email } = req.body;
+
+        const [result] = await pool.query('INSERT INTO participants (name, email) VALUES (?, ?)', [name, email]);
+
+        const participantId = result.insertId;
+
+        res.json({ participant_id: participantId });
+
+    } catch (err) {
+
+        console.error('Error adding participant:', err);
+
+        res.status(500).json({ error: 'Failed to add participant' });
+
+    }
+
+});
+
+
+app.put('/api/participants/:id', async (req, res) => {
+
+    try {
+
+        const participantId = req.params.id;
+
+        const { name, email } = req.body;
+
+        const [result] = await pool.query('UPDATE participants SET name = ?, email = ? WHERE id = ?', [name, email, participantId]);
+
+        if (result.affectedRows === 0) {
+
+            return res.status(404).json({ error: 'Participant not found' });
+
+        }
+
+        res.json({ message: 'Participant updated successfully' });
+
+    } catch (err) {
+
+        console.error('Error updating participant:', err);
+
+        res.status(500).json({ error: 'Failed to update participant' });
+
+    }
+
+});
+
+
+app.delete('/api/participants/:id', async (req, res) => {
+
+    try {
+
+        const participantId = req.params.id;
+
+        const [result] = await pool.query('DELETE FROM participants WHERE id = ?', [participantId]);
+
+        if (result.affectedRows === 0) {
+
+            return res.status(404).json({ error: 'Participant not found' });
+
+        }
+
+        res.json({ message: 'Participant deleted successfully' });
+
+    } catch (err) {
+
+        console.error('Error deleting participant:', err);
+
+        res.status(500).json({ error: 'Failed to delete participant' });
+
+    }
+
+});
+
 
 // Start the server
-const PORT = process.env.PORT || 5500;
+const PORT = process.env.PORT || 5500 || 8080;
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
 });
