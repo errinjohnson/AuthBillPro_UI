@@ -10,7 +10,7 @@ const dbHost = process.env.DB_HOST;
 const dbUser = process.env.DB_USER;
 const dbPassword = process.env.DB_PASSWORD;
 const dbName = process.env.DB_NAME;
-const sessionSecret = process.env.SESSION_SECRET || 'your-super-secret-key';
+const sessionSecret = process.env.SESSION_SECRET;
 
 // Configure CORS middleware
 const corsOptions = {
@@ -58,7 +58,7 @@ db.connect((err) => {
 });
 
 // Your existing API routes...
-app.get('/api/participants', async (req, res) => {
+app.get('./api/participants', async (req, res) => {
 
     try {
 
@@ -77,7 +77,7 @@ app.get('/api/participants', async (req, res) => {
 });
 
 
-app.post('/api/participants', async (req, res) => {
+app.post('./api/participants', async (req, res) => {
 
     try {
 
@@ -100,7 +100,7 @@ app.post('/api/participants', async (req, res) => {
 });
 
 
-app.put('/api/participants/:id', async (req, res) => {
+app.put('./api/participants/:id', async (req, res) => {
 
     try {
 
@@ -129,7 +129,7 @@ app.put('/api/participants/:id', async (req, res) => {
 });
 
 
-app.delete('/api/participants/:id', async (req, res) => {
+app.delete('./api/participants/:id', async (req, res) => {
 
     try {
 
