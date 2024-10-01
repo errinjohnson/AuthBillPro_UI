@@ -1,6 +1,6 @@
 // Function to add a new participant using the API
 function addParticipant(participant) {
-    fetch('https://plankton-app-2-9k8uf.ondigitalocean.app/participants', {
+    fetch('/participants', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -37,7 +37,7 @@ function fetchParticipants() {
 
 // Function to update a participant using the API
 function updateParticipant(participantId, participant) {
-    fetch(`https://plankton-app-2-9k8uf.ondigitalocean.app/participants/${participantId}`, {
+    fetch(`/participants/${participantId}`, {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json'
@@ -54,7 +54,7 @@ function updateParticipant(participantId, participant) {
 
 // Function to delete a participant using the API
 function deleteParticipant(participantId) {
-    fetch(`https://plankton-app-2-9k8uf.ondigitalocean.app/participants/${participantId}`, {
+    fetch(`/participants/${participantId}`, {
         method: 'DELETE',
     })
     .then(response => response.json())
