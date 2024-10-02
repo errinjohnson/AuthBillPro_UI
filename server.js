@@ -19,6 +19,7 @@ const corsOptions = {
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization']
 };
+
 app.use(cors(corsOptions));
 
 app.use(express.json()); // Parse JSON bodies
@@ -57,103 +58,58 @@ db.connect((err) => {
     console.log('Connected to the database.');
 });
 
-// Your existing API routes...
-app.get('/participants', async (req, res) => {
-
-    try {
-
-        const [rows] = await pool.query('SELECT * FROM participants');
-
-        res.json(rows);
-
-    } catch (err) {
-
-        console.error('Error fetching participants:', err);
-
-        res.status(500).json({ error: 'Failed to fetch participants' });
-
-    }
-
-});
-
-
-app.post('/participants', async (req, res) => {
-
-    try {
-
-        const { name, email } = req.body;
-
-        const [result] = await pool.query('INSERT INTO participants (name, email) VALUES (?, ?)', [name, email]);
-
-        const participantId = result.insertId;
-
-        res.json({ participant_id: participantId });
-
-    } catch (err) {
-
-        console.error('Error adding participant:', err);
-
-        res.status(500).json({ error: 'Failed to add participant' });
-
-    }
-
-});
-
-
-app.put('/participants/:participantId', async (req, res) => {
-
-    try {
-
-        const participantId = req.params.id;
-
-        const { name, email } = req.body;
-
-        const [result] = await pool.query('UPDATE participants SET name = ?, email = ? WHERE id = ?', [name, email, participantId]);
-
-        if (result.affectedRows === 0) {
-
-            return res.status(404).json({ error: 'Participant not found' });
-
+app.get('/api/participants', (req, res) => {
+    console.log('Fetching participants...');
+    const query = 'SELECT * FROM participants';
+    db.query(query, (err, results) => {
+        if (err) {
+            res.status(500).json({ error: err.message });
+            return;
         }
-
-        res.json({ message: 'Participant updated successfully' });
-
-    } catch (err) {
-
-        console.error('Error updating participant:', err);
-
-        res.status(500).json({ error: 'Failed to update participant' });
-
-    }
-
+        console.log(results); // Check query results
+        res.json(results);
+    });
 });
 
 
-app.delete('/participants/:participantId', async (req, res) => {
 
-    try {
-
-        const participantId = req.params.id;
-
-        const [result] = await pool.query('DELETE FROM participants WHERE id = ?', [participantId]);
-
-        if (result.affectedRows === 0) {
-
-            return res.status(404).json({ error: 'Participant not found' });
-
+app.post('/api/participants', (req, res) => {
+    const { email, first_name, last_name, phone, registration } = req.body;
+    const query = 'INSERT INTO participants (email, first_name, last_name, phone, registration) VALUES (?, ?, ?, ?, ?)';
+    db.query(query, [email, first_name, last_name, phone, registration], (err, results) => {
+        if (err) {
+            res.status(500).json({ error: err.message });
+            return;
         }
-
-        res.json({ message: 'Participant deleted successfully' });
-
-    } catch (err) {
-
-        console.error('Error deleting participant:', err);
-
-        res.status(500).json({ error: 'Failed to delete participant' });
-
-    }
-
+        res.status(201).json({ message: 'Participant added', participant_id: results.insertId });
+    });
 });
+
+
+app.put('/api/participants/:id', (req, res) => {
+    const { email, first_name, last_name, phone, registration } = req.body;
+    const query = 'UPDATE participants SET email = ?, first_name = ?, last_name = ?, phone = ?, registration = ? WHERE participant_id = ?';
+    db.query(query, [email, first_name, last_name, phone, registration, req.params.id], (err, results) => {
+        if (err) {
+            res.status(500).json({ error: err.message });
+            return;
+        }
+        res.json({ message: 'Participant updated' });
+    });
+});
+
+
+app.delete('/api/participants/:id', (req, res) => {
+    const query = 'DELETE FROM participants WHERE participant_id = ?';
+    db.query(query, [req.params.id], (err, results) => {
+        if (err) {
+            res.status(500).json({ error: err.message });
+            return;
+        }
+        res.json({ message: 'Participant deleted' });
+    });
+});
+
 
 
 // Start the server

@@ -1,6 +1,6 @@
 // Function to add a new participant using the API
 function addParticipant(participant) {
-    fetch('/', {
+    fetch('/api/participants', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -20,7 +20,7 @@ function addParticipant(participant) {
 
 // Fetch all participants from the API and display them
 function fetchParticipants() {
-    fetch('/')
+    fetch('authbillprov2demo.cb6ikwo0co64.us-east-1.rds.amazonaws.com/api/participants')
     .then(response => {
         if (!response.ok) {
             throw new Error('Network response was not ok ' + response.statusText);
@@ -37,7 +37,7 @@ function fetchParticipants() {
 
 // Function to update a participant using the API
 function updateParticipant(participantId, participant) {
-    fetch(`/${participantId}`, {
+    fetch(`/api/participants/${participantId}`, {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json'
@@ -54,7 +54,7 @@ function updateParticipant(participantId, participant) {
 
 // Function to delete a participant using the API
 function deleteParticipant(participantId) {
-    fetch(`/${participantId}`, {
+    fetch(`/api/participants/${participantId}`, {
         method: 'DELETE',
     })
     .then(response => response.json())
