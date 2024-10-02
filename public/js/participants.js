@@ -20,7 +20,7 @@ function addParticipant(participant) {
 
 // Fetch all participants from the API and display them
 function fetchParticipants() {
-    fetch('authbillprov2demo.cb6ikwo0co64.us-east-1.rds.amazonaws.com/api/participants')
+    fetch('/api/participants')
     .then(response => {
         if (!response.ok) {
             throw new Error('Network response was not ok ' + response.statusText);
@@ -32,8 +32,9 @@ function fetchParticipants() {
             addParticipantToTable(participant);
         });
     })
-    .catch(error => console.error('Error fetching participants:', error));
+    .catch(error => console.error('participants:', error));
 }
+document.addEventListener('DOMContentLoaded', fetchParticipants);
 
 // Function to update a participant using the API
 function updateParticipant(participantId, participant) {
