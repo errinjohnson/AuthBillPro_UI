@@ -12,6 +12,7 @@ function addParticipant(participant) {
         if (data.participant_id) { // Check if participant ID is returned from server
             participant.participant_id = data.participant_id; // Assign returned ID to participant
             addParticipantToTable(participant); // Add participant to the table
+            resetForm(); // Reset the form after adding
         }
         console.log('Participant added:', data);
     })
@@ -32,36 +33,60 @@ function fetchParticipants() {
             addParticipantToTable(participant);
         });
     })
-    .catch(error => console.error('participants:', error));
+    .catch(error => console.error('Error fetching participants:', error));
+}
 
-    // Function to add a participant to the table
-
+// Function to add a participant to the table
 function addParticipantToTable(participant) {
-
     const participantTableBody = document.getElementById('participantTableBody');
 
     const row = document.createElement('tr');
     row.innerHTML = `
         <td>
             <button onclick="editParticipant(${participant.participant_id});">Edit</button>
-       </td>
+        </td>
         <td>${participant.participant_id}</td>
-
         <td>${participant.email}</td>
-
         <td>${participant.first_name}</td>
-
         <td>${participant.last_name}</td>
-
         <td>${participant.phone}</td>
-
         <td>${participant.registration}</td>
-
     `;
     participantTableBody.appendChild(row);
-    }
 }
-document.addEventListener('DOMContentLoaded', fetchParticipants);
+
+// Function to handle editing a participant
+function editParticipant(participantId) {
+    // Fetch the participant details to populate the form
+    fetch(`/api/participants/${participantId}`)
+        .then(response => response.json())
+        .then(participant => {
+            // Populate the form fields with the participant's current data
+            document.getElementById('participant_id').value = participant.participant_id;
+            document.getElementById('email').value = participant.email;
+            document.getElementById('first_name').value = participant.first_name;
+            document.getElementById('last_name').value = participant.last_name;
+            document.getElementById('phone').value = participant.phone;
+            document.getElementById('registration').value = participant.registration;
+
+            // Change button text to "Update"
+            document.getElementById('formSubmitButton').textContent = 'Update';
+
+            // Optionally, scroll into view or display a message
+        })
+        .catch(error => console.error('Error fetching participant for edit:', error));
+}
+
+// Function to reset the form
+function resetForm() {
+    document.getElementById('participant_id').value = ''; // Clear hidden ID
+    document.getElementById('email').value = '';
+    document.getElementById('first_name').value = '';
+    document.getElementById('last_name').value = '';
+    document.getElementById('phone').value = '';
+    document.getElementById('registration').value = '';
+    document.getElementById('formSubmitButton').textContent = 'Add Participant'; // Reset button text
+}
 
 // Function to update a participant using the API
 function updateParticipant(participantId, participant) {
@@ -75,7 +100,9 @@ function updateParticipant(participantId, participant) {
     .then(response => response.json())
     .then(data => {
         console.log('Participant updated:', data);
-        updateParticipantRow(participantId, participant); // Update participant row in table
+        // Refresh the participants list or update the UI table directly
+        refreshParticipantList(); // Update this function accordingly
+        resetForm(); // Reset the form after update
     })
     .catch(error => console.error('Error updating participant:', error));
 }
@@ -92,3 +119,6 @@ function deleteParticipant(participantId) {
     })
     .catch(error => console.error('Error deleting participant:', error));
 }
+
+// Event Listener to Fetch Participants on Page Load
+document.addEventListener('DOMContentLoaded', fetchParticipants);
