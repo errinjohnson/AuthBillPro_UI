@@ -59,7 +59,12 @@ function addParticipantToTable(participant) {
 function editParticipant(participantId) {
     // Fetch the participant details to populate the form
     fetch(`/api/participants/${participantId}`)
-        .then(response => response.json())
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`Error fetching participant: ${response.status} ${response.statusText}`);
+            }
+            return response.json();
+        })
         .then(participant => {
             // Populate the form fields with the participant's current data
             document.getElementById('participant_id').value = participant.participant_id;
@@ -71,11 +76,10 @@ function editParticipant(participantId) {
 
             // Change button text to "Update"
             document.getElementById('formSubmitButton').textContent = 'Update';
-
-            // Optionally, scroll into view or display a message
         })
         .catch(error => console.error('Error fetching participant for edit:', error));
 }
+
 
 // Function to reset the form
 function resetForm() {
