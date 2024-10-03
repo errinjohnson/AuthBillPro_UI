@@ -12,7 +12,7 @@ const sessionSecret = process.env.SESSION_SECRET;
 
 // Configure CORS middleware
 const corsOptions = {
-    origin: ['https://plankton-app-2-9k8uf.ondigitalocean.app', 'http://localhost:5500'],
+    origin: ['https://plankton-app-2-9k8uf.ondigitalocean.app', 'http://localhost:3000'],
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization']

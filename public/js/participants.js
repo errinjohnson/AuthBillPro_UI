@@ -1,6 +1,6 @@
 // Function to add a new participant using the API
 function addParticipant(participant) {
-    fetch('authbillprov2demo.cb6ikwo0co64.us-east-1.rds.amazonaws.com/api/participants', { // Use full API URL
+    fetch('https://plankton-app-2-9k8uf.ondigitalocean.app/api/participants', { // Use full API URL
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -21,7 +21,7 @@ function addParticipant(participant) {
 
 // Fetch all participants from the API and display them
 function fetchParticipants() {
-    fetch('authbillprov2demo.cb6ikwo0co64.us-east-1.rds.amazonaws.com/api/participants') // Full API URL
+    fetch('https://plankton-app-2-9k8uf.ondigitalocean.app/api/participants') 
     .then(response => {
         if (!response.ok) {
             throw new Error('Network response was not ok ' + response.statusText);
@@ -57,7 +57,7 @@ function addParticipantToTable(participant) {
 
 // Function to handle editing a participant
 function editParticipant(participantId) {
-    fetch(`authbillprov2demo.cb6ikwo0co64.us-east-1.rds.amazonaws.com/api/participants/${participantId}`)
+    fetch(`https://plankton-app-2-9k8uf.ondigitalocean.app/api/participants/${participantId}`)
         .then(response => {
             if (!response.ok) {
                 throw new Error(`Error fetching participant: ${response.status} ${response.statusText}`);
@@ -89,7 +89,7 @@ function resetForm() {
 
 // Function to update a participant using the API
 function updateParticipant(participantId, participant) {
-    fetch(`authbillprov2demo.cb6ikwo0co64.us-east-1.rds.amazonaws.com/api/participants/${participantId}`, {
+    fetch(`https://plankton-app-2-9k8uf.ondigitalocean.app/api/participants/${participantId}`, {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json'
@@ -107,7 +107,7 @@ function updateParticipant(participantId, participant) {
 
 // Function to delete a participant using the API
 function deleteParticipant(participantId) {
-    fetch(`authbillprov2demo.cb6ikwo0co64.us-east-1.rds.amazonaws.com/api/participants/${participantId}`, {
+    fetch(`https://plankton-app-2-9k8uf.ondigitalocean.app/api/participants/${participantId}`, {
         method: 'DELETE',
     })
     .then(response => response.json())
