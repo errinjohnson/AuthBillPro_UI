@@ -79,8 +79,6 @@ function editParticipant(participantId) {
         })
         .catch(error => console.error('Error fetching participant for edit:', error));
 }
-
-
 // Function to reset the form
 function resetForm() {
     document.getElementById('participant_id').value = ''; // Clear hidden ID
