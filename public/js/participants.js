@@ -1,6 +1,6 @@
 // Function to add a new participant using the API
 function addParticipant(participant) {
-    fetch('/api/participants', {
+    fetch('authbillprov2demo.cb6ikwo0co64.us-east-1.rds.amazonaws.com/api/participants', { // Use full API URL
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -9,9 +9,9 @@ function addParticipant(participant) {
     })
     .then(response => response.json())
     .then(data => {
-        if (data.participant_id) { // Check if participant ID is returned from server
-            participant.participant_id = data.participant_id; // Assign returned ID to participant
-            addParticipantToTable(participant); // Add participant to the table
+        if (data.participant_id) { 
+            participant.participant_id = data.participant_id; 
+            addParticipantToTable(participant); 
             resetForm(); // Reset the form after adding
         }
         console.log('Participant added:', data);
@@ -21,7 +21,7 @@ function addParticipant(participant) {
 
 // Fetch all participants from the API and display them
 function fetchParticipants() {
-    fetch('/api/participants')
+    fetch('authbillprov2demo.cb6ikwo0co64.us-east-1.rds.amazonaws.com/api/participants') // Full API URL
     .then(response => {
         if (!response.ok) {
             throw new Error('Network response was not ok ' + response.statusText);
@@ -57,8 +57,7 @@ function addParticipantToTable(participant) {
 
 // Function to handle editing a participant
 function editParticipant(participantId) {
-    // Fetch the participant details to populate the form
-    fetch(`/api/participants/${participantId}`)
+    fetch(`authbillprov2demo.cb6ikwo0co64.us-east-1.rds.amazonaws.com/api/participants/${participantId}`)
         .then(response => {
             if (!response.ok) {
                 throw new Error(`Error fetching participant: ${response.status} ${response.statusText}`);
@@ -66,33 +65,31 @@ function editParticipant(participantId) {
             return response.json();
         })
         .then(participant => {
-            // Populate the form fields with the participant's current data
             document.getElementById('participant_id').value = participant.participant_id;
             document.getElementById('email').value = participant.email;
             document.getElementById('first_name').value = participant.first_name;
             document.getElementById('last_name').value = participant.last_name;
             document.getElementById('phone').value = participant.phone;
             document.getElementById('registration').value = participant.registration;
-
-            // Change button text to "Update"
             document.getElementById('formSubmitButton').textContent = 'Update';
         })
         .catch(error => console.error('Error fetching participant for edit:', error));
 }
+
 // Function to reset the form
 function resetForm() {
-    document.getElementById('participant_id').value = ''; // Clear hidden ID
+    document.getElementById('participant_id').value = '';
     document.getElementById('email').value = '';
     document.getElementById('first_name').value = '';
     document.getElementById('last_name').value = '';
     document.getElementById('phone').value = '';
     document.getElementById('registration').value = '';
-    document.getElementById('formSubmitButton').textContent = 'Add Participant'; // Reset button text
+    document.getElementById('formSubmitButton').textContent = 'Add Participant';
 }
 
 // Function to update a participant using the API
 function updateParticipant(participantId, participant) {
-    fetch(`/api/participants/${participantId}`, {
+    fetch(`authbillprov2demo.cb6ikwo0co64.us-east-1.rds.amazonaws.com/api/participants/${participantId}`, {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json'
@@ -102,8 +99,7 @@ function updateParticipant(participantId, participant) {
     .then(response => response.json())
     .then(data => {
         console.log('Participant updated:', data);
-        // Refresh the participants list or update the UI table directly
-        refreshParticipantList(); // Update this function accordingly
+        refreshParticipantList(); // Refresh participant list
         resetForm(); // Reset the form after update
     })
     .catch(error => console.error('Error updating participant:', error));
@@ -111,7 +107,7 @@ function updateParticipant(participantId, participant) {
 
 // Function to delete a participant using the API
 function deleteParticipant(participantId) {
-    fetch(`/api/participants/${participantId}`, {
+    fetch(`authbillprov2demo.cb6ikwo0co64.us-east-1.rds.amazonaws.com/api/participants/${participantId}`, {
         method: 'DELETE',
     })
     .then(response => response.json())
