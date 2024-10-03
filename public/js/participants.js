@@ -38,7 +38,7 @@ function fetchParticipants() {
 
 function addParticipantToTable(participant) {
 
-    const participantTableBody = document.getElementById('participantForm');
+    const participantTableBody = document.getElementById('participantTableBody');
 
     const row = document.createElement('tr');
     row.innerHTML = `
