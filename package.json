@@ -3,10 +3,11 @@
   "version": "1.0.0",
   "main": "server.js",
   "scripts": {
+    "start": "nodemon server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
-  "author": "",
+  "author": "Errin Johnson",
   "license": "ISC",
   "description": "",
   "dependencies": {
@@ -15,6 +16,7 @@
     "express": "^4.21.0",
     "express-session": "^1.18.0",
     "mysql": "^2.18.1",
-    "mysql2": "^3.11.3"
+    "mysql2": "^3.11.3",
+    "nodemon": "^3.1.7"
   }
 }
