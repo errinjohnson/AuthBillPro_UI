@@ -33,6 +33,33 @@ function fetchParticipants() {
         });
     })
     .catch(error => console.error('participants:', error));
+
+    // Function to add a participant to the table
+
+function addParticipantToTable(participant) {
+
+    const participantTableBody = document.getElementById('participantTableBody');
+
+    const row = document.createElement('tr');
+
+
+    row.innerHTML = `
+
+        <td>${participant.participant_id}</td>
+
+        <td>${participant.email}</td>
+
+        <td>${participant.first_name}</td>
+
+        <td>${participant.last_name}</td>
+
+        <td>${participant.phone}</td>
+
+        <td>${participant.registration}</td>
+
+    `;
+    participantTableBody.appendChild(row);
+    }
 }
 document.addEventListener('DOMContentLoaded', fetchParticipants);
 
