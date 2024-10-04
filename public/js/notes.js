@@ -25,12 +25,10 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 function fetchNotes() {
-    // Fetch notes from the API and display them
-    // Example of fetching data from your API
     fetch('https://plankton-app-2-9k8uf.ondigitalocean.app/api/notes')
         .then(response => response.json())
         .then(data => {
-            const tableBody = document.querySelector('#notesTable tbody');
+            const tableBody = document.getElementById('tableBody');  // Correct selector
             tableBody.innerHTML = '';  // Clear table
 
             data.forEach(note => {
@@ -49,8 +47,10 @@ function fetchNotes() {
                 `;
                 tableBody.innerHTML += row;
             });
-        });
+        })
+        .catch(error => console.error('Error fetching notes:', error));
 }
+
 
 function addNote(noteData) {
     // Send a POST request to add a new note
