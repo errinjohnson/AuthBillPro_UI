@@ -57,6 +57,14 @@ function addParticipantToTable(participant) {
 
 // Function to handle editing a participant
 function editParticipant(participantId) {
+    // Log the participantId to check if it's a number
+    console.log("Participant ID being passed:", participantId);
+    
+    if (isNaN(participantId)) {
+        console.error("Invalid participant ID:", participantId);
+        return; // Stop the function if the ID is not a valid number
+    }
+    
     fetch(`https://plankton-app-2-9k8uf.ondigitalocean.app/api/participants/${participantId}`)
         .then(response => {
             if (!response.ok) {
@@ -75,6 +83,7 @@ function editParticipant(participantId) {
         })
         .catch(error => console.error('Error fetching participant for edit:', error));
 }
+
 
 // Function to reset the form
 function resetForm() {
