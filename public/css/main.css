@@ -45,7 +45,7 @@ body {
   }
 
   /* Make the note column 30% width and enable text wrapping */
-  td.note-cell {
+  td#note-cell {
       max-width: 30% !important;
       word-wrap: break-word;
       white-space: normal;
