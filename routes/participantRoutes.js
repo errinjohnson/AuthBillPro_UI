@@ -20,7 +20,6 @@ module.exports = (mysqlConnection) => { // Accept mysqlConnection as a parameter
         console.log(req.params.id); // Log the ID being passed
         const participantId = parseInt(req.params.id, 10);
         
-
         if (isNaN(participantId)) {
         return res.status(400).json({ error: 'Invalid participant ID' });
         }
@@ -55,12 +54,16 @@ module.exports = (mysqlConnection) => { // Accept mysqlConnection as a parameter
         const query = 'UPDATE participants SET email = ?, first_name = ?, last_name = ?, phone = ?, registration = ? WHERE participant_id = ?';
         mysqlConnection.query(query, [email, first_name, last_name, phone, registration, req.params.id], (err, results) => {
             if (err) {
+                console.error('Error updating participant:', err); // Log the error
                 return res.status(500).json({ error: err.message });
             }
-            res.json({ message: 'Participant updated' });
+            if (results.affectedRows === 0) {
+                return res.status(404).json({ message: 'Participant not found' });
+            }
+            res.json({ message: 'Participant updated successfully' });
         });
     });
-
+    
     // DELETE /api/participants/:id
     router.delete('/:id', (req, res) => {
         const query = 'DELETE FROM participants WHERE participant_id = ?';
