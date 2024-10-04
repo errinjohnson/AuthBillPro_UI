@@ -129,6 +129,15 @@ function updateParticipant(participantId) {
     .catch(error => console.error('Error updating participant:', error));
 }
 
+// Add this function to your participants.js file
+document.getElementById('participantForm').addEventListener('submit', function(event) {
+    event.preventDefault(); // Prevent form from submitting the default way
+    const participantId = document.getElementById('participant_id').value;
+    
+    if (participantId) {
+        updateParticipant(participantId); // Call update function with participantId
+    }
+});
 
 // Function to delete a participant using the API
 function deleteParticipant(participantId) {
