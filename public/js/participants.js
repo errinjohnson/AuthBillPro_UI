@@ -1,6 +1,6 @@
 // Function to add a new participant using the API
 function addParticipant(participant) {
-    fetch('https://plankton-app-2-9k8uf.ondigitalocean.app/api/participants', { // Use full API URL
+    fetch('https://plankton-app-2-9k8uf.ondigitalocean.appcls/api/participants', { // Use full API URL
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'

@@ -17,8 +17,16 @@ module.exports = (mysqlConnection) => { // Accept mysqlConnection as a parameter
         });
     });
     router.get('/:id', (req, res) => {
+        console.log(req.params.id); // Log the ID being passed
+        const participantId = parseInt(req.params.id, 10);
+        
+
+        if (isNaN(participantId)) {
+        return res.status(400).json({ error: 'Invalid participant ID' });
+        }
+
         const query = 'SELECT * FROM participants WHERE participant_id = ?';
-        mysqlConnection.query(query, [req.params.id], (err, results) => {
+        mysqlConnection.query(query, [participantId], (err, results) => {
             if (err) {
                 return res.status(500).json({ error: err.message });
             }
