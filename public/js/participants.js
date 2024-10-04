@@ -1,3 +1,15 @@
+document.getElementById('phone').addEventListener('input', function(e) {
+    let input = e.target.value.replace(/\D/g, ''); // Remove non-numeric characters
+    if (input.length <= 3) {
+        e.target.value = `(${input}`;
+    } else if (input.length <= 6) {
+        e.target.value = `(${input.slice(0, 3)}) ${input.slice(3)}`;
+    } else {
+        e.target.value = `(${input.slice(0, 3)}) ${input.slice(3, 6)}-${input.slice(6, 10)}`;
+    }
+});
+
+
 // Function to add a new participant using the API
 function addParticipant(participant) {
     fetch('https://plankton-app-2-9k8uf.ondigitalocean.appcls/api/participants', { // Use full API URL
