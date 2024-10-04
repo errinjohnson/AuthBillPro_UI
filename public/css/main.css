@@ -6,41 +6,41 @@ body {
 .container {
   margin-top: 50px;
 }
-  /* Limit the container to 50% of the viewport width on larger screens */
-  #noteContainer {
+   /* Limit the container to 50% of the viewport width on larger screens */
+   #noteContainer {
     width: 50%;
-    margin: 0 auto; /* Center the container */
 }
 
-/* Make the table responsive */
-.table-responsive {
-    overflow-x: auto;
+/* Set up the 2-column layout */
+.row-container {
+    display: flex;
     width: 100%;
 }
 
-/* Allow word wrapping in the note cell */
-td.note-cell {
-    word-wrap: break-word;
-    white-space: normal;
+/* First column for note form and display */
+.column {
+    width: 50%;
 }
 
-/* Make the table layout flexible */
-table {
-    table-layout: fixed;
-    width: 100%; /* Ensure table takes full width */
+/* Empty column placeholder for future use */
+.empty-column {
+    background-color: #f9f9f9;
+    border-left: 1px solid #ddd;
 }
 
-/* Adjust the container width on smaller screens */
+/* Add margin and padding */
+.column, .empty-column {
+    padding: 20px;
+}
+
+/* For smaller devices, columns stack vertically */
 @media (max-width: 768px) {
-    #noteContainer {
-        width: 100%; /* Full width on smaller devices */
+    .row-container {
+        flex-direction: column;
     }
-}
 
-/* Set a minimum width for the note cell on small screens */
-@media (max-width: 576px) {
-    td.note-cell {
-        min-width: 120px;
+    .column, .empty-column {
+        width: 100%;
     }
 }
 .card {

@@ -111,58 +111,58 @@
     </div>
 
   </nav>
-  <div id="noteContainer" class="container">
-    <h2>Note Form</h2>
-    <form id="noteForm">
-        <!-- Hidden field for note_id (auto_incremented) -->
-        <input type="hidden" id="note_id" name="note_id">
+  <div class="row-container">
+    <!-- First Column: Form and Notes Display -->
+    <div class="column">
+        <h2>Note Form</h2>
+        <form id="noteForm">
+            <!-- Hidden field for note_id (auto_incremented) -->
+            <input type="hidden" id="note_id" name="note_id">
 
-        <!-- Note field -->
-        <div class="form-group">
-            <label for="note">Note:</label>
-            <textarea class="form-control" id="note" name="note" rows="3" required></textarea>
+            <!-- Note field -->
+            <div class="form-group">
+                <label for="note">Note:</label>
+                <textarea class="form-control" id="note" name="note" rows="3" required></textarea>
+            </div>
+
+            <!-- Follow-up date field -->
+            <div class="form-group">
+                <label for="follow_up">Follow-up Date:</label>
+                <input type="date" class="form-control" id="follow_up" name="follow_up">
+            </div>
+
+            <!-- Status field -->
+            <div class="form-group">
+                <label for="status">Status:</label>
+                <input type="text" class="form-control" id="status" name="status" maxlength="255">
+            </div>
+
+            <!-- Name field -->
+            <div class="form-group">
+                <label for="name">Name:</label>
+                <input type="text" class="form-control" id="name" name="name" required>
+            </div>
+
+            <!-- Submit button -->
+            <button type="submit" class="btn btn-primary" id="submitButton">Add Note</button>
+        </form>
+
+        <!-- Section to display notes -->
+        <h3 class="mt-5">Notes List</h3>
+        <ul id="notesList">
+            <!-- Dynamically added notes will appear here -->
+        </ul>
+
+        <!-- Action buttons -->
+        <div class="mt-3">
+            <button class="btn btn-info" id="editButton" disabled>Edit</button>
+            <button class="btn btn-danger" id="deleteButton" disabled>Delete</button>
         </div>
+    </div>
 
-        <!-- Follow-up date field -->
-        <div class="form-group">
-            <label for="follow_up">Follow-up Date:</label>
-            <input type="date" class="form-control" id="follow_up" name="follow_up">
-        </div>
-
-        <!-- Status field -->
-        <div class="form-group">
-            <label for="status">Status:</label>
-            <input type="text" class="form-control" id="status" name="status" maxlength="255">
-        </div>
-
-        <!-- Name field -->
-        <div class="form-group">
-            <label for="name">Name:</label>
-            <input type="text" class="form-control" id="name" name="name" required>
-        </div>
-
-        <!-- Submit button -->
-        <button type="submit" class="btn btn-primary" id="submitButton">Add Note</button>
-    </form>
-
-    <!-- Section to display notes -->
-    <h3 class="mt-5">Notes List</h3>
-    <div class="table-responsive">
-        <table class="table table-bordered" id="notesTable">
-            <thead>
-                <tr>
-                    <th style="width: 10%;">Note ID</th>
-                    <th style="width: 30%;">Note</th>
-                    <th style="width: 15%;">Follow-up</th>
-                    <th style="width: 15%;">Status</th>
-                    <th style="width: 15%;">Name</th>
-                    <th style="width: 15%;">Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-             <!-- Rows will be dynamically added here -->
-            </tbody>
-        </table>
+    <!-- Second Column: Empty Placeholder -->
+    <div class="empty-column">
+        <!-- Empty for future use -->
     </div>
 </div>
     <!-- Include Bootstrap and Custom JavaScript -->
