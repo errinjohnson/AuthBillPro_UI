@@ -147,21 +147,23 @@
 
     <!-- Section to display notes -->
     <h3 class="mt-5">Notes List</h3>
-    <table class="table table-bordered" id="notesTable">
-        <thead>
-            <tr>
-                <th>Note ID</th>
-                <th>Note</th>
-                <th>Follow-up Date</th>
-                <th>Status</th>
-                <th>Name</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            <!-- Rows will be dynamically added here -->
-        </tbody>
-    </table>
+    <div class="table-responsive">
+        <table class="table table-bordered" id="notesTable">
+            <thead>
+                <tr>
+                    <th style="width: 10%;">Note ID</th>
+                    <th style="width: 30%;">Note</th>
+                    <th style="width: 15%;">Follow-up</th>
+                    <th style="width: 15%;">Status</th>
+                    <th style="width: 15%;">Name</th>
+                    <th style="width: 15%;">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+             <!-- Rows will be dynamically added here -->
+            </tbody>
+        </table>
+    </div>
 </div>
     <!-- Include Bootstrap and Custom JavaScript -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
