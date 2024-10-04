@@ -149,15 +149,25 @@ function updateParticipant(participantId) {
     .catch(error => console.error('Error updating participant:', error));
 }
 
-// Add this function to your participants.js file
 document.getElementById('participantForm').addEventListener('submit', function(event) {
     event.preventDefault(); // Prevent form from submitting the default way
     const participantId = document.getElementById('participant_id').value;
     
     if (participantId) {
-        updateParticipant(participantId); // Call update function with participantId
+        // Edit mode: Call update function
+        updateParticipant(participantId); 
+    } else {
+        // Add mode: Call add function
+        addParticipant({
+            email: document.getElementById('email').value,
+            first_name: document.getElementById('first_name').value,
+            last_name: document.getElementById('last_name').value,
+            phone: document.getElementById('phone').value,
+            registration: document.getElementById('registration').value
+        });
     }
 });
+
 
 // Function to delete a participant using the API
 function deleteParticipant(participantId) {
