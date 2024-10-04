@@ -35,7 +35,7 @@ function fetchNotes() {
                 const row = `
                     <tr>
                         <td>${note.note_id}</td>
-                        <td style="max-width:30%">${note.note}</td>
+                        <th style="max-width: 30%;">${note.note}</td>
                         <td>${note.follow_up}</td>
                         <td>${note.status}</td>
                         <td>${note.name}</td>
