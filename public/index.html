@@ -17,7 +17,7 @@
 
      <nav class="navbar navbar-expand-lg navbar-light bg-light">
 
-      <a class="navbar-brand" href="#">AuthBillPro</a>
+      <a class="navbar-brand" href="#"><img src="img/authbillprologo.png" width="35px" alt="auth bill pro logo">AuthBillPro</a>
 
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
 
@@ -111,10 +111,33 @@
     </div>
 
   </nav>
+  <header class="dashboard-header">
+    <!-- Left: Logo -->
+    <div class="header-logo">
+        <img src="img/oceanwavestechLogo.jpg" alt="Ocean Waves Logo">
+    </div>
+
+    <!-- Center: Date & Time -->
+    <div class="header-date-time" id="currentDateTime">
+        <!-- JavaScript will update this -->
+    </div>
+
+    <!-- Right: User info, notifications, settings -->
+    <div class="header-right">
+        <div class="profile-info">
+            <strong>John Doe</strong><br>
+            <img src="profile-pic.jpg" alt="Profile Picture">
+        </div>
+        <div class="icons">
+            <i class="fas fa-bell"></i> <!-- Notifications Icon -->
+            <i class="fas fa-cog"></i> <!-- Settings Icon -->
+        </div>
+        <button class="logout-btn">Logout</button>
+    </div>
+</header>
   <div class="row-container">
     <!-- First Column: Form and Notes Display -->
     <div class="column">
-        <h2>Note Form</h2>
         <form id="noteForm">
             <!-- Hidden field for note_id (auto_incremented) -->
             <input type="hidden" id="note_id" name="note_id">
@@ -177,6 +200,23 @@
     <!-- Include Bootstrap and Custom JavaScript -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+    <script>
+        // Function to update the date and time
+        function updateDateTime() {
+            const now = new Date();
+            const options = { 
+                weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', 
+                hour: '2-digit', minute: '2-digit', second: '2-digit'
+            };
+            const formattedDate = now.toLocaleDateString('en-US', options);
+            document.getElementById('currentDateTime').innerText = formattedDate;
+        }
+
+        // Update date and time immediately and every second
+        updateDateTime();
+        setInterval(updateDateTime, 1000);
+    </script>
     <script src="js/notes.js"></script>
   </body>
 </html>
