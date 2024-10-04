@@ -6,7 +6,17 @@ body {
 .container {
   margin-top: 50px;
 }
+/* Limit the container to 50% of the viewport width */
+#noteContainer {
+  width: 50%;
+  margin: 0 auto; /* Center the container */
+}
 
+/* Optionally, you can control the text wrapping behavior */
+#notesTable {
+  table-layout: auto;
+  word-wrap: break-word;
+}
 .card {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add subtle shadow for card depth */
   border-radius: 8px; /* Round card corners */
