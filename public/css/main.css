@@ -43,6 +43,18 @@ body {
           width: 100%;
       }
   }
+
+  /* Make the note column 30% width and enable text wrapping */
+  td.note-cell {
+      max-width: 50%;
+      word-wrap: break-word;
+      white-space: normal;
+  }
+
+  /* Other columns will adjust automatically */
+  td {
+      vertical-align: top;
+  }
 .card {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add subtle shadow for card depth */
   border-radius: 8px; /* Round card corners */
