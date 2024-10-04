@@ -6,6 +6,8 @@ const session = require('express-session');
 const app = express();
 
 const participantRoutes = require('./routes/participantRoutes');
+const noteRoutes = require("./routes/noteRoutes");
+
 const db = require('./db');
 require('dotenv').config(); // Load environment variables
 const sessionSecret = process.env.SESSION_SECRET;
@@ -44,6 +46,10 @@ console.log("Serving static files from public directory");
 // Use the participant routes for any API calls that start with /api/participants
 app.use('/api/participants', participantRoutes(db));
 console.log("Participant routes have been set up");
+
+// Use the participant routes for any API calls that start with /api/participants
+app.use('/api/notes', noteRoutes(db));
+console.log("Note routes have been set up");
 
 // Start the server
 const PORT = process.env.PORT || 3000;
