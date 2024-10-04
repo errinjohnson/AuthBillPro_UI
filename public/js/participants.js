@@ -95,6 +95,14 @@ function resetForm() {
     document.getElementById('registration').value = '';
     document.getElementById('formSubmitButton').textContent = 'Add Participant';
 }
+function refreshParticipantList() {
+    // Clear the current participants in the table
+    const participantTableBody = document.getElementById('participantTableBody');
+    participantTableBody.innerHTML = ''; // Clear the table
+    
+    // Fetch the updated list of participants
+    fetchParticipants(); // This will re-fetch and populate the table with updated data
+}
 
 // Function to update a participant using the API
 function updateParticipant(participantId) {
