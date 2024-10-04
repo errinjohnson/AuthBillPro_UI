@@ -35,11 +35,11 @@ function fetchNotes() {
                 const row = `
                     <tr>
                         <td>${note.note_id}</td>
+                        <td>${note.name}</td>
                         <td class="text-wrap" style="max-width: 300px;min-width: 150px;">${note.note}</td>
                         <td>${note.follow_up}</td>
                         <td>${note.status}</td>
-                        <td>${note.name}</td>
-                        <td>
+                         <td>
                             <button class="btn btn-info" onclick="editNote(${note.note_id})">Edit</button>
                             <button class="btn btn-danger" onclick="deleteNote(${note.note_id})">Delete</button>
                         </td>
