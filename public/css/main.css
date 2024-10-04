@@ -6,43 +6,43 @@ body {
 .container {
   margin-top: 50px;
 }
-   /* Limit the container to 50% of the viewport width on larger screens */
-   #noteContainer {
-    width: 50%;
-}
+    /* Limit the container to 50% of the viewport width on larger screens */
+    #noteContainer {
+      width: 50%;
+  }
 
-/* Set up the 2-column layout */
-.row-container {
-    display: flex;
-    width: 100%;
-}
+  /* Set up the 2-column layout */
+  .row-container {
+      display: flex;
+      width: 100%;
+  }
 
-/* First column for note form and display */
-.column {
-    width: 50%;
-}
+  /* First column for note form and display */
+  .column {
+      width: 50%;
+  }
 
-/* Empty column placeholder for future use */
-.empty-column {
-    background-color: #f9f9f9;
-    border-left: 1px solid #ddd;
-}
+  /* Empty column placeholder for future use */
+  .empty-column {
+      background-color: #f9f9f9;
+      border-left: 1px solid #ddd;
+  }
 
-/* Add margin and padding */
-.column, .empty-column {
-    padding: 20px;
-}
+  /* Add margin and padding */
+  .column, .empty-column {
+      padding: 20px;
+  }
 
-/* For smaller devices, columns stack vertically */
-@media (max-width: 768px) {
-    .row-container {
-        flex-direction: column;
-    }
+  /* For smaller devices, columns stack vertically */
+  @media (max-width: 768px) {
+      .row-container {
+          flex-direction: column;
+      }
 
-    .column, .empty-column {
-        width: 100%;
-    }
-}
+      .column, .empty-column {
+          width: 100%;
+      }
+  }
 .card {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add subtle shadow for card depth */
   border-radius: 8px; /* Round card corners */

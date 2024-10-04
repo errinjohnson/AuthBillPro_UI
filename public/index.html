@@ -147,11 +147,25 @@
             <button type="submit" class="btn btn-primary" id="submitButton">Add Note</button>
         </form>
 
-        <!-- Section to display notes -->
+        <!-- Section to display notes in a table -->
         <h3 class="mt-5">Notes List</h3>
-        <ul id="notesList">
-            <!-- Dynamically added notes will appear here -->
-        </ul>
+        <div class="table-responsive">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Note ID</th>
+                        <th>Note</th>
+                        <th>Follow-up</th>
+                        <th>Status</th>
+                        <th>Name</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="tableBody">
+                    <!-- Dynamically added notes will appear here -->
+                </tbody>
+            </table>
+        </div>
 
         <!-- Action buttons -->
         <div class="mt-3">
