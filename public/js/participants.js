@@ -97,7 +97,17 @@ function resetForm() {
 }
 
 // Function to update a participant using the API
-function updateParticipant(participantId, participant) {
+function updateParticipant(participantId) {
+    const participant = {
+        email: document.getElementById('email').value,
+        first_name: document.getElementById('first_name').value,
+        last_name: document.getElementById('last_name').value,
+        phone: document.getElementById('phone').value,
+        registration: document.getElementById('registration').value
+    };
+    
+    console.log("Participant Data being sent for update:", participant); // Log the data
+    
     fetch(`https://plankton-app-2-9k8uf.ondigitalocean.app/api/participants/${participantId}`, {
         method: 'PUT',
         headers: {
@@ -105,7 +115,12 @@ function updateParticipant(participantId, participant) {
         },
         body: JSON.stringify(participant)
     })
-    .then(response => response.json())
+    .then(response => {
+        if (!response.ok) {
+            throw new Error(`Error updating participant: ${response.statusText}`);
+        }
+        return response.json();
+    })
     .then(data => {
         console.log('Participant updated:', data);
         refreshParticipantList(); // Refresh participant list
@@ -113,6 +128,7 @@ function updateParticipant(participantId, participant) {
     })
     .catch(error => console.error('Error updating participant:', error));
 }
+
 
 // Function to delete a participant using the API
 function deleteParticipant(participantId) {
