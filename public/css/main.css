@@ -215,3 +215,7 @@ body, nav {
   margin-left: 20px;
   cursor: pointer;
 }
+#participantTableBody {
+  background-color: rgba(54, 54, 54, 0.8); /* Charcoal background with 80% opacity */
+}
+
