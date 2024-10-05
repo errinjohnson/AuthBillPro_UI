@@ -1,5 +1,7 @@
 body, nav {
-  background-color: #f4f7fa; /* Lighter background for better contrast */
+  background-image: url("/public/img/oceanwavesthemebackgroundl.png");
+  background-size: cover;
+  /* background-color: #c4dff9; Lighter background for better contrast */
   font-family: 'Merriweather', serif;
   /* font-family: 'Abril Fatface', serif; */
   /* font-family: 'Josefin Sans', sans-serif; */
@@ -157,7 +159,7 @@ body, nav {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #f8f9fa;
+  /* background-color: #53b9bc71; */
   padding: 15px;
   border-bottom: 1px solid #ddd;
 }
