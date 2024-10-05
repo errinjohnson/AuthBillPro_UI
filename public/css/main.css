@@ -1,6 +1,7 @@
 body, nav {
-  background-image: url("img/oceanwavesthemebackgroundl.png");
+  background-image: url("/public/img/oceanwavesthemebackgroundl.png");
   background-size: cover;
+  background-repeat: no-repeat;
   /* background-color: #c4dff9; Lighter background for better contrast */
   font-family: 'Merriweather', serif;
   /* font-family: 'Abril Fatface', serif; */
