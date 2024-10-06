@@ -32,12 +32,20 @@ function fetchNotes() {
             tableBody.innerHTML = '';  // Clear table
 
             data.forEach(note => {
+                // Convert the follow_up date to a more friendly format
+                const followUpDate = new Date(note.follow_up).toLocaleDateString('en-US', {
+                    weekday: 'long',
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric'
+                });
+
                 const row = `
                     <tr>
                         <td>${note.note_id}</td>
                         <td>${note.name}</td>
                         <td class="text-wrap" style="max-width: 300px;min-width: 150px;">${note.note}</td>
-                        <td>${note.follow_up}</td>
+                        <td>${followUpDate}</td>  <!-- Show formatted date -->
                         <td>${note.status}</td>
                          <td>
                             <button class="btn btn-info" onclick="editNote(${note.note_id})">Edit</button>
@@ -50,7 +58,6 @@ function fetchNotes() {
         })
         .catch(error => console.error('Error fetching notes:', error));
 }
-
 
 function addNote(noteData) {
     // Send a POST request to add a new note
