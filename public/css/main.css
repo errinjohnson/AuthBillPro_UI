@@ -175,8 +175,14 @@ body, nav {
     padding: 10px; /* Reduce padding for table cells */
   }
 }
-
+#currentDateTime {
+  font-size: 20px; /* Set font size to 20px */
+  font-weight: bold; /* Optional: Make the text bold for emphasis */
+  color: #333; /* Adjust the text color for better readability */
+}
 /* .............................Header container INDEX.HTML HEADER */
+
+
 .dashboard-header {
   display: flex;
   justify-content: space-between;
@@ -202,28 +208,4 @@ body, nav {
   align-items: center;
   gap: 20px;
 }
-
-.weather-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  background-color: #ffffff;
-  border-radius: 5px;
-  padding: 10px;
-  border: 1px solid #dee2e6;
-}
-
-#forecast-container {
-  text-align: center;
-  font-size: 14px;
-}
-
-.forecast-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); /* Adjust for responsive columns */
-  gap: 10px; /* Gap between grid items */
-  width: 500px; /* Set fixed width of 500px */
-  margin: 0 auto; /* Center the grid horizontally */
-}
-
 
