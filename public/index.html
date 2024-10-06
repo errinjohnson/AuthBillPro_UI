@@ -8,6 +8,8 @@
       href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
       rel="stylesheet"
     />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
     <link href="css/main.css" rel="stylesheet" />
   </head>
   <body style="background-image: url(img/oceanwavesthemebackgroundl.png);">
@@ -76,17 +78,23 @@
   <div class="dashboard-header header">
     <!-- Left: Logo -->
     <div class="header-logo">
-        <a href="https://www.oceanwavestech.com/" target="_blank"><img src="img/oceanwavestechLogo.jpg" alt="Ocean Waves Logo"></a>
+        <a href="https://www.oceanwavestech.com/" target="_blank">
+            <img src="img/oceanwavestechLogo.jpg" alt="Ocean Waves Logo">
+        </a>
     </div>
+
     <!-- Center: Date & Time -->
     <div class="header-date-time" id="currentDateTime">
         <!-- JavaScript will update this -->
     </div>
-     <!-- Right: User info, notifications, settings -->
+
+    <!-- Right: User info, weather, logout -->
     <div class="header-right">
-        <!-- Existing Logout Button -->
+         <!-- Existing Logout Button -->
         <button class="logout-btn">Logout</button>
     </div>
+</div>
+
   </div>
   <div class="row-container">
     <!-- First Column: Form and Notes Display -->
@@ -138,26 +146,131 @@
         </form>
        </div>
     <!-- Second Column: Empty Placeholder -->
-    <div class="empty-column"></div>
+    <div class="empty-column">
+        <!-- Weather section -->
+        <div id="weather-widget" class="weather-container">
+            <div id="forecast-container">
+                <!-- Forecast data will be inserted here -->
+            </div>
+        </div>
+
+    </div>
 </div>
     <!-- Include Bootstrap and Custom JavaScript -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://kit.fontawesome.com/a076d05399.js"></script>
     <script>
-        // Function to update the date and time
-        function updateDateTime() {
-            const now = new Date();
-            const options = { 
-                weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', 
-                hour: '2-digit', minute: '2-digit', second: '2-digit'
-            };
-            const formattedDate = now.toLocaleDateString('en-US', options);
-            document.getElementById('currentDateTime').innerText = formattedDate;
-        }
-        // Update date and time immediately and every second
-        updateDateTime();
-        setInterval(updateDateTime, 1000);
+       function updateDateTime() {
+    const now = new Date();
+    const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' };
+    document.getElementById('currentDateTime').innerHTML = now.toLocaleDateString('en-US', options);
+}
+
+setInterval(updateDateTime, 1000); // Update every second
+updateDateTime(); // Initial call
+
+    </script>
+    <script>
+      // Function to map weather code to description and icon
+function getWeatherDescriptionAndIcon(code) {
+    const descriptions = {
+        0: { description: "Clear Sky", icon: "fas fa-sun" },
+        1: { description: "Mainly Clear", icon: "fas fa-sun" },
+        2: { description: "Partly Cloudy", icon: "fas fa-cloud-sun" },
+        3: { description: "Overcast", icon: "fas fa-cloud" },
+        45: { description: "Fog", icon: "fas fa-smog" },
+        48: { description: "Depositing Rime Fog", icon: "fas fa-smog" },
+        51: { description: "Light Drizzle", icon: "fas fa-cloud-rain" },
+        53: { description: "Moderate Drizzle", icon: "fas fa-cloud-rain" },
+        55: { description: "Dense Drizzle", icon: "fas fa-cloud-showers-heavy" },
+        61: { description: "Slight Rain", icon: "fas fa-cloud-rain" },
+        63: { description: "Moderate Rain", icon: "fas fa-cloud-showers-heavy" },
+        65: { description: "Heavy Rain", icon: "fas fa-cloud-showers-heavy" },
+        71: { description: "Slight Snow", icon: "fas fa-snowflake" },
+        73: { description: "Moderate Snow", icon: "fas fa-snowflake" },
+        75: { description: "Heavy Snow", icon: "fas fa-snowflake" },
+        80: { description: "Slight Rain Showers", icon: "fas fa-cloud-showers-heavy" },
+        81: { description: "Moderate Rain Showers", icon: "fas fa-cloud-showers-heavy" },
+        82: { description: "Violent Rain Showers", icon: "fas fa-cloud-showers-heavy" }
+    };
+    return descriptions[code] || { description: "Unknown Condition", icon: "fas fa-question-circle" };
+}
+
+// Function to get user's location and fetch weather data and forecast
+function getWeather() {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(position => {
+            const lat = position.coords.latitude;
+            const lon = position.coords.longitude;
+
+            // Fetch weather and 7-day forecast data from Open-Meteo API
+            fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&daily=temperature_2m_max,temperature_2m_min,precipitation_sum,weathercode&timezone=auto`)
+                .then(response => response.json())
+                .then(data => {
+                    const forecast = data.daily;
+
+                    // Fetch city name using Nominatim reverse geocoding
+                    fetch(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${lat}&lon=${lon}`)
+                        .then(response => response.json())
+                        .then(locationData => {
+                            const city = locationData.address.city || locationData.address.town || locationData.address.village || 'Unknown location';
+
+                            // Build the forecast HTML
+                            let forecastHTML = `<h4>7-Day Forecast for ${city}</h4>`;
+                            forecastHTML += '<div class="forecast-grid">';
+                            for (let i = 0; i < 7; i++) {
+                                const date = new Date(forecast.time[i]);
+                                const maxTempCelsius = forecast.temperature_2m_max[i];
+                                const minTempCelsius = forecast.temperature_2m_min[i];
+                                const precipitation = forecast.precipitation_sum[i];
+                                const weatherCode = forecast.weathercode[i];
+
+                                // Convert Celsius to Fahrenheit
+                                const maxTempFahrenheit = (maxTempCelsius * 9/5) + 32;
+                                const minTempFahrenheit = (minTempCelsius * 9/5) + 32;
+
+                                // Get weather description and icon based on weather code
+                                const weatherData = getWeatherDescriptionAndIcon(weatherCode);
+
+                                forecastHTML += `
+                                    <div class="forecast-day">
+                                        <h5>${date.toDateString()}</h5>
+                                        <i class="${weatherData.icon} weather-icon"></i>
+                                        <p>${weatherData.description}</p>
+                                        <p>Max: ${maxTempFahrenheit.toFixed(1)}°F, Min: ${minTempFahrenheit.toFixed(1)}°F</p>
+                                        <p>Precipitation: ${precipitation} mm</p>
+                                    </div>
+                                `;
+                            }
+                            forecastHTML += '</div>';
+
+                            // Display forecast in the weather widget
+                            document.getElementById('forecast-container').innerHTML = forecastHTML;
+                        })
+                        .catch(error => {
+                            weatherWidget.innerHTML = "Could not retrieve city name.";
+                            console.error('City fetch error:', error);
+                        });
+                })
+                .catch(error => {
+                    weatherWidget.innerHTML = "Error fetching weather data.";
+                    console.error('Error:', error);
+                });
+        }, error => {
+            weatherWidget.innerHTML = "Unable to retrieve your location.";
+            console.error('Geolocation error:', error);
+        });
+    } else {
+        weatherWidget.innerHTML = "Geolocation is not supported by this browser.";
+    }
+}
+
+// Call the function to fetch and display the weather
+getWeather();
+
+
+
     </script>
     <script src="js/notes.js"></script>
   </body>

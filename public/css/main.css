@@ -171,58 +171,56 @@ body, nav {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  /* background-color: #53b9bc71; */
   padding: 15px;
-  border-bottom: 1px solid #ddd;
+  background-color: transparent; /* Set background to transparent */
+  box-shadow: none; /* Remove the shadow if desired */
 }
 
-/* Left section: Logo */
 .header-logo img {
-  width: 150px;
-  border-radius: 5px;
+  max-width: 120px; /* Adjust this based on your logo size */
+  height: auto;
 }
 
-/* Center section: Date & Time */
 .header-date-time {
-  font-size: 20px;
+  font-size: 16px;
+  font-weight: bold;
   color: #333;
-  padding: 10px;
 }
 
-/* Right section: User info, notifications, settings */
 .header-right {
   display: flex;
   align-items: center;
+  gap: 20px;
 }
 
-.header-right .profile-info {
-  margin-right: 20px;
-  text-align: right;
-}
-
-.header-right .profile-info img {
-  border-radius: 50%;
-  width: 40px;
-  height: 40px;
-}
-
-.header-right .icons {
-  display: flex;
-  align-items: center;
-}
-
-.header-right .icons i {
-  font-size: 24px;
-  margin-left: 15px;
-  color: #555;
-  cursor: pointer;
-}
-
-.header-right .logout-btn {
-  background-color: #dc3545;
+.logout-btn {
+  padding: 8px 16px;
+  background-color: #007bff;
   color: white;
   border: none;
-  padding: 5px 10px;
-  margin-left: 20px;
+  border-radius: 4px;
   cursor: pointer;
+  font-size: 14px;
 }
+
+.logout-btn:hover {
+  background-color: #0056b3;
+}
+
+.weather-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #ffffff;
+  border-radius: 5px;
+  padding: 10px;
+  border: 1px solid #dee2e6;
+}
+
+#forecast-container {
+  text-align: center;
+  font-size: 14px;
+}
+
+
+
