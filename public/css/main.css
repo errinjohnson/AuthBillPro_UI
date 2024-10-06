@@ -7,7 +7,11 @@ body, nav {
   /* font-family: 'Abril Fatface', serif; */
   /* font-family: 'Josefin Sans', sans-serif; */
 }
-
+/*..................................... NOTES TABLE */
+#tableBody {
+  background-color: rgba(54, 54, 54, 0.6); /* Charcoal background with 80% opacity */
+  color:#f9f9f9;
+}
 .container {
   margin-top: 50px;
 }
@@ -155,7 +159,7 @@ body, nav {
   }
 }
 
-/* Header container */
+/* .............................Header container INDEX.HTML HEADER */
 .dashboard-header {
   display: flex;
   justify-content: space-between;
@@ -215,8 +219,5 @@ body, nav {
   margin-left: 20px;
   cursor: pointer;
 }
- #tableBody {
-  background-color: rgba(54, 54, 54, 0.6); /* Charcoal background with 80% opacity */
-  color:#f9f9f9;
-}
+
 
