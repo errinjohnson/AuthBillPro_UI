@@ -55,7 +55,7 @@ function addParticipantToTable(participant) {
     const row = document.createElement('tr');
     row.innerHTML = `
         <td>
-            <button class="btn-primary btn-primary:hover" onclick="editParticipant(${participant.participant_id});">Edit</button>
+            <button class="btn-warning btn-warning:hover" onclick="editParticipant(${participant.participant_id});">Edit</button>
         </td> 
         <td>${participant.participant_id}</td>
         <td>${participant.email}</td>
