@@ -9,6 +9,13 @@ const session = require('express-session');
 const RedisStore = require('connect-redis').default;
 const redis = require('redis');
 const client = redis.createClient(); // Redis client
+// Add logging for Redis connection and errors
+client.on('connect', () => {
+    console.log('Connected to Redis');
+});
+client.on('error', (err) => {
+    console.error('Redis error:', err);
+});
 const sessionSecret = process.env.SESSION_SECRET;
 
 // Set up express-session middleware
