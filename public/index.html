@@ -94,8 +94,8 @@
             <img src="profile-pic.jpg" alt="Profile Picture">
         </div>
         <div class="icons">
-            <i class="fas fa-bell"></i> <!-- Notifications Icon -->
-            <i class="fas fa-cog"></i> <!-- Settings Icon -->
+            <i class="fas fa-bell"></i--> <!-- Notifications Icon -->
+            <!-- <i class="fas fa-cog"></i> Settings Icon -->
         <!-- </div> -->
         <button class="logout-btn">Logout</button>
     </div>
@@ -125,37 +125,30 @@
         <form id="noteForm">
             <!-- Hidden field for note_id (auto_incremented) -->
             <input type="hidden" id="note_id" name="note_id">
-
             <!-- Note field -->
             <div class="form-group">
                 <label class="pt-4" for="note">ADD NOTE:</label>
                 <textarea class="form-control" id="note" name="note" rows="3" required></textarea>
             </div>
-
             <!-- Follow-up date field -->
             <div class="form-group">
                 <label for="follow_up">Follow-up Date:</label>
                 <input type="date" class="form-control" id="follow_up" name="follow_up">
             </div>
-
             <!-- Status field -->
             <div class="form-group">
                 <label for="status">Status:</label>
                 <input type="text" class="form-control" id="status" name="status" maxlength="255">
             </div>
-
             <!-- Name field -->
             <div class="form-group">
                 <label for="name">Name:</label>
                 <input type="text" class="form-control" id="name" name="name" required>
             </div>
-
             <!-- Submit button -->
             <button type="submit" class="btn btn-primary" id="submitButton">Add Note</button>
         </form>
-
        </div>
-
     <!-- Second Column: Empty Placeholder -->
     <div class="empty-column">
         <!-- Empty for future use -->
@@ -176,7 +169,6 @@
             const formattedDate = now.toLocaleDateString('en-US', options);
             document.getElementById('currentDateTime').innerText = formattedDate;
         }
-
         // Update date and time immediately and every second
         updateDateTime();
         setInterval(updateDateTime, 1000);
