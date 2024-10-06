@@ -138,6 +138,25 @@
   <div class="row-container">
     <!-- First Column: Form and Notes Display -->
     <div class="column">
+            <!-- Section to display notes in a table -->
+        <h3 class="mt-5">Notes List</h3>
+        <div class="table-responsive">
+            <table class="table table-bordered" id="notesTable">
+                <thead>
+                    <tr>
+                        <th>Note ID</th>
+                        <th>Name</th>
+                        <th>Note</th>
+                        <th>Follow-up</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                   </tr>
+                </thead>
+                <tbody id="tableBody">
+                    <!-- Dynamically added notes will appear here -->
+                </tbody>
+            </table>
+        </div>
         <form id="noteForm">
             <!-- Hidden field for note_id (auto_incremented) -->
             <input type="hidden" id="note_id" name="note_id">
@@ -169,26 +188,6 @@
             <!-- Submit button -->
             <button type="submit" class="btn btn-primary" id="submitButton">Add Note</button>
         </form>
-
-        <!-- Section to display notes in a table -->
-        <h3 class="mt-5">Notes List</h3>
-        <div class="table-responsive">
-            <table class="table table-bordered" id="notesTable">
-                <thead>
-                    <tr>
-                        <th>Note ID</th>
-                        <th>Name</th>
-                        <th>Note</th>
-                        <th>Follow-up</th>
-                        <th>Status</th>
-                        <th>Action</th>
-                   </tr>
-                </thead>
-                <tbody id="tableBody">
-                    <!-- Dynamically added notes will appear here -->
-                </tbody>
-            </table>
-        </div>
 
        </div>
 
