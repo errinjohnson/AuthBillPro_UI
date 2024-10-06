@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Function to load authorizations from the server
     function loadAuthorizations() {
-        fetch('/api/authorizations')
+        fetch('/api/auth')
             .then(response => response.json())
             .then(data => {
                 const tbody = document.getElementById('authorizationsList');
