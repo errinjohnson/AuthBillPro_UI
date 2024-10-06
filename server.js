@@ -16,7 +16,8 @@ client.on('connect', () => {
 client.on('error', (err) => {
     console.error('Redis error:', err);
 });
-const sessionSecret = process.env.SESSION_SECRET;
+const sessionSecret = process.env.SESSION_SECRET || 'fallback-secret';
+
 
 // Set up express-session middleware
 app.use(session({
@@ -24,9 +25,8 @@ app.use(session({
     secret: sessionSecret,
     resave: false,
     saveUninitialized: false,
-    cookie: { secure: true } // Set to true in production with HTTPS
+    cookie: { secure: process.env.NODE_ENV === 'production' }  // Secure in production with HTTPS
 }));
-
 console.log("Session middleware has been initialized");
 
 
