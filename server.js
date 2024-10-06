@@ -2,15 +2,33 @@
 const express = require('express');
 const cors = require('cors');
 const path = require('path');
-const session = require('express-session');
+
 const app = express();
+
+const session = require('express-session');
+const RedisStore = require('connect-redis').default;
+const redis = require('redis');
+const client = redis.createClient(); // Redis client
+const sessionSecret = process.env.SESSION_SECRET;
+
+// Set up express-session middleware
+app.use(session({
+    store: new RedisStore({ client }),
+    secret: sessionSecret,
+    resave: false,
+    saveUninitialized: false,
+    cookie: { secure: true } // Set to true in production with HTTPS
+}));
+
+console.log("Session middleware has been initialized");
+
 
 const participantRoutes = require('./routes/participantRoutes');
 const noteRoutes = require("./routes/noteRoutes");
 
 const db = require('./db');
 require('dotenv').config(); // Load environment variables
-const sessionSecret = process.env.SESSION_SECRET;
+
 
 // Configure CORS middleware
 const corsOptions = {
@@ -19,25 +37,11 @@ const corsOptions = {
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization']
 };
-
 app.use(cors(corsOptions));
 
 app.use(express.json()); // Parse JSON bodies
 
-// Set up express-session middleware
-app.use(session({
-    secret: sessionSecret,
-    resave: false,
-    saveUninitialized: false,
-    cookie: {
-        domain: '.plankton-app-2-9k8uf.ondigitalocean.app', // Set the cookie domain to your root domain
-        path: '/',
-        secure: true,
-        httpOnly: true,
-        sameSite: 'Lax'
-    }
-}));
-console.log("Session middleware has been initialized");
+
 
 // Serve static files from the 'public' directory
 app.use(express.static(path.join(__dirname, 'public')));
