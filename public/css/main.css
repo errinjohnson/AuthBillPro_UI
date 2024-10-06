@@ -12,6 +12,8 @@ body, nav {
   font-size: 20px;
   margin-right: 20px;
 }
+
+
 /*..................................... NOTES TABLE */
 #tableBody {
   background-color: rgba(54, 54, 54, 0.6); /* Charcoal background with 80% opacity */
@@ -224,5 +226,3 @@ body, nav {
   margin-left: 20px;
   cursor: pointer;
 }
-
-
