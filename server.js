@@ -1,25 +1,10 @@
 const express = require('express');
 const cors = require('cors');
 const path = require('path');
-// const session = require('express-session');
-// const RedisStore = require('connect-redis').default;
-// const redis = require('redis');
-// const client = redis.createClient(); // Redis client
 require('dotenv').config(); // Load environment variables
 
 const app = express();
 
-// Add logging for Redis connection and errors
-// client.on('connect', () => {
-//     console.log('Connected to Redis');
-// });
-// client.on('error', (err) => {
-//     console.error('Redis error:', err);
-// });
-
-// const sessionSecret = process.env.SESSION_SECRET;
-
-// Configure CORS middleware before session
 const corsOptions = {
     origin: ['https://plankton-app-2-9k8uf.ondigitalocean.app', 'http://localhost:3000'],
     credentials: true,
@@ -27,15 +12,6 @@ const corsOptions = {
     allowedHeaders: ['Content-Type', 'Authorization']
 };
 app.use(cors(corsOptions));
-
-// Set up express-session middleware
-// app.use(session({
-//     store: new RedisStore({ client }),
-//     secret: sessionSecret,
-//     resave: false,
-//     saveUninitialized: false,
-//     cookie: { secure: process.env.NODE_ENV === 'production' }  // Secure in production with HTTPS
-// }));
 
 console.log("Session middleware has been initialized");
 
