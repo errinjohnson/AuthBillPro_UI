@@ -1,0 +1,142 @@
+!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dashboard</title>
+    <link
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+    <link href="css/main.css" rel="stylesheet" />
+  </head>
+  <body style="background-image: url(img/oceanwavesthemebackgroundl.png);">
+     <!-- Navigation Bar -->
+     <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <a class="navbar-brand" href="#"><img src="img/authbillprologo.png" width="35px" alt="auth bill pro logo">AuthBillPro</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+            <li class="nav-item active">
+                <a class="nav-link" href="index.html">DASHBOARD <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="participants.html">Participants</a>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="authorizationsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Authorizations
+                </a>
+                <div class="dropdown-menu" aria-labelledby="authorizationsDropdown">
+                    <a class="dropdown-item" href="#">Coming Soon - Manage Authorizations</a>
+                    <a class="dropdown-item" href="#">Coming Soon - Manage VR Offices</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="#">--------------</a>
+                </div>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="activitiesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Activities
+                </a>
+                <div class="dropdown-menu" aria-labelledby="activitiesDropdown">
+                    <a class="dropdown-item" href="#">Coming Soon - Manage Activites</a>
+                    <a class="dropdown-item" href="#">Coming Soon - Manage Categories</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="#">------------------</a>
+                </div>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="invoicesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Generate Invoice
+                </a>
+                <div class="dropdown-menu" aria-labelledby="invoicesDropdown">
+                    <a class="dropdown-item" href="#">Coming Soon - Generate Invoice</a>
+                    <a class="dropdown-item" href="#">Coming Soon - Manage Invoices</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="#">------------------</a>
+                </div>
+            </li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="expensesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  Expenditures
+              </a>
+            <div class="dropdown-menu" aria-labelledby="expensesDropdown">
+                <a class="dropdown-item" href="#">Coming Soon - Add | Update Expenditures</a>
+                <a class="dropdown-item" href="#">Coming Soon - Add Expense Category</a>
+                <a class="dropdown-item" href="#">Coming Soon - Add Vendor</a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="#">------------------</a>
+            </div>
+          </li>
+        </ul>
+    </div>
+  </nav>
+
+  <div class="container">
+    <h2 class="my-4">Manage Authorizations</h2>
+
+    <form id="authForm">
+        <div class="form-group">
+            <label for="authNumber">Authorization Number</label>
+            <input type="text" id="authNumber" class="form-control" required>
+        </div>
+
+        <div class="form-group">
+            <label for="authBeginDate">Begin Date</label>
+            <input type="date" id="authBeginDate" class="form-control" required>
+        </div>
+
+        <div class="form-group">
+            <label for="authEndDate">End Date</label>
+            <input type="date" id="authEndDate" class="form-control" required>
+        </div>
+
+        <div class="form-group">
+            <label for="authRate">Rate</label>
+            <input type="number" id="authRate" class="form-control" required>
+        </div>
+
+        <div class="form-group">
+            <label for="authBillableHours">Billable Hours</label>
+            <input type="number" id="authBillableHours" class="form-control" required>
+        </div>
+
+        <div class="form-group">
+            <label for="authRemainingBillableHours">Remaining Billable Hours</label>
+            <input type="number" id="authRemainingBillableHours" class="form-control" required>
+        </div>
+
+        <!-- Hidden field for office_id -->
+        <input type="hidden" id="officeId">
+
+        <button type="submit" id="submitButton" class="btn btn-primary">Add</button>
+    </form>
+
+    <h3 class="my-4">Authorizations List</h3>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Authorization Number</th>
+                <th>Begin Date</th>
+                <th>End Date</th>
+                <th>Rate</th>
+                <th>Billable Hours</th>
+                <th>Remaining Billable Hours</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody id="authorizationsList">
+            <!-- Dynamic content will be inserted here -->
+        </tbody>
+    </table>
+</div>
+  </body>
+  <!-- Include Bootstrap and Custom JavaScript -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="js/auth.js"></script>
+</html>

@@ -26,14 +26,19 @@ console.log("Serving static files from public directory");
 const participantRoutes = require('./routes/participantRoutes');
 const noteRoutes = require("./routes/noteRoutes");
 const db = require('./db');
+const authRoutes = require('./routes/authRoutes');
 
 // Use the participant routes for any API calls that start with /api/participants
 app.use('/api/participants', participantRoutes(db));
 console.log("Participant routes have been set up");
 
-// Use the participant routes for any API calls that start with /api/notes
+// Use the notes routes for any API calls that start with /api/notes
 app.use('/api/notes', noteRoutes(db));
 console.log("Note routes have been set up");
+
+// Use the authorization routes for any API calls that start with /api/auth
+app.use('/api/auth', authRoutes(db));
+console.log("Auth routes have been set up");
 
 // Start the server
 const PORT = process.env.PORT || 3000;
