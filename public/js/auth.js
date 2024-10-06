@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Function to load authorizations from the server
     function loadAuthorizations() {
-        fetch('/api/auth')
+        fetch('https://plankton-app-2-9k8uf.ondigitalocean.app/api/auth')
             .then(response => response.json())
             .then(data => {
                 const tbody = document.getElementById('authorizationsList');
@@ -43,7 +43,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         if (isEditMode && currentAuthNumber) {
             // Update existing authorization
-            fetch(`/api/authorizations/${currentAuthNumber}`, {
+            fetch(`https://plankton-app-2-9k8uf.ondigitalocean.app/api/auth/${currentAuthNumber}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json'
@@ -62,7 +62,7 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         } else {
             // Add new authorization
-            fetch('/api/authorizations', {
+            fetch('https://plankton-app-2-9k8uf.ondigitalocean.app/api/auth', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -84,7 +84,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Edit authorization
     window.editAuthorization = function(authNumber) {
-        fetch(`/api/authorizations/${authNumber}`)
+        fetch(`https://plankton-app-2-9k8uf.ondigitalocean.app/api/auth/${authNumber}`)
             .then(response => response.json())
             .then(auth => {
                 document.getElementById('authNumber').value = auth.auth_number;

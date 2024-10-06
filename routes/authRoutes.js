@@ -5,7 +5,7 @@ const router = express.Router();
 module.exports = (mysqlConnection) => {
 
     // Get all authorizations
-    router.get('/api/authorizations', (req, res) => {
+    router.get('/', (req, res) => {
         const query = 'SELECT * FROM Authorizations';
         mysqlConnection.query(query, (error, results) => {
             if (error) return res.status(500).json({ error });
@@ -14,7 +14,7 @@ module.exports = (mysqlConnection) => {
     });
 
     // Get single authorization by auth_number
-    router.get('/api/authorizations/:auth_number', (req, res) => {
+    router.get('/:auth_number', (req, res) => {
         const query = 'SELECT * FROM Authorizations WHERE auth_number = ?';
         mysqlConnection.query(query, [req.params.auth_number], (error, results) => {
             if (error) return res.status(500).json({ error });
@@ -23,7 +23,7 @@ module.exports = (mysqlConnection) => {
     });
 
     // Add new authorization
-    router.post('/api/authorizations', (req, res) => {
+    router.post('/', (req, res) => {
         const { auth_number, auth_begin_date, auth_end_date, auth_rate, auth_billable_hours, auth_remaining_billable_hours } = req.body;
         const query = `
             INSERT INTO Authorizations (auth_number, auth_begin_date, auth_end_date, auth_rate, auth_billable_hours, auth_remaining_billable_hours)
@@ -36,7 +36,7 @@ module.exports = (mysqlConnection) => {
     });
 
     // Update authorization
-    router.put('/api/authorizations/:auth_number', (req, res) => {
+    router.put('/:auth_number', (req, res) => {
         const { auth_begin_date, auth_end_date, auth_rate, auth_billable_hours, auth_remaining_billable_hours } = req.body;
         const query = `
             UPDATE Authorizations SET auth_begin_date = ?, auth_end_date = ?, auth_rate = ?, auth_billable_hours = ?, auth_remaining_billable_hours = ?
