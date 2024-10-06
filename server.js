@@ -16,9 +16,16 @@ client.on('connect', () => {
 client.on('error', (err) => {
     console.error('Redis error:', err);
 });
-const sessionSecret = process.env.SESSION_SECRET || 'fallback-secret';
+const sessionSecret = process.env.SESSION_SECRET;
 
-
+// Configure CORS middleware
+const corsOptions = {
+    origin: ['https://plankton-app-2-9k8uf.ondigitalocean.app', 'http://localhost:3000'],
+    credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization']
+};
+app.use(cors(corsOptions));
 // Set up express-session middleware
 app.use(session({
     store: new RedisStore({ client }),
@@ -37,14 +44,7 @@ const db = require('./db');
 require('dotenv').config(); // Load environment variables
 
 
-// Configure CORS middleware
-const corsOptions = {
-    origin: ['https://plankton-app-2-9k8uf.ondigitalocean.app', 'http://localhost:3000'],
-    credentials: true,
-    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-    allowedHeaders: ['Content-Type', 'Authorization']
-};
-app.use(cors(corsOptions));
+
 
 app.use(express.json()); // Parse JSON bodies
 
