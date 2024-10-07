@@ -2,6 +2,21 @@ document.addEventListener('DOMContentLoaded', function() {
     let isEditMode = false;
     let currentAuthNumber = null;
 
+    // Function to load participants for the dropdown
+    function loadParticipants() {
+        fetch('https://plankton-app-2-9k8uf.ondigitalocean.app/api/participants')
+            .then(response => response.json())
+            .then(data => {
+                const participantSelect = document.getElementById('participant');
+                data.forEach(participant => {
+                    const option = document.createElement('option');
+                    option.value = participant.participant_id;
+                    option.textContent = `${participant.first_name} ${participant.last_name}`;
+                    participantSelect.appendChild(option);
+                });
+            });
+    }
+
     // Function to load authorizations from the server
     function loadAuthorizations() {
         fetch('https://plankton-app-2-9k8uf.ondigitalocean.app/api/auth')
@@ -18,6 +33,7 @@ document.addEventListener('DOMContentLoaded', function() {
                             <td>${auth.auth_rate}</td>
                             <td>${auth.auth_billable_hours}</td>
                             <td>${auth.auth_remaining_billable_hours}</td>
+                            <td>${auth.participant_first_name} ${auth.participant_last_name}</td>
                             <td>${auth.office_name}</td>
                             <td>${auth.office_email}</td>
                             <td>${auth.contact_first_name}</td>
@@ -32,7 +48,8 @@ document.addEventListener('DOMContentLoaded', function() {
             });
     }
 
-    // Load authorizations when the page is loaded
+    // Load participants and authorizations when the page is loaded
+    loadParticipants();
     loadAuthorizations();
 
     // Handle form submission
@@ -45,6 +62,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const authRate = document.getElementById('authRate').value;
         const authBillableHours = document.getElementById('authBillableHours').value;
         const authRemainingBillableHours = document.getElementById('authRemainingBillableHours').value;
+        const participantId = document.getElementById('participant').value;
         const officeName = document.getElementById('officeName').value;
         const officeEmail = document.getElementById('officeEmail').value;
         const contactFirstName = document.getElementById('contactFirstName').value;
@@ -65,6 +83,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     auth_rate: authRate,
                     auth_billable_hours: authBillableHours,
                     auth_remaining_billable_hours: authRemainingBillableHours,
+                    participant_id: participantId,
                     office_name: officeName,
                     office_email: officeEmail,
                     contact_first_name: contactFirstName,
@@ -89,6 +108,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     auth_rate: authRate,
                     auth_billable_hours: authBillableHours,
                     auth_remaining_billable_hours: authRemainingBillableHours,
+                    participant_id: participantId,
                     office_name: officeName,
                     office_email: officeEmail,
                     contact_first_name: contactFirstName,
@@ -113,6 +133,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 document.getElementById('authRate').value = auth.auth_rate;
                 document.getElementById('authBillableHours').value = auth.auth_billable_hours;
                 document.getElementById('authRemainingBillableHours').value = auth.auth_remaining_billable_hours;
+                document.getElementById('participant').value = auth.participant_id;
                 document.getElementById('officeName').value = auth.office_name;
                 document.getElementById('officeEmail').value = auth.office_email;
                 document.getElementById('contactFirstName').value = auth.contact_first_name;

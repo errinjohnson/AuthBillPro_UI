@@ -110,6 +110,15 @@
             <input type="number" id="authRemainingBillableHours" class="form-control" required>
         </div>
 
+        <!-- Participant Dropdown -->
+        <div class="form-group">
+            <label for="participant">Participant</label>
+            <select id="participant" class="form-control" required>
+                <option value="">Select a Participant</option>
+                <!-- Dynamic content for participants will be inserted here -->
+            </select>
+        </div>
+
         <!-- Office information fields -->
         <div class="form-group">
             <label for="officeName">Office Name</label>
@@ -153,6 +162,7 @@
                 <th>Rate</th>
                 <th>Billable Hours</th>
                 <th>Remaining Billable Hours</th>
+                <th>Participant</th>
                 <th>Office Name</th>
                 <th>Office Email</th>
                 <th>Contact First Name</th>
@@ -166,6 +176,7 @@
         </tbody>
     </table>
 </div>
+
 
   </body>
   <!-- Include Bootstrap and Custom JavaScript -->
