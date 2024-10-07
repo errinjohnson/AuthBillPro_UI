@@ -6,7 +6,7 @@ module.exports = (mysqlConnection) => {
 
     // Get all authorizations
     router.get('/', (req, res) => {
-        const query = 'SELECT * FROM Authorizations';
+        const query = 'SELECT * FROM auth';
         mysqlConnection.query(query, (error, results) => {
             if (error) return res.status(500).json({ error });
             res.json(results);
@@ -15,7 +15,7 @@ module.exports = (mysqlConnection) => {
 
     // Get single authorization by auth_number
     router.get('/:auth_number', (req, res) => {
-        const query = 'SELECT * FROM Authorizations WHERE auth_number = ?';
+        const query = 'SELECT * FROM auth WHERE auth_number = ?';
         mysqlConnection.query(query, [req.params.auth_number], (error, results) => {
             if (error) return res.status(500).json({ error });
             res.json(results[0]);
