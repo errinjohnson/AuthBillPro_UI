@@ -48,6 +48,24 @@ document.addEventListener('DOMContentLoaded', function() {
             });
     }
 
+    // Event listener to populate first and last name fields when a participant is selected
+    document.getElementById('participant').addEventListener('change', function() {
+        const participantId = this.value;
+        if (participantId) {
+            // Fetch the selected participant's details
+            fetch(`https://plankton-app-2-9k8uf.ondigitalocean.app/api/participants/${participantId}`)
+                .then(response => response.json())
+                .then(participant => {
+                    document.getElementById('contactFirstName').value = participant.first_name;
+                    document.getElementById('contactLastName').value = participant.last_name;
+                });
+        } else {
+            // Clear the name fields if no participant is selected
+            document.getElementById('contactFirstName').value = '';
+            document.getElementById('contactLastName').value = '';
+        }
+    });
+
     // Load participants and authorizations when the page is loaded
     loadParticipants();
     loadAuthorizations();
