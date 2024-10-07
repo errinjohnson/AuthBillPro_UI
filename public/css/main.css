@@ -25,7 +25,7 @@ body, nav {
 
 
 /*..................................... NOTES TABLE */
-#tableBody {
+#tableBody, #authorizationsList {
   background-color: rgba(54, 54, 54, 0.6); /* Charcoal background with 80% opacity */
   color:#f9f9f9;
 }
