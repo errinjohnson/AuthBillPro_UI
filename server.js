@@ -43,7 +43,7 @@ console.log("Auth routes have been set up");
 
 // Use the authorization routes for any API calls that start with /api/auth
 app.use('/api/vr_offices', vrRoutes(db));
-console.log("Auth routes have been set up");
+console.log("vr_offices routes have been set up");
 
 // Start the server
 const PORT = process.env.PORT || 3000;
