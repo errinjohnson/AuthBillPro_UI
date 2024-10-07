@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 const participantSelect = document.getElementById('participant');
                 data.forEach(participant => {
                     const option = document.createElement('option');
-                    option.value = participant.participant_id;
+                    option.value = participant.participant_id; // Store participant_id
                     option.textContent = `${participant.first_name} ${participant.last_name}`;
                     participantSelect.appendChild(option);
                 });
@@ -63,40 +63,6 @@ document.addEventListener('DOMContentLoaded', function() {
             });
     }
 
-    // Event listener to populate participant details (first and last name) when a participant is selected
-    document.getElementById('participant').addEventListener('change', function() {
-        const participantId = this.value;
-        if (participantId) {
-            fetch(`https://plankton-app-2-9k8uf.ondigitalocean.app/api/participants/${participantId}`)
-                .then(response => response.json())
-                .then(participant => {
-                    document.getElementById('contactFirstName').value = participant.first_name;
-                    document.getElementById('contactLastName').value = participant.last_name;
-                });
-        } else {
-            document.getElementById('contactFirstName').value = '';
-            document.getElementById('contactLastName').value = '';
-        }
-    });
-
-    // Event listener to populate office details when an office is selected
-    document.getElementById('office').addEventListener('change', function() {
-        const officeId = this.value;
-        if (officeId) {
-            // Fetch the selected office's details
-            fetch(`https://plankton-app-2-9k8uf.ondigitalocean.app/api/vr_offices/${officeId}`)
-                .then(response => response.json())
-                .then(office => {
-                    document.getElementById('officeName').value = office.office_name;
-                    document.getElementById('officeEmail').value = office.office_email;
-                });
-        } else {
-            // Clear the office details if no office is selected
-            document.getElementById('officeName').value = '';
-            document.getElementById('officeEmail').value = '';
-        }
-    });
-
     // Load participants, offices, and authorizations when the page is loaded
     loadParticipants();
     loadOffices();
@@ -112,7 +78,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const authRate = document.getElementById('authRate').value;
         const authBillableHours = document.getElementById('authBillableHours').value;
         const authRemainingBillableHours = document.getElementById('authRemainingBillableHours').value;
-        const participantId = document.getElementById('participant').value;
+        const participantId = document.getElementById('participant').value; // Store participant_id
         const officeName = document.getElementById('officeName').value;
         const officeEmail = document.getElementById('officeEmail').value;
         const contactFirstName = document.getElementById('contactFirstName').value;
@@ -133,7 +99,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     auth_rate: authRate,
                     auth_billable_hours: authBillableHours,
                     auth_remaining_billable_hours: authRemainingBillableHours,
-                    participant_id: participantId,
+                    participant_id: participantId, // Include participant_id in submission
                     office_name: officeName,
                     office_email: officeEmail,
                     contact_first_name: contactFirstName,
@@ -158,7 +124,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     auth_rate: authRate,
                     auth_billable_hours: authBillableHours,
                     auth_remaining_billable_hours: authRemainingBillableHours,
-                    participant_id: participantId,
+                    participant_id: participantId, // Include participant_id in submission
                     office_name: officeName,
                     office_email: officeEmail,
                     contact_first_name: contactFirstName,
