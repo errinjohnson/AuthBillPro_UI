@@ -27,6 +27,7 @@ const participantRoutes = require('./routes/participantRoutes');
 const noteRoutes = require("./routes/noteRoutes");
 const db = require('./db');
 const authRoutes = require('./routes/authRoutes');
+const vrRoutes = require('./routes/vrRoutes');
 
 // Use the participant routes for any API calls that start with /api/participants
 app.use('/api/participants', participantRoutes(db));
@@ -38,6 +39,10 @@ console.log("Note routes have been set up");
 
 // Use the authorization routes for any API calls that start with /api/auth
 app.use('/api/auth', authRoutes(db));
+console.log("Auth routes have been set up");
+
+// Use the authorization routes for any API calls that start with /api/auth
+app.use('/api/vr_offices', vrRoutes(db));
 console.log("Auth routes have been set up");
 
 // Start the server
