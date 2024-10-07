@@ -17,7 +17,7 @@ document.addEventListener('DOMContentLoaded', function() {
             });
     }
 
-    // Function to load offices for the dropdown
+    // Function to load offices for the dropdown (show office_id and office_name)
     function loadOffices() {
         fetch('https://plankton-app-2-9k8uf.ondigitalocean.app/api/vr_offices')
             .then(response => response.json())
@@ -25,8 +25,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 const officeSelect = document.getElementById('office');
                 data.forEach(office => {
                     const option = document.createElement('option');
-                    option.value = office.office_id;
-                    option.textContent = office.office_name;
+                    option.value = office.office_id; // Store office_id
+                    option.textContent = `${office.office_id} - ${office.office_name}`; // Show office_id and office_name
                     officeSelect.appendChild(option);
                 });
             });
@@ -63,6 +63,31 @@ document.addEventListener('DOMContentLoaded', function() {
             });
     }
 
+    // Event listener to populate office details when an office is selected
+    document.getElementById('office').addEventListener('change', function() {
+        const officeId = this.value;
+        if (officeId) {
+            // Fetch the selected office's details
+            fetch(`https://plankton-app-2-9k8uf.ondigitalocean.app/api/vr_offices/${officeId}`)
+                .then(response => response.json())
+                .then(office => {
+                    // Populate the office fields
+                    document.getElementById('officeName').value = office.office_name;
+                    document.getElementById('officeEmail').value = office.office_email;
+                    document.getElementById('contactFirstName').value = office.contact_first_name;
+                    document.getElementById('contactLastName').value = office.contact_last_name;
+                    document.getElementById('contactPhoneNumber').value = office.contact_phone_number;
+                });
+        } else {
+            // Clear the office details if no office is selected
+            document.getElementById('officeName').value = '';
+            document.getElementById('officeEmail').value = '';
+            document.getElementById('contactFirstName').value = '';
+            document.getElementById('contactLastName').value = '';
+            document.getElementById('contactPhoneNumber').value = '';
+        }
+    });
+
     // Load participants, offices, and authorizations when the page is loaded
     loadParticipants();
     loadOffices();
@@ -78,7 +103,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const authRate = document.getElementById('authRate').value;
         const authBillableHours = document.getElementById('authBillableHours').value;
         const authRemainingBillableHours = document.getElementById('authRemainingBillableHours').value;
-        const participantId = document.getElementById('participant').value; // Store participant_id
+        const participantId = document.getElementById('participant').value;
         const officeName = document.getElementById('officeName').value;
         const officeEmail = document.getElementById('officeEmail').value;
         const contactFirstName = document.getElementById('contactFirstName').value;
@@ -99,7 +124,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     auth_rate: authRate,
                     auth_billable_hours: authBillableHours,
                     auth_remaining_billable_hours: authRemainingBillableHours,
-                    participant_id: participantId, // Include participant_id in submission
+                    participant_id: participantId,
                     office_name: officeName,
                     office_email: officeEmail,
                     contact_first_name: contactFirstName,
@@ -124,7 +149,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     auth_rate: authRate,
                     auth_billable_hours: authBillableHours,
                     auth_remaining_billable_hours: authRemainingBillableHours,
-                    participant_id: participantId, // Include participant_id in submission
+                    participant_id: participantId,
                     office_name: officeName,
                     office_email: officeEmail,
                     contact_first_name: contactFirstName,
