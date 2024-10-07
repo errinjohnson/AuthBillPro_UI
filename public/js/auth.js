@@ -18,6 +18,11 @@ document.addEventListener('DOMContentLoaded', function() {
                             <td>${auth.auth_rate}</td>
                             <td>${auth.auth_billable_hours}</td>
                             <td>${auth.auth_remaining_billable_hours}</td>
+                            <td>${auth.office_name}</td>
+                            <td>${auth.office_email}</td>
+                            <td>${auth.contact_first_name}</td>
+                            <td>${auth.contact_last_name}</td>
+                            <td>${auth.contact_phone_number}</td>
                             <td>
                                 <button class="btn btn-info" onclick="editAuthorization('${auth.auth_number}')">Edit</button>
                             </td>
@@ -40,6 +45,11 @@ document.addEventListener('DOMContentLoaded', function() {
         const authRate = document.getElementById('authRate').value;
         const authBillableHours = document.getElementById('authBillableHours').value;
         const authRemainingBillableHours = document.getElementById('authRemainingBillableHours').value;
+        const officeName = document.getElementById('officeName').value;
+        const officeEmail = document.getElementById('officeEmail').value;
+        const contactFirstName = document.getElementById('contactFirstName').value;
+        const contactLastName = document.getElementById('contactLastName').value;
+        const contactPhoneNumber = document.getElementById('contactPhoneNumber').value;
 
         if (isEditMode && currentAuthNumber) {
             // Update existing authorization
@@ -54,7 +64,12 @@ document.addEventListener('DOMContentLoaded', function() {
                     auth_end_date: authEndDate,
                     auth_rate: authRate,
                     auth_billable_hours: authBillableHours,
-                    auth_remaining_billable_hours: authRemainingBillableHours
+                    auth_remaining_billable_hours: authRemainingBillableHours,
+                    office_name: officeName,
+                    office_email: officeEmail,
+                    contact_first_name: contactFirstName,
+                    contact_last_name: contactLastName,
+                    contact_phone_number: contactPhoneNumber
                 })
             }).then(() => {
                 resetForm();
@@ -73,7 +88,12 @@ document.addEventListener('DOMContentLoaded', function() {
                     auth_end_date: authEndDate,
                     auth_rate: authRate,
                     auth_billable_hours: authBillableHours,
-                    auth_remaining_billable_hours: authRemainingBillableHours
+                    auth_remaining_billable_hours: authRemainingBillableHours,
+                    office_name: officeName,
+                    office_email: officeEmail,
+                    contact_first_name: contactFirstName,
+                    contact_last_name: contactLastName,
+                    contact_phone_number: contactPhoneNumber
                 })
             }).then(() => {
                 resetForm();
@@ -93,6 +113,11 @@ document.addEventListener('DOMContentLoaded', function() {
                 document.getElementById('authRate').value = auth.auth_rate;
                 document.getElementById('authBillableHours').value = auth.auth_billable_hours;
                 document.getElementById('authRemainingBillableHours').value = auth.auth_remaining_billable_hours;
+                document.getElementById('officeName').value = auth.office_name;
+                document.getElementById('officeEmail').value = auth.office_email;
+                document.getElementById('contactFirstName').value = auth.contact_first_name;
+                document.getElementById('contactLastName').value = auth.contact_last_name;
+                document.getElementById('contactPhoneNumber').value = auth.contact_phone_number;
 
                 currentAuthNumber = authNumber;
                 isEditMode = true;
