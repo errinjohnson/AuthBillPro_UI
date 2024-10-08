@@ -25,8 +25,15 @@ body {
 .logout-btn:hover {
   background-color: darkred; /* Darker red on hover */
 }
-
-
+#logo {
+  display: inline-block;
+  width: 35px;
+  height: 35px;
+  background-image: url('../img/authbillprologo.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  vertical-align: middle; /* Align logo with text */
+}
 
 /*..................................... NOTES TABLE */
 #tableBody, #authorizationsList {
