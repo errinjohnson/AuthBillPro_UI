@@ -32,30 +32,40 @@ function addParticipant(participant) {
 }
 
 // Fetch all participants from the API and display them
-function fetchParticipants() {
-    fetch('https://plankton-app-2-9k8uf.ondigitalocean.app/api/participants')
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok ' + response.statusText);
-            }
-            return response.json();
-        })
-        .then(data => {
-            // Check if data is an array
-            if (Array.isArray(data)) {
-                const tableBody = document.getElementById('participantsList'); // Ensure you have the correct selector
-                tableBody.innerHTML = ''; // Clear table
+document.addEventListener('DOMContentLoaded', function() {
+    function fetchParticipants() {
+        fetch('https://plankton-app-2-9k8uf.ondigitalocean.app/api/participants')
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok ' + response.statusText);
+                }
+                return response.json();
+            })
+            .then(data => {
+                // Check if data is an array
+                if (Array.isArray(data)) {
+                    const tableBody = document.getElementById('participantTableBody'); // Updated selector
+                    if (tableBody) {
+                        tableBody.innerHTML = ''; // Clear table
 
-                // Loop through each participant and add them to the table
-                data.forEach(participant => {
-                    addParticipantToTable(participant);
-                });
-            } else {
-                console.error('Data is not an array:', data);
-            }
-        })
-        .catch(error => console.error('Error fetching participants:', error));
-}
+                        // Loop through each participant and add them to the table
+                        data.forEach(participant => {
+                            addParticipantToTable(participant);
+                        });
+                    } else {
+                        console.error('Element with id "participantTableBody" not found in the DOM.');
+                    }
+                } else {
+                    console.error('Data is not an array:', data);
+                }
+            })
+            .catch(error => console.error('Error fetching participants:', error));
+    }
+
+    // Call the function to fetch participants after DOM is loaded
+    fetchParticipants();
+});
+
 
 // Function to add a participant to the table
 function addParticipantToTable(participant) {
