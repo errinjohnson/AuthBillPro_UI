@@ -104,9 +104,10 @@ function editParticipant(participantId) {
 function addParticipantToTable(participant) {
     const participantTableBody = document.getElementById('participantTableBody');
     
-    const registrationDate = new Date(participant.registration);
-    const formattedDate = `${registrationDate.getFullYear()}-${String(registrationDate.getMonth() + 1).padStart(2, '0')}-${String(registrationDate.getDate()).padStart(2, '0')}`;
-
+    const registrationDate = participant.registration.split('T')[0]; // Remove time part if present
+    const [year, month, day] = registrationDate.split('-'); // Split the date into parts
+    const formattedDate = `${month}.${day}.${year}`; // Reformat to MM.DD.YYYY
+    
     const row = document.createElement('tr');
     row.innerHTML = `
         <td>
