@@ -147,6 +147,11 @@ function refreshParticipantList() {
     fetchParticipants(); // This will re-fetch and populate the table with updated data
 }
 
+// Call fetchParticipants when DOM is loaded
+document.addEventListener('DOMContentLoaded', function() {
+    fetchParticipants();
+});
+
 // Function to update a participant using the API
 function updateParticipant(participantId) {
     const participant = {
