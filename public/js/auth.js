@@ -50,7 +50,7 @@ document.addEventListener('DOMContentLoaded', function() {
                                     <tr>
                                         <td>${auth.auth_number}</td>
                                         <td>${new Date(auth.auth_begin_date).toLocaleDateString()}</td>
-                                        <td>${new Date(auth_end_date).toLocaleDateString()}</td>
+                                        <td>${new Date(auth.auth_end_date).toLocaleDateString()}</td>
                                         <td>${auth.auth_rate}</td>
                                         <td>${auth.auth_billable_hours}</td>
                                         <td>${auth.auth_remaining_billable_hours}</td>
