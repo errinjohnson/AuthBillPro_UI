@@ -36,40 +36,47 @@ document.addEventListener('DOMContentLoaded', function() {
         fetch('https://plankton-app-2-9k8uf.ondigitalocean.app/api/auth')
             .then(response => response.json())
             .then(data => {
-                const tbody = document.getElementById('authorizationsList');
-                tbody.innerHTML = ''; // Clear the table body
+                // Check if data is an array
+                if (Array.isArray(data)) {
+                    const tbody = document.getElementById('authorizationsList');
+                    tbody.innerHTML = ''; // Clear the table body
     
-                // For each authorization, fetch the participant details and then populate the row
-                data.forEach(auth => {
-                    fetch(`https://plankton-app-2-9k8uf.ondigitalocean.app/api/participants/${auth.participant_id}`)
-                        .then(response => response.json())
-                        .then(participant => {
-                            const row = `
-                                <tr>
-                                    <td>${auth.auth_number}</td>
-                                    <td>${auth.auth_begin_date}</td>
-                                    <td>${auth.auth_end_date}</td>
-                                    <td>${auth.auth_rate}</td>
-                                    <td>${auth.auth_billable_hours}</td>
-                                    <td>${auth.auth_remaining_billable_hours}</td>
-                                    <td>${auth.participant_id}</td>
-                                    <td>${participant.first_name} ${participant.last_name}</td>
-                                    <td>${auth.office_name}</td>
-                                    <td>${auth.office_email}</td>
-                                    <td>${auth.contact_first_name}</td>
-                                    <td>${auth.contact_last_name}</td>
-                                    <td>${auth.contact_phone_number}</td>
-                                    <td>
-                                        <button class="btn btn-info" onclick="editAuthorization('${auth.auth_number}')">Edit</button>
-                                    </td>
-                                </tr>`;
-                            tbody.insertAdjacentHTML('beforeend', row);
-                        });
-                });
+                    // For each authorization, fetch the participant details and then populate the row
+                    data.forEach(auth => {
+                        fetch(`https://plankton-app-2-9k8uf.ondigitalocean.app/api/participants/${auth.participant_id}`)
+                            .then(response => response.json())
+                            .then(participant => {
+                                const row = `
+                                    <tr>
+                                        <td>${auth.auth_number}</td>
+                                        <td>${auth.auth_begin_date}</td>
+                                        <td>${auth.auth_end_date}</td>
+                                        <td>${auth.auth_rate}</td>
+                                        <td>${auth.auth_billable_hours}</td>
+                                        <td>${auth.auth_remaining_billable_hours}</td>
+                                        <td>${auth.participant_id}</td>
+                                        <td>${participant.first_name} ${participant.last_name}</td>
+                                        <td>${auth.office_name}</td>
+                                        <td>${auth.office_email}</td>
+                                        <td>${auth.contact_first_name}</td>
+                                        <td>${auth.contact_last_name}</td>
+                                        <td>${auth.contact_phone_number}</td>
+                                        <td>
+                                            <button class="btn btn-info" onclick="editAuthorization('${auth.auth_number}')">Edit</button>
+                                        </td>
+                                    </tr>`;
+                                tbody.insertAdjacentHTML('beforeend', row);
+                            });
+                    });
+                } else {
+                    console.error('Data is not an array', data);
+                }
+            })
+            .catch(error => {
+                console.error('Error fetching authorizations:', error);
             });
     }
     
-
     // Event listener to populate office details when an office is selected
     document.getElementById('office').addEventListener('change', function() {
         const officeId = this.value;
