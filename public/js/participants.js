@@ -91,7 +91,7 @@ function editParticipant(participantId) {
         document.getElementById('first_name').value = participant.first_name;
         document.getElementById('last_name').value = participant.last_name;
         document.getElementById('phone').value = participant.phone;
-        document.getElementById('registration').value = participant.registration.split('T')[0]; // Adjust date format if needed
+        document.getElementById('registration').value = participant.registration; // Adjust date format if needed
 
         // Change the submit button to say "Update"
         document.getElementById('formSubmitButton').textContent = 'Update';
