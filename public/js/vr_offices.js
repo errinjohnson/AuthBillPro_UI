@@ -5,28 +5,43 @@ document.addEventListener('DOMContentLoaded', function () {
     // Function to load offices for display
     function loadOffices() {
         fetch('https://plankton-app-2-9k8uf.ondigitalocean.app/api/vr_offices')
-            .then(response => response.json())
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok ' + response.statusText);
+                }
+                return response.json();
+            })
             .then(data => {
                 const tbody = document.getElementById('officesList');
                 tbody.innerHTML = ''; // Clear the table body
-                data.forEach(office => {
-                    const row = `
-                        <tr>
-                            <td>${office.office_id}</td>
-                            <td>${office.office_name}</td>
-                            <td>${office.office_email}</td>
-                            <td>${office.contact_first_name}</td>
-                            <td>${office.contact_last_name}</td>
-                            <td>${office.contact_phone_number}</td>
-                            <td>
-                                <button class="btn btn-info" onclick="editOffice('${office.office_id}')">Edit</button>
-                                <button class="btn btn-danger" onclick="deleteOffice('${office.office_id}')">Delete</button>
-                            </td>
-                        </tr>`;
-                    tbody.insertAdjacentHTML('beforeend', row);
-                });
+    
+                // Check if data is an array
+                if (Array.isArray(data)) {
+                    data.forEach(office => {
+                        const row = `
+                            <tr>
+                                <td>${office.office_id}</td>
+                                <td>${office.office_name}</td>
+                                <td>${office.office_email}</td>
+                                <td>${office.contact_first_name}</td>
+                                <td>${office.contact_last_name}</td>
+                                <td>${office.contact_phone_number}</td>
+                                <td>
+                                    <button class="btn btn-info" onclick="editOffice('${office.office_id}')">Edit</button>
+                                    <button class="btn btn-danger" onclick="deleteOffice('${office.office_id}')">Delete</button>
+                                </td>
+                            </tr>`;
+                        tbody.insertAdjacentHTML('beforeend', row);
+                    });
+                } else {
+                    console.error('Data is not an array:', data);
+                }
+            })
+            .catch(error => {
+                console.error('Error fetching offices:', error);
             });
     }
+    
 
     // Load offices when the page is loaded
     loadOffices();
