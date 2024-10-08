@@ -70,7 +70,7 @@ function refreshParticipantList() {
     fetchParticipants(); // This will re-populate the table with updated data
 }
 
-// Call fetchParticipants when DOM is loaded
+// Call fetchParticipants when DOM is 
 document.addEventListener('DOMContentLoaded', function() {
     fetchParticipants();
 });
@@ -91,7 +91,7 @@ function editParticipant(participantId) {
         document.getElementById('first_name').value = participant.first_name;
         document.getElementById('last_name').value = participant.last_name;
         document.getElementById('phone').value = participant.phone;
-        document.getElementById('registration').value = participant.registration; // Adjust date format if needed
+        document.getElementById('registration').value = participant.registration.split('T')[0]; // Adjust date format if needed
 
         // Change the submit button to say "Update"
         document.getElementById('formSubmitButton').textContent = 'Update';
@@ -103,25 +103,9 @@ function editParticipant(participantId) {
 // Function to add a participant to the table
 function addParticipantToTable(participant) {
     const participantTableBody = document.getElementById('participantTableBody');
-
-    const row = document.createElement('tr');
-    row.innerHTML = `
-        <td>
-            <button class="btn-warning btn-warning:hover" onclick="editParticipant(${participant.participant_id});">Edit</button>
-        </td> 
-        <td>${participant.participant_id}</td>
-        <td>${participant.email}</td>
-        <td>${participant.first_name}</td>
-        <td>${participant.last_name}</td>
-        <td>${participant.phone}</td>
-        <td>${participant.registration}</td>
-    `;
-    participantTableBody.appendChild(row);
-}
-
-// Function to handle editing a participant
-function addParticipantToTable(participant) {
-    const participantTableBody = document.getElementById('participantTableBody');
+    
+    const registrationDate = new Date(participant.registration);
+    const formattedDate = `${registrationDate.getFullYear()}-${String(registrationDate.getMonth() + 1).padStart(2, '0')}-${String(registrationDate.getDate()).padStart(2, '0')}`;
 
     const row = document.createElement('tr');
     row.innerHTML = `
@@ -133,7 +117,7 @@ function addParticipantToTable(participant) {
         <td>${participant.first_name}</td>
         <td>${participant.last_name}</td>
         <td>${participant.phone}</td>
-        <td>${new Date(participant.registration).toLocaleDateString()}</td>
+        <td>${formattedDate}</td>
     `;
     participantTableBody.appendChild(row);
 }
