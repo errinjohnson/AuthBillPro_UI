@@ -28,36 +28,45 @@ function fetchNotes() {
     fetch('https://plankton-app-2-9k8uf.ondigitalocean.app/api/notes')
         .then(response => response.json())
         .then(data => {
-            const tableBody = document.getElementById('tableBody');  // Correct selector
-            tableBody.innerHTML = '';  // Clear table
+            // Check if data is an array
+            if (Array.isArray(data)) {
+                const tableBody = document.getElementById('tableBody');
+                tableBody.innerHTML = '';  // Clear the table
 
-            data.forEach(note => {
-                // Convert the follow_up date to a more friendly format
-                const followUpDate = new Date(note.follow_up).toLocaleDateString('en-US', {
-                    weekday: 'long',
-                    year: 'numeric',
-                    month: 'long',
-                    day: 'numeric'
+                // Loop through each note and populate the table
+                data.forEach(note => {
+                    // Convert the follow_up date to a readable format
+                    const followUpDate = new Date(note.follow_up).toLocaleDateString('en-US', {
+                        weekday: 'long',
+                        year: 'numeric',
+                        month: 'long',
+                        day: 'numeric'
+                    });
+
+                    const row = `
+                        <tr>
+                            <td>${note.note_id}</td>
+                            <td>${note.name}</td>
+                            <td class="text-wrap" style="max-width: 300px;min-width: 150px;">${note.note}</td>
+                            <td>${followUpDate}</td>
+                            <td>${note.status}</td>
+                            <td>
+                                <button class="btn btn-info" onclick="editNote(${note.note_id})">Edit</button>
+                                <button class="btn btn-danger" onclick="deleteNote(${note.note_id})">Delete</button>
+                            </td>
+                        </tr>
+                    `;
+                    tableBody.insertAdjacentHTML('beforeend', row);
                 });
-
-                const row = `
-                    <tr>
-                        <td>${note.note_id}</td>
-                        <td>${note.name}</td>
-                        <td class="text-wrap" style="max-width: 300px;min-width: 150px;">${note.note}</td>
-                        <td>${followUpDate}</td>  <!-- Show formatted date -->
-                        <td>${note.status}</td>
-                         <td>
-                            <button class="btn btn-info" onclick="editNote(${note.note_id})">Edit</button>
-                            <button class="btn btn-danger" onclick="deleteNote(${note.note_id})">Delete</button>
-                        </td>
-                    </tr>
-                `;
-                tableBody.innerHTML += row;
-            });
+            } else {
+                console.error('Data is not an array:', data);
+            }
         })
-        .catch(error => console.error('Error fetching notes:', error));
+        .catch(error => {
+            console.error('Error fetching notes:', error);
+        });
 }
+
 
 function addNote(noteData) {
     // Send a POST request to add a new note

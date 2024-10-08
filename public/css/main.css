@@ -2,7 +2,7 @@ html {
   background-color: skyblue;
 }
 
-body, nav {
+body {
   background-image: url("/public/img/oceanwavesthemebackgroundl.png");
   background-size: cover;
   background-repeat: no-repeat;
