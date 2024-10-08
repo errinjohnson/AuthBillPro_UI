@@ -65,6 +65,29 @@ document.addEventListener('DOMContentLoaded', function() {
     // Call the function to fetch participants after DOM is loaded
     fetchParticipants();
 });
+function editParticipant(participantId) {
+    // Fetch the participant data from the API to get the current details
+    fetch(`https://plankton-app-2-9k8uf.ondigitalocean.app/api/participants/${participantId}`)
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Error fetching participant: ' + response.statusText);
+        }
+        return response.json();
+    })
+    .then(participant => {
+        // Populate the form with the participant data for editing
+        document.getElementById('participant_id').value = participant.participant_id;
+        document.getElementById('email').value = participant.email;
+        document.getElementById('first_name').value = participant.first_name;
+        document.getElementById('last_name').value = participant.last_name;
+        document.getElementById('phone').value = participant.phone;
+        document.getElementById('registration').value = participant.registration.split('T')[0]; // Adjust date format if needed
+
+        // Change the submit button to say "Update"
+        document.getElementById('formSubmitButton').textContent = 'Update';
+    })
+    .catch(error => console.error('Error fetching participant data:', error));
+}
 
 
 // Function to add a participant to the table
