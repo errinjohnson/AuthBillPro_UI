@@ -130,13 +130,13 @@ body {
 }
 
 .btn-warning {
-  background-color: #ffc107; /* Bootstrap warning yellow */
-  border-color: #ffc107; /* Matching border color */
+  background-color:#80bdff; /* Bootstrap warning yellow */
+  border-color:color(from color srgb r g b); /* Matching border color */
 }
 
 .btn-warning:hover {
-  background-color: #e0a800; /* Darker yellow on hover */
-  border-color: #e0a800; /* Matching border color */
+  background-color: #005ae0; /* Darker yellow on hover */
+  border-color:lightcyan; /* Matching border color */
 }
 
 .table {
