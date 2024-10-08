@@ -32,39 +32,49 @@ function addParticipant(participant) {
 }
 
 // Fetch all participants from the API and display them
-document.addEventListener('DOMContentLoaded', function() {
-    function fetchParticipants() {
-        fetch('https://plankton-app-2-9k8uf.ondigitalocean.app/api/participants')
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Network response was not ok ' + response.statusText);
-                }
-                return response.json();
-            })
-            .then(data => {
-                // Check if data is an array
-                if (Array.isArray(data)) {
-                    const tableBody = document.getElementById('participantTableBody'); // Updated selector
-                    if (tableBody) {
-                        tableBody.innerHTML = ''; // Clear table
+function fetchParticipants() {
+    fetch('https://plankton-app-2-9k8uf.ondigitalocean.app/api/participants')
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok ' + response.statusText);
+            }
+            return response.json();
+        })
+        .then(data => {
+            // Check if data is an array
+            if (Array.isArray(data)) {
+                const tableBody = document.getElementById('participantTableBody'); // Updated selector
+                if (tableBody) {
+                    tableBody.innerHTML = ''; // Clear table
 
-                        // Loop through each participant and add them to the table
-                        data.forEach(participant => {
-                            addParticipantToTable(participant);
-                        });
-                    } else {
-                        console.error('Element with id "participantTableBody" not found in the DOM.');
-                    }
+                    // Loop through each participant and add them to the table
+                    data.forEach(participant => {
+                        addParticipantToTable(participant);
+                    });
                 } else {
-                    console.error('Data is not an array:', data);
+                    console.error('Element with id "participantTableBody" not found in the DOM.');
                 }
-            })
-            .catch(error => console.error('Error fetching participants:', error));
-    }
+            } else {
+                console.error('Data is not an array:', data);
+            }
+        })
+        .catch(error => console.error('Error fetching participants:', error));
+}
 
-    // Call the function to fetch participants after DOM is loaded
+// Function to refresh the participant list
+function refreshParticipantList() {
+    const participantTableBody = document.getElementById('participantTableBody');
+    participantTableBody.innerHTML = ''; // Clear the table
+
+    // Re-fetch the updated participant list
+    fetchParticipants(); // This will re-populate the table with updated data
+}
+
+// Call fetchParticipants when DOM is loaded
+document.addEventListener('DOMContentLoaded', function() {
     fetchParticipants();
 });
+
 function editParticipant(participantId) {
     // Fetch the participant data from the API to get the current details
     fetch(`https://plankton-app-2-9k8uf.ondigitalocean.app/api/participants/${participantId}`)
@@ -138,20 +148,6 @@ function resetForm() {
     document.getElementById('registration').value = '';
     document.getElementById('formSubmitButton').textContent = 'Add Participant';
 }
-function refreshParticipantList() {
-    // Clear the current participants in the table
-    const participantTableBody = document.getElementById('participantTableBody');
-    participantTableBody.innerHTML = ''; // Clear the table
-    
-    // Fetch the updated list of participants
-    fetchParticipants(); // This will re-fetch and populate the table with updated data
-}
-
-// Call fetchParticipants when DOM is loaded
-document.addEventListener('DOMContentLoaded', function() {
-    fetchParticipants();
-});
-
 // Function to update a participant using the API
 function updateParticipant(participantId) {
     const participant = {
