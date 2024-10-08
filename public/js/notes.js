@@ -136,6 +136,9 @@ function editNote(noteId) {
         document.getElementById('status').value = note.status;
         document.getElementById('name').value = note.name;
         document.getElementById('submitButton').textContent = 'Update Note';
+
+        // Set focus to the note field after populating the form
+        document.getElementById('note').focus();
     });
 }
 
