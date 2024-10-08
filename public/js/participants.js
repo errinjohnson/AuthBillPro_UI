@@ -190,5 +190,3 @@ function deleteParticipant(participantId) {
     .catch(error => console.error('Error deleting participant:', error));
 }
 
-// Event Listener to Fetch Participants on Page Load
-document.addEventListener('DOMContentLoaded', fetchParticipants);
