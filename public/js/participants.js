@@ -33,19 +33,28 @@ function addParticipant(participant) {
 
 // Fetch all participants from the API and display them
 function fetchParticipants() {
-    fetch('https://plankton-app-2-9k8uf.ondigitalocean.app/api/participants') 
-    .then(response => {
-        if (!response.ok) {
-            throw new Error('Network response was not ok ' + response.statusText);
-        }
-        return response.json();
-    })
-    .then(participants => {
-        participants.forEach(participant => {
-            addParticipantToTable(participant);
-        });
-    })
-    .catch(error => console.error('Error fetching participants:', error));
+    fetch('https://plankton-app-2-9k8uf.ondigitalocean.app/api/participants')
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok ' + response.statusText);
+            }
+            return response.json();
+        })
+        .then(data => {
+            // Check if data is an array
+            if (Array.isArray(data)) {
+                const tableBody = document.getElementById('participantsList'); // Ensure you have the correct selector
+                tableBody.innerHTML = ''; // Clear table
+
+                // Loop through each participant and add them to the table
+                data.forEach(participant => {
+                    addParticipantToTable(participant);
+                });
+            } else {
+                console.error('Data is not an array:', data);
+            }
+        })
+        .catch(error => console.error('Error fetching participants:', error));
 }
 
 // Function to add a participant to the table
@@ -68,34 +77,23 @@ function addParticipantToTable(participant) {
 }
 
 // Function to handle editing a participant
-function editParticipant(participantId) {
-    // Log the participantId to check if it's a number
-    console.log("Participant ID being passed:", participantId);
-    
-    if (isNaN(participantId)) {
-        console.error("Invalid participant ID:", participantId);
-        return; // Stop the function if the ID is not a valid number
-    }
-    
-    fetch(`https://plankton-app-2-9k8uf.ondigitalocean.app/api/participants/${participantId}`)
-        .then(response => {
-            if (!response.ok) {
-                throw new Error(`Error fetching participant: ${response.status} ${response.statusText}`);
-            }
-            return response.json();
-        })
-        .then(participant => {
-            document.getElementById('participant_id').value = participant.participant_id;
-            document.getElementById('email').value = participant.email;
-            document.getElementById('first_name').value = participant.first_name;
-            document.getElementById('last_name').value = participant.last_name;
-            document.getElementById('phone').value = participant.phone;
-            document.getElementById('registration').value = participant.registration;
-            document.getElementById('formSubmitButton').textContent = 'Update';
-        })
-        .catch(error => console.error('Error fetching participant for edit:', error));
-}
+function addParticipantToTable(participant) {
+    const participantTableBody = document.getElementById('participantTableBody');
 
+    const row = document.createElement('tr');
+    row.innerHTML = `
+        <td>
+            <button class="btn btn-warning" onclick="editParticipant(${participant.participant_id});">Edit</button>
+        </td> 
+        <td>${participant.participant_id}</td>
+        <td>${participant.email}</td>
+        <td>${participant.first_name}</td>
+        <td>${participant.last_name}</td>
+        <td>${participant.phone}</td>
+        <td>${new Date(participant.registration).toLocaleDateString()}</td>
+    `;
+    participantTableBody.appendChild(row);
+}
 
 // Function to reset the form
 function resetForm() {
