@@ -186,13 +186,13 @@ body {
     padding: 10px; /* Reduce padding for table cells */
   }
 }
-#currentDateTime {
-  font-size: 20px; /* Set font size to 20px */
-  font-weight: bold; /* Optional: Make the text bold for emphasis */
-  color: #333; /* Adjust the text color for better readability */
-}
-/* .............................Header container INDEX.HTML HEADER */
 
+/* .............................Header container INDEX.HTML HEADER */
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
 
 .dashboard-header {
   display: flex;
@@ -207,16 +207,25 @@ body {
   max-width: 120px; /* Adjust this based on your logo size */
   height: auto;
 }
-
-.header-date-time {
-  font-size: 16px;
-  font-weight: bold;
-  color: #333;
+#currentDateTime {
+  font-size: 20px; /* Default font size for larger devices */
+  font-weight: bold; /* Optional: Make the text bold for emphasis */
+  color: #333; /* Adjust the text color for better readability */
 }
 
-.header-right {
-  display: flex;
-  align-items: center;
-  gap: 20px;
+/* Media query for smaller screens (mobile) */
+@media (max-width: 768px) {
+  #currentDateTime {
+    font-size: 16px; /* Smaller font size for mobile devices */
+  }
 }
+
+/* Media query for extra small screens (very small mobile devices) */
+@media (max-width: 480px) {
+  #currentDateTime {
+    font-size: 14px; /* Even smaller font size for extra small screens */
+  }
+
+ }
+
 
