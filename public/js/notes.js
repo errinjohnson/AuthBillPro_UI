@@ -33,29 +33,26 @@ function fetchNotes() {
                 const tableBody = document.getElementById('tableBody');
                 tableBody.innerHTML = '';  // Clear the table
 
+                // Helper function to map month number to month name
+                const getMonthName = (monthNumber) => {
+                    const monthNames = [
+                        "January", "February", "March", "April", "May", "June",
+                        "July", "August", "September", "October", "November", "December"
+                    ];
+                    return monthNames[monthNumber - 1]; // Adjusting for 0-indexed array
+                };
+
+                // Helper function to map year, month, and day to a weekday
+                const getWeekdayName = (year, month, day) => {
+                    const daysOfWeek = [
+                        "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"
+                    ];
+                    const dateString = `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+                    const date = new Date(dateString); // Use this just to get the correct weekday
+                    return daysOfWeek[date.getUTCDay()]; // Use getUTCDay to avoid timezone interference
+                };
+
                 // Loop through each note and populate the table
-                data.forEach(note => {
-                   
-                    // Helper function to map month number to month name
-            const getMonthName = (monthNumber) => {
-            const monthNames = [
-                "January", "February", "March", "April", "May", "June",
-                "July", "August", "September", "October", "November", "December"
-            ];
-            return monthNames[monthNumber - 1]; // Adjusting for 0-indexed array
-        };
-
-        // Helper function to map year, month, and day to a weekday
-            const getWeekdayName = (year, month, day) => {
-            const daysOfWeek = [
-                "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"
-            ];
-            const dateString = `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
-            const date = new Date(dateString); // Use this just to get the correct weekday
-            return daysOfWeek[date.getUTCDay()]; // Use getUTCDay to avoid timezone interference
-            };
-
-                // Example usage in your forEach loop
                 data.forEach(note => {
                     // Assuming the follow_up date is in YYYY-MM-DD format (from the database)
                     const followUpDate = note.follow_up.split('T')[0]; // Remove time part if present
@@ -68,16 +65,13 @@ function fetchNotes() {
                     // Manually create the readable date string
                     const formattedDate = `${weekdayName}, ${monthName} ${Number(day)}, ${year}`;
 
-                    console.log('Follow-up Date:', formattedDate); // Example output: "Monday, October 6, 2024"
-                });
-
-                          
+                    // Populate the table row
                     const row = `
                         <tr>
                             <td>${note.note_id}</td>
                             <td>${note.name}</td>
                             <td class="text-wrap" style="max-width: 300px;min-width: 150px;">${note.note}</td>
-                            <td>${followUpDate}</td>
+                            <td>${formattedDate}</td>
                             <td>${note.status}</td>
                             <td>
                                 <button class="btn btn-info" onclick="editNote(${note.note_id})">Edit</button>
@@ -95,8 +89,6 @@ function fetchNotes() {
             console.error('Error fetching notes:', error);
         });
 }
-
-
 function addNote(noteData) {
     // Send a POST request to add a new note
     fetch('https://plankton-app-2-9k8uf.ondigitalocean.app/api/notes', {
