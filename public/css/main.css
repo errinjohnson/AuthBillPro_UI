@@ -215,14 +215,14 @@ body {
 
 /* Media query for smaller screens (mobile) */
 @media (max-width: 768px) {
-  #currentDateTime {
+  #currentDateTime, .logout-btn {
     font-size: 16px; /* Smaller font size for mobile devices */
   }
 }
 
 /* Media query for extra small screens (very small mobile devices) */
 @media (max-width: 480px) {
-  #currentDateTime {
+  #currentDateTime , .logout-btn {
     font-size: 14px; /* Even smaller font size for extra small screens */
   }
 
