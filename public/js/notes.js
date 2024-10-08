@@ -128,12 +128,17 @@ function editNote(noteId) {
     .then(note => {
         document.getElementById('note_id').value = note.note_id;
         document.getElementById('note').value = note.note;
-        document.getElementById('follow_up').value = note.follow_up;
+
+        // Format the follow-up date to YYYY-MM-DD if needed
+        const followUpDate = note.follow_up.split('T')[0]; // Extract just the date part (YYYY-MM-DD)
+        document.getElementById('follow_up').value = followUpDate;
+
         document.getElementById('status').value = note.status;
         document.getElementById('name').value = note.name;
         document.getElementById('submitButton').textContent = 'Update Note';
     });
 }
+
 
 function deleteNote(noteId) {
     // Send a DELETE request to remove the note
