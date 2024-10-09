@@ -48,6 +48,9 @@ document.addEventListener('DOMContentLoaded', function() {
                             .then(participant => {
                                 const row = `
                                     <tr>
+                                        <td>
+                                            <button class="btn btn-info" onclick="editAuthorization('${auth.auth_number}')">Edit</button>
+                                        </td>
                                         <td>${auth.auth_number}</td>
                                         <td>${new Date(auth.auth_begin_date).toLocaleDateString()}</td>
                                         <td>${new Date(auth.auth_end_date).toLocaleDateString()}</td>
@@ -61,9 +64,7 @@ document.addEventListener('DOMContentLoaded', function() {
                                         <td>${auth.contact_first_name}</td>
                                         <td>${auth.contact_last_name}</td>
                                         <td>${auth.contact_phone_number}</td>
-                                        <td>
-                                            <button class="btn btn-info" onclick="editAuthorization('${auth.auth_number}')">Edit</button>
-                                        </td>
+                                        
                                     </tr>`;
                                 tbody.insertAdjacentHTML('beforeend', row);
                             });
@@ -183,8 +184,10 @@ document.addEventListener('DOMContentLoaded', function() {
             .then(response => response.json())
             .then(auth => {
                 document.getElementById('authNumber').value = auth.auth_number;
-                document.getElementById('authBeginDate').value = auth.auth_begin_date;
-                document.getElementById('authEndDate').value = auth.auth_end_date;
+                const followUpDateBegin = auth.authBeginDate.split('T')[0]; // Extract just the date part (YYYY-MM-DD)
+                document.getElementById('authBeginDate').value = followUpDateBegin;
+                const followUpDateEnd = auth.authBeginDate.split('T')[0]; // Extract just the date part (YYYY-MM-DD)
+                document.getElementById('authEndDate').value = followUpDateEnd;
                 document.getElementById('authRate').value = auth.auth_rate;
                 document.getElementById('authBillableHours').value = auth.auth_billable_hours;
                 document.getElementById('authRemainingBillableHours').value = auth.auth_remaining_billable_hours;
