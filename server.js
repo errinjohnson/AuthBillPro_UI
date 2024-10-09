@@ -2,7 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const path = require('path');
 require('dotenv').config(); // Load environment variables
-
+const fs = require('fs');
 const app = express();
 
 const corsOptions = {
@@ -21,7 +21,7 @@ app.use(express.json()); // Parse JSON bodies
 // Serve static files from the 'public' directory
 app.use(express.static(path.join(__dirname, 'public')));
 console.log("Serving static files from public directory");
-
+// ----------------------------------------------------------------------------
 // Load routes
 const db = require('./db'); // Ensure the db connection is loaded before using it
 const participantRoutes = require('./routes/participantRoutes');
@@ -29,7 +29,7 @@ const noteRoutes = require("./routes/noteRoutes");
 const authRoutes = require('./routes/authRoutes');
 const vrRoutes = require('./routes/vrRoutes');
 const categoryRoutes = require('./routes/categoryRoutes');
-
+// ------------------------------------------------------------------------------
 // Use the participant routes for any API calls that start with /api/participants
 app.use('/api/participants', participantRoutes(db));
 console.log("Participant routes have been set up");
@@ -50,11 +50,27 @@ console.log("vr_offices routes have been set up");
 app.use('/api/activity_types', categoryRoutes(db));
 console.log("category routes have been set up");
 
-// Uptime logging every 60 seconds
-setInterval(() => {
-    const now = new Date().toLocaleString();
-    console.log(`[UPTIME LOG] Application is still running at ${now}`);
-}, 60000); // Log every 60 seconds
+// --------------------------------------------------------------
+
+// Function to log uptime
+function logUptime() {
+    const uptime = process.uptime(); // Get system uptime in seconds
+    const uptimeInHours = (uptime / 3600).toFixed(2); // Convert uptime to hours
+    const logMessage = `System Uptime: ${uptimeInHours} hours\n`;
+
+    // Append the uptime log to a file
+    fs.appendFile('uptime.log', logMessage, (err) => {
+        if (err) throw err;
+        console.log('Uptime logged:', logMessage.trim());
+    });
+}
+
+// Set interval to log uptime every hour (3600 seconds)
+setInterval(logUptime, 3600 * 1000);
+
+// Log uptime immediately on startup
+logUptime();
+// -----------------------------------------------------------------
 
 // Start the server
 const PORT = process.env.PORT || 3000;
