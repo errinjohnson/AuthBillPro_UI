@@ -72,33 +72,35 @@
         </div>
     </nav>
   </body>
-    <div class="container mt-5">
-        <h2 class="mb-4">Add Category</h2>
-        <!-- Form to Add a New Category -->
-        <form id="categoryForm">
-            <div class="mb-3">
-                <label for="type_name" class="form-label">Category Name || Statement</label>
-                <input type="text" id="type_name" name="type_name" class="form-control" required maxlength="255">
-            </div>
-            <button type="submit" class="btn btn-primary">Add Category</button>
-        </form>
+        <div class="container mt-5">
+            <h2 class="mb-4">Add/Edit Category</h2>
+            <!-- Form to Add/Edit a Category -->
+            <form id="categoryForm">
+                <div class="mb-3">
+                    <label for="type_name" class="form-label">Category Name</label>
+                    <input type="text" id="type_name" name="type_name" class="form-control" required maxlength="255">
+                    <input type="hidden" id="type_id" name="type_id"> <!-- Hidden input to store ID for editing -->
+                </div>
+                <button type="submit" id="submitBtn" class="btn btn-primary">Add Category || Statement</button>
+            </form>
 
-        <hr class="my-5">
+            <hr class="my-5">
 
-        <h2>View Categories</h2>
-        <!-- Table to View Categories -->
-        <table class="table table-bordered table-striped mt-4">
-            <thead class="table-dark">
-                <tr>
-                    <th scope="col">Type ID</th>
-                    <th scope="col">Category Name || Statement</th>
-                </tr>
-            </thead>
-            <tbody id="categoryTableBody">
-                <!-- Categories will be dynamically inserted here -->
-            </tbody>
-        </table>
-    </div>
+            <h2>View Categories</h2>
+            <!-- Table to View Categories -->
+            <table class="table table-bordered table-striped mt-4">
+                <thead class="table-dark">
+                    <tr>
+                        <th scope="col">Type ID</th>
+                        <th scope="col">Category Name</th>
+                        <th scope="col">Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="categoryTableBody">
+                    <!-- Categories will be dynamically inserted here -->
+                </tbody>
+            </table>
+        </div>
 
   <!-- Include Bootstrap and Custom JavaScript -->
   <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
