@@ -13,7 +13,7 @@
   <body>
      <!-- Navigation Bar -->
      <nav class="navbar navbar-expand-lg navbar-light bg-light">
-      <a class="navbar-brand" href="#"><span id="logo"></span> AuthBillPro</a>
+        <a class="navbar-brand" href="#"><span id="logo"></span> AuthBillPro</a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
       </button>
@@ -31,12 +31,11 @@
                 </a>
                 <div class="dropdown-menu" aria-labelledby="authorizationsDropdown">
                     <a class="dropdown-item" href="auth.html">Manage Authorizations</a>
-                    <a class="dropdown-item" href="vr.html">Manage VR Offices</a>
                     <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="#">-------------------</a>
+                    <a class="dropdown-item" href="vr.html">Manage VR Offices</a>
                 </div>
             </li>
-            <li class="nav-item dropdown active">
+            <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="activitiesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     Activities
                 </a>
@@ -47,28 +46,28 @@
                 </div>
             </li>
             <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="#" id="invoicesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  Generate Invoice
+                <a class="nav-link dropdown-toggle" href="#" id="invoicesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Generate Invoice
+                </a>
+                <div class="dropdown-menu" aria-labelledby="invoicesDropdown">
+                    <a class="dropdown-item" href="#">Coming Soon - Generate Invoice</a>
+                    <a class="dropdown-item" href="#">Coming Soon - Manage Invoices</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="#">------------------</a>
+                </div>
+            </li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="expensesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  Expenditures
               </a>
-              <div class="dropdown-menu" aria-labelledby="invoicesDropdown">
-                  <a class="dropdown-item" href="#">Coming Soon - Generate Invoice</a>
-                  <a class="dropdown-item" href="#">Coming Soon - Manage Invoices</a>
-                  <div class="dropdown-divider"></div>
-                  <a class="dropdown-item" href="#">------------------</a>
-              </div>
+            <div class="dropdown-menu" aria-labelledby="expensesDropdown">
+                <a class="dropdown-item" href="#">Coming Soon - Add | Update Expenditures</a>
+                <a class="dropdown-item" href="#">Coming Soon - Add Expense Category</a>
+                <a class="dropdown-item" href="#">Coming Soon - Add Vendor</a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="#">------------------</a>
+            </div>
           </li>
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="expensesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Expenditures
-            </a>
-          <div class="dropdown-menu" aria-labelledby="expensesDropdown">
-              <a class="dropdown-item" href="#">Coming Soon - Add | Update Expenditures</a>
-              <a class="dropdown-item" href="#">Coming Soon - Add Expense Category</a>
-              <a class="dropdown-item" href="#">Coming Soon - Add Vendor</a>
-              <div class="dropdown-divider"></div>
-              <a class="dropdown-item" href="#">------------------</a>
-          </div>
-        </li>
         </ul>
     </div>
   </nav>
@@ -119,4 +118,8 @@
             </div>
         </div>
     </body>
+     <!-- Include Bootstrap and Custom JavaScript -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="js/activities.js"></script>
   </html>
