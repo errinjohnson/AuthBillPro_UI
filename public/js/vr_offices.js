@@ -31,16 +31,16 @@ document.addEventListener('DOMContentLoaded', function () {
                     data.forEach(office => {
                         const row = `
                             <tr>
+                                <td>
+                                    <button class="btn btn-info" onclick="editOffice('${office.office_id}')">Edit</button>
+                                    <button class="btn btn-danger" onclick="deleteOffice('${office.office_id}')">Delete</button>
+                                </td>
                                 <td>${office.office_id}</td>
                                 <td>${office.office_name}</td>
                                 <td>${office.office_email}</td>
                                 <td>${office.contact_first_name}</td>
                                 <td>${office.contact_last_name}</td>
                                 <td>${office.contact_phone_number}</td>
-                                <td>
-                                    <button class="btn btn-info" onclick="editOffice('${office.office_id}')">Edit</button>
-                                    <button class="btn btn-danger" onclick="deleteOffice('${office.office_id}')">Delete</button>
-                                </td>
                             </tr>`;
                         tbody.insertAdjacentHTML('beforeend', row);
                     });
