@@ -184,10 +184,13 @@ document.addEventListener('DOMContentLoaded', function() {
             .then(response => response.json())
             .then(auth => {
                 document.getElementById('authNumber').value = auth.auth_number;
-                const followUpDateBegin = auth.authBeginDate.split('T')[0]; // Extract just the date part (YYYY-MM-DD)
-                document.getElementById('authBeginDate').value = followUpDateBegin;
-                const followUpDateEnd = auth.authBeginDate.split('T')[0]; // Extract just the date part (YYYY-MM-DD)
-                document.getElementById('authEndDate').value = followUpDateEnd;
+    
+                // Extract just the date part (YYYY-MM-DD) for both dates
+                const authBeginDate = auth.auth_begin_date.split('T')[0];
+                const authEndDate = auth.auth_end_date.split('T')[0];
+                document.getElementById('authBeginDate').value = authBeginDate;
+                document.getElementById('authEndDate').value = authEndDate;
+    
                 document.getElementById('authRate').value = auth.auth_rate;
                 document.getElementById('authBillableHours').value = auth.auth_billable_hours;
                 document.getElementById('authRemainingBillableHours').value = auth.auth_remaining_billable_hours;
@@ -197,13 +200,13 @@ document.addEventListener('DOMContentLoaded', function() {
                 document.getElementById('contactFirstName').value = auth.contact_first_name;
                 document.getElementById('contactLastName').value = auth.contact_last_name;
                 document.getElementById('contactPhoneNumber').value = auth.contact_phone_number;
-
+    
                 currentAuthNumber = authNumber;
                 isEditMode = true;
                 document.getElementById('submitButton').textContent = 'Update';
             });
     };
-
+    
     // Reset the form
     function resetForm() {
         document.getElementById('authForm').reset();
