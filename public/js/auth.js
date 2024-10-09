@@ -204,6 +204,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 currentAuthNumber = authNumber;
                 isEditMode = true;
                 document.getElementById('submitButton').textContent = 'Update';
+                // Focus on the first field (authNumber) in the form
+                document.getElementById('authNumber').focus();
             });
     };
     
