@@ -45,6 +45,12 @@ console.log("Auth routes have been set up");
 app.use('/api/vr_offices', vrRoutes(db));
 console.log("vr_offices routes have been set up");
 
+setInterval(() => {
+    const now = new Date().toLocaleString();
+    console.log(`[UPTIME LOG] Application is still running at ${now}`);
+}, 60000); // Log every 60 seconds
+
+
 // Start the server
 const PORT = process.env.PORT || 3000;
 
