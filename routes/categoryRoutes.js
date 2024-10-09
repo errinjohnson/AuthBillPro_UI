@@ -5,8 +5,8 @@ const router = express.Router();
 module.exports = (mysqlConnection) => {
     
     // Fetch all categories (activity types)
-    router.get('/activity_types', (req, res) => {
-        const query = 'SELECT * FROM categories';
+    router.get('/', (req, res) => {
+        const query = 'SELECT * FROM activity_types';
         mysqlConnection.query(query, (err, rows) => {
             if (err) {
                 console.error('Error fetching categories: ', err);
@@ -18,8 +18,8 @@ module.exports = (mysqlConnection) => {
     });
 
     // Fetch a specific category by ID
-    router.get('/activity_types/:id', (req, res) => {
-        const query = 'SELECT * FROM categories WHERE type_id = ?';
+    router.get('/:id', (req, res) => {
+        const query = 'SELECT * FROM activity_types WHERE type_id = ?';
         const values = [req.params.id];
         mysqlConnection.query(query, values, (err, row) => {
             if (err) {
@@ -34,10 +34,10 @@ module.exports = (mysqlConnection) => {
     });
 
     // Add a new category
-    router.post('/activity_types', (req, res) => {
+    router.post('/', (req, res) => {
         const { type_name } = req.body;
         const query = `
-            INSERT INTO categories (type_name)
+            INSERT INTO activity_types (type_name)
             VALUES (?)
         `;
         const values = [type_name];
@@ -53,10 +53,10 @@ module.exports = (mysqlConnection) => {
     });
 
     // Update an existing category by ID
-    router.put('/activity_types/:id', (req, res) => {
+    router.put('/:id', (req, res) => {
         const { type_name } = req.body;
         const query = `
-            UPDATE categories
+            UPDATE activity_types
             SET type_name = ?
             WHERE type_id = ?
         `;
@@ -75,7 +75,7 @@ module.exports = (mysqlConnection) => {
     });
 
     // Delete a category by ID
-    router.delete('/activity_types/:id', (req, res) => {
+    router.delete('/:id', (req, res) => {
         const query = 'DELETE FROM categories WHERE type_id = ?';
         const values = [req.params.id];
         
