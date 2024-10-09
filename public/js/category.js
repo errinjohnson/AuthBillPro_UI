@@ -21,7 +21,8 @@ const apiUrl = 'https://plankton-app-2-9k8uf.ondigitalocean.app/api/activity_typ
                     if (!response.ok) {
                         throw new Error('Failed to update category');
                     }
-                    return response.json();
+                    // Check if the response has content (skip parsing if 204 No Content)
+                    return response.status !== 204 ? response.json() : {};
                 })
                 .then(data => {
                     alert('Category updated successfully');
@@ -55,6 +56,7 @@ const apiUrl = 'https://plankton-app-2-9k8uf.ondigitalocean.app/api/activity_typ
                 .catch(error => console.error('Error adding category:', error));
             }
         });
+        
         
         // Function to handle editing a category
         function editCategory(typeId, typeName) {
