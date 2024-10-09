@@ -1,10 +1,13 @@
 const express = require('express');
 const router = express.Router();
 
+// Base API URL
+const apiUrl = 'https://plankton-app-2-9k8uf.ondigitalocean.app/api/activity_types';
+
 // Accept mysqlConnection as a parameter and use it for database queries
 module.exports = (mysqlConnection) => {
     
-    // Fetch all categories (activity types)
+    // Fetch all categories (activity types) with hypermedia controls
     router.get('/', (req, res) => {
         const query = 'SELECT * FROM activity_types';
         mysqlConnection.query(query, (err, rows) => {
@@ -12,12 +15,21 @@ module.exports = (mysqlConnection) => {
                 console.error('Error fetching categories: ', err);
                 res.status(500).send('Server error');
             } else {
-                res.json(rows);
+                // Adding hypermedia links to each category
+                const response = rows.map(row => ({
+                    ...row,
+                    _links: {
+                        self: { href: `${apiUrl}/${row.type_id}` },
+                        edit: { href: `${apiUrl}/${row.type_id}`, method: 'PUT' },
+                        delete: { href: `${apiUrl}/${row.type_id}`, method: 'DELETE' }
+                    }
+                }));
+                res.json(response);
             }
         });
     });
 
-    // Fetch a specific category by ID
+    // Fetch a specific category by ID with hypermedia controls
     router.get('/:id', (req, res) => {
         const query = 'SELECT * FROM activity_types WHERE type_id = ?';
         const values = [req.params.id];
@@ -28,7 +40,16 @@ module.exports = (mysqlConnection) => {
             } else if (row.length === 0) {
                 res.status(404).send('Category not found');
             } else {
-                res.json(row[0]);
+                // Adding hypermedia links to the category
+                const response = {
+                    ...row[0],
+                    _links: {
+                        self: { href: `${apiUrl}/${row[0].type_id}` },
+                        edit: { href: `${apiUrl}/${row[0].type_id}`, method: 'PUT' },
+                        delete: { href: `${apiUrl}/${row[0].type_id}`, method: 'DELETE' }
+                    }
+                };
+                res.json(response);
             }
         });
     });
@@ -47,7 +68,20 @@ module.exports = (mysqlConnection) => {
                 console.error('Error adding category: ', err);
                 res.status(500).send('Server error');
             } else {
-                res.status(201).send({ type_id: result.insertId, type_name });
+                const newCategory = {
+                    type_id: result.insertId,
+                    type_name
+                };
+
+                // Adding hypermedia links to the new category
+                res.status(201).json({
+                    ...newCategory,
+                    _links: {
+                        self: { href: `${apiUrl}/${newCategory.type_id}` },
+                        edit: { href: `${apiUrl}/${newCategory.type_id}`, method: 'PUT' },
+                        delete: { href: `${apiUrl}/${newCategory.type_id}`, method: 'DELETE' }
+                    }
+                });
             }
         });
     });
@@ -69,7 +103,20 @@ module.exports = (mysqlConnection) => {
             } else if (result.affectedRows === 0) {
                 res.status(404).send('Category not found');
             } else {
-                res.send('Category updated successfully');
+                const updatedCategory = {
+                    type_id: req.params.id,
+                    type_name
+                };
+
+                // Adding hypermedia links to the updated category
+                res.json({
+                    ...updatedCategory,
+                    _links: {
+                        self: { href: `${apiUrl}/${updatedCategory.type_id}` },
+                        edit: { href: `${apiUrl}/${updatedCategory.type_id}`, method: 'PUT' },
+                        delete: { href: `${apiUrl}/${updatedCategory.type_id}`, method: 'DELETE' }
+                    }
+                });
             }
         });
     });
@@ -86,7 +133,13 @@ module.exports = (mysqlConnection) => {
             } else if (result.affectedRows === 0) {
                 res.status(404).send('Category not found');
             } else {
-                res.send('Category deleted successfully');
+                res.send({
+                    message: 'Category deleted successfully',
+                    _links: {
+                        self: { href: `${apiUrl}/${req.params.id}` },
+                        add: { href: `${apiUrl}`, method: 'POST' }
+                    }
+                });
             }
         });
     });
