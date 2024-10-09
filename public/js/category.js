@@ -4,11 +4,12 @@ const apiUrl = 'https://plankton-app-2-9k8uf.ondigitalocean.app/api/activity_typ
         // Handle form submission to add or edit a category
         document.getElementById('categoryForm').addEventListener('submit', function(e) {
             e.preventDefault();
+            
             const typeName = document.getElementById('type_name').value;
-            const typeId = document.getElementById('type_id').value;
-
-            if (isEditing) {
-                // PUT request to edit a category
+            const typeId = document.getElementById('type_id').value; // This is hidden input for the category ID
+        
+            if (isEditing && typeId) {
+                // PUT request to edit a category (only if typeId exists)
                 fetch(`${apiUrl}/${typeId}`, {
                     method: 'PUT',
                     headers: {
@@ -16,13 +17,19 @@ const apiUrl = 'https://plankton-app-2-9k8uf.ondigitalocean.app/api/activity_typ
                     },
                     body: JSON.stringify({ type_name: typeName })
                 })
-                .then(response => response.json())
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Failed to update category');
+                    }
+                    return response.json();
+                })
                 .then(data => {
                     alert('Category updated successfully');
                     loadCategories();  // Reload the categories after editing
                     document.getElementById('categoryForm').reset(); // Clear the form
                     document.getElementById('submitBtn').innerText = 'Add Category'; // Reset button text
-                    isEditing = false;
+                    isEditing = false; // Reset the editing flag
+                    document.getElementById('type_id').value = ''; // Clear hidden ID field
                 })
                 .catch(error => console.error('Error editing category:', error));
             } else {
@@ -34,7 +41,12 @@ const apiUrl = 'https://plankton-app-2-9k8uf.ondigitalocean.app/api/activity_typ
                     },
                     body: JSON.stringify({ type_name: typeName })
                 })
-                .then(response => response.json())
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Failed to add category');
+                    }
+                    return response.json();
+                })
                 .then(data => {
                     alert('Category added successfully');
                     loadCategories();  // Reload the categories after adding
@@ -43,6 +55,15 @@ const apiUrl = 'https://plankton-app-2-9k8uf.ondigitalocean.app/api/activity_typ
                 .catch(error => console.error('Error adding category:', error));
             }
         });
+        
+        // Function to handle editing a category
+        function editCategory(typeId, typeName) {
+            document.getElementById('type_name').value = typeName;
+            document.getElementById('type_id').value = typeId; // Set the hidden input with the category ID
+            document.getElementById('submitBtn').innerText = 'Update Category'; // Change button text to update
+            isEditing = true;
+        }
+        
 
         // Function to load categories from the API
         function loadCategories() {
@@ -81,10 +102,13 @@ const apiUrl = 'https://plankton-app-2-9k8uf.ondigitalocean.app/api/activity_typ
                 fetch(`${apiUrl}/${typeId}`, {
                     method: 'DELETE'
                 })
-                .then(response => response.json())
-                .then(data => {
-                    alert('Category deleted successfully');
-                    loadCategories(); // Reload the categories after deleting
+                .then(response => {
+                    if (response.ok) {
+                        alert('Category deleted successfully');
+                        loadCategories(); // Reload the categories after deleting
+                    } else {
+                        throw new Error('Error deleting category');
+                    }
                 })
                 .catch(error => console.error('Error deleting category:', error));
             }
