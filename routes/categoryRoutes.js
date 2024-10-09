@@ -76,7 +76,7 @@ module.exports = (mysqlConnection) => {
 
     // Delete a category by ID
     router.delete('/:id', (req, res) => {
-        const query = 'DELETE FROM categories WHERE type_id = ?';
+        const query = 'DELETE FROM activity_types WHERE type_id = ?';
         const values = [req.params.id];
         
         mysqlConnection.query(query, values, (err, result) => {
