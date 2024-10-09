@@ -25,7 +25,7 @@ console.log("Serving static files from public directory");
 // Load routes
 const participantRoutes = require('./routes/participantRoutes');
 const noteRoutes = require("./routes/noteRoutes");
-const db = require('./db');
+const db = require('./db'); // Ensure the db connection is loaded before using it
 const authRoutes = require('./routes/authRoutes');
 const vrRoutes = require('./routes/vrRoutes');
 
@@ -41,19 +41,18 @@ console.log("Note routes have been set up");
 app.use('/api/auth', authRoutes(db));
 console.log("Auth routes have been set up");
 
-// Use the authorization routes for any API calls that start with /api/auth
+// Use the authorization routes for any API calls that start with /api/vr_offices
 app.use('/api/vr_offices', vrRoutes(db));
 console.log("vr_offices routes have been set up");
 
+// Uptime logging every 60 seconds
 setInterval(() => {
     const now = new Date().toLocaleString();
     console.log(`[UPTIME LOG] Application is still running at ${now}`);
 }, 60000); // Log every 60 seconds
 
-
 // Start the server
 const PORT = process.env.PORT || 3000;
-
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
 });
