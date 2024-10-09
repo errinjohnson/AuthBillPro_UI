@@ -43,6 +43,17 @@ document.addEventListener('DOMContentLoaded', function() {
     
                     // For each authorization, fetch the participant details and then populate the row
                     data.forEach(auth => {
+                        // Extract just the date part (assume it's in YYYY-MM-DD format)
+                        const authBeginDate = auth.auth_begin_date.split('T')[0]; // Remove time part if present
+                        const authEndDate = auth.auth_end_date.split('T')[0]; // Remove time part if present
+
+                        // Split the date into year, month, and day
+                        const [beginYear, beginMonth, beginDay] = authBeginDate.split('-');
+                        const [endYear, endMonth, endDay] = authEndDate.split('-');
+
+                         // Format the dates as MM/DD/YYYY
+                         const formattedBeginDate = `${beginMonth}/${beginDay}/${beginYear}`;
+                         const formattedEndDate = `${endMonth}/${endDay}/${endYear}`;
                         fetch(`https://plankton-app-2-9k8uf.ondigitalocean.app/api/participants/${auth.participant_id}`)
                             .then(response => response.json())
                             .then(participant => {
@@ -51,9 +62,10 @@ document.addEventListener('DOMContentLoaded', function() {
                                         <td>
                                             <button class="btn btn-info" onclick="editAuthorization('${auth.auth_number}')">Edit</button>
                                         </td>
+                                        
                                         <td>${auth.auth_number}</td>
-                                        <td>${new Date(auth.auth_begin_date).toLocaleDateString()}</td>
-                                        <td>${new Date(auth.auth_end_date).toLocaleDateString()}</td>
+                                        <td>${formattedBeginDate}</td>
+                                        <td>${formattedEndDate}</td>
                                         <td>${auth.auth_rate}</td>
                                         <td>${auth.auth_billable_hours}</td>
                                         <td>${auth.auth_remaining_billable_hours}</td>
