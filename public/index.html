@@ -93,6 +93,22 @@
 
   </div>
   <div class="container mt-4">
+        <!-- Table to display notes -->
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Note</th>
+                    <th>Follow-up Date</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody id="tableBody">
+                <!-- Rows will be dynamically added here via JavaScript -->
+            </tbody>
+        </table>
     <h2 class="text-center mb-4">Note Management</h2>
 
     <!-- Form for adding/updating notes -->
@@ -123,22 +139,7 @@
         <button type="submit" class="btn btn-primary" id="submitButton">Add Note</button>
     </form>
 
-    <!-- Table to display notes -->
-    <table class="table table-bordered table-striped">
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Name</th>
-                <th>Note</th>
-                <th>Follow-up Date</th>
-                <th>Status</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody id="tableBody">
-            <!-- Rows will be dynamically added here via JavaScript -->
-        </tbody>
-    </table>
+
 </div>
     <!-- Include Bootstrap and Custom JavaScript -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
