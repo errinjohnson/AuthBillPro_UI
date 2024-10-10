@@ -14,9 +14,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
         // Check if updating or adding new note
         const noteId = document.getElementById('note_id').value;
-        if (noteId) {
-            // Update note
-            updateNote(noteId, noteData);
+        const editUrl = document.getElementById('editUrl').value;  // Store edit URL in hidden input
+        if (noteId && editUrl) {
+            // Update note using hypermedia control
+            updateNote(editUrl, noteData);
         } else {
             // Add new note
             addNote(noteData);
@@ -28,7 +29,6 @@ function fetchNotes() {
     fetch('https://plankton-app-2-9k8uf.ondigitalocean.app/api/notes')
         .then(response => response.json())
         .then(data => {
-            // Check if data is an array
             if (Array.isArray(data)) {
                 const tableBody = document.getElementById('tableBody');
                 tableBody.innerHTML = '';  // Clear the table
@@ -39,7 +39,7 @@ function fetchNotes() {
                         "January", "February", "March", "April", "May", "June",
                         "July", "August", "September", "October", "November", "December"
                     ];
-                    return monthNames[monthNumber - 1]; // Adjusting for 0-indexed array
+                    return monthNames[monthNumber - 1];
                 };
 
                 // Helper function to map year, month, and day to a weekday
@@ -48,24 +48,18 @@ function fetchNotes() {
                         "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"
                     ];
                     const dateString = `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
-                    const date = new Date(dateString); // Use this just to get the correct weekday
-                    return daysOfWeek[date.getUTCDay()]; // Use getUTCDay to avoid timezone interference
+                    const date = new Date(dateString);
+                    return daysOfWeek[date.getUTCDay()];
                 };
 
                 // Loop through each note and populate the table
                 data.forEach(note => {
-                    // Assuming the follow_up date is in YYYY-MM-DD format (from the database)
                     const followUpDate = note.follow_up.split('T')[0]; // Remove time part if present
-                    const [year, month, day] = followUpDate.split('-'); // Split the date string into year, month, day parts
-
-                    // Get the month name and weekday
+                    const [year, month, day] = followUpDate.split('-');
                     const monthName = getMonthName(Number(month));
                     const weekdayName = getWeekdayName(Number(year), Number(month), Number(day));
-
-                    // Manually create the readable date string
                     const formattedDate = `${weekdayName}, ${monthName} ${Number(day)}, ${year}`;
 
-                    // Populate the table row
                     const row = `
                         <tr>
                             <td>${note.note_id}</td>
@@ -74,8 +68,8 @@ function fetchNotes() {
                             <td>${formattedDate}</td>
                             <td>${note.status}</td>
                             <td>
-                                <button class="btn btn-info" onclick="editNote(${note.note_id})">Edit</button>
-                                <button class="btn btn-danger" onclick="deleteNote(${note.note_id})">Delete</button>
+                                <button class="btn btn-info" onclick="editNote('${note._links.self.href}', '${note._links.edit.href}')">Edit</button>
+                                <button class="btn btn-danger" onclick="deleteNote('${note._links.delete.href}')">Delete</button>
                             </td>
                         </tr>
                     `;
@@ -89,6 +83,7 @@ function fetchNotes() {
             console.error('Error fetching notes:', error);
         });
 }
+
 function addNote(noteData) {
     // Send a POST request to add a new note
     fetch('https://plankton-app-2-9k8uf.ondigitalocean.app/api/notes', {
@@ -105,9 +100,9 @@ function addNote(noteData) {
     });
 }
 
-function updateNote(noteId, noteData) {
-    // Send a PUT request to update an existing note
-    fetch(`https://plankton-app-2-9k8uf.ondigitalocean.app/api/notes/${noteId}`, {
+function updateNote(editUrl, noteData) {
+    // Send a PUT request to update an existing note using hypermedia control
+    fetch(editUrl, {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json',
@@ -121,31 +116,30 @@ function updateNote(noteId, noteData) {
     });
 }
 
-function editNote(noteId) {
-    // Populate the form with the selected note data for editing
-    fetch(`https://plankton-app-2-9k8uf.ondigitalocean.app/api/notes/${noteId}`)
+function editNote(selfUrl, editUrl) {
+    // Fetch note data and populate the form for editing
+    fetch(selfUrl)
     .then(response => response.json())
     .then(note => {
         document.getElementById('note_id').value = note.note_id;
         document.getElementById('note').value = note.note;
 
-        // Format the follow-up date to YYYY-MM-DD if needed
-        const followUpDate = note.follow_up.split('T')[0]; // Extract just the date part (YYYY-MM-DD)
+        const followUpDate = note.follow_up.split('T')[0]; // Extract just the date part
         document.getElementById('follow_up').value = followUpDate;
 
         document.getElementById('status').value = note.status;
         document.getElementById('name').value = note.name;
+
+        document.getElementById('editUrl').value = editUrl; // Store edit URL for update
         document.getElementById('submitButton').textContent = 'Update Note';
 
-        // Set focus to the note field after populating the form
         document.getElementById('note').focus();
     });
 }
 
-
-function deleteNote(noteId) {
-    // Send a DELETE request to remove the note
-    fetch(`https://plankton-app-2-9k8uf.ondigitalocean.app/api/notes/${noteId}`, {
+function deleteNote(deleteUrl) {
+    // Send a DELETE request using hypermedia control
+    fetch(deleteUrl, {
         method: 'DELETE',
     })
     .then(() => {
@@ -156,5 +150,6 @@ function deleteNote(noteId) {
 function clearForm() {
     document.getElementById('noteForm').reset();
     document.getElementById('note_id').value = '';
+    document.getElementById('editUrl').value = '';  // Clear stored edit URL
     document.getElementById('submitButton').textContent = 'Add Note';
 }

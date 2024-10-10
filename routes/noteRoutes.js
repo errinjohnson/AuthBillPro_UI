@@ -1,21 +1,35 @@
 const express = require('express');
 const router = express.Router();
 
-module.exports = (mysqlConnection) => { // Accept mysqlConnection as a parameter
+module.exports = (mysqlConnection) => {
+    // Helper function to generate hypermedia links for a note
+    const generateHypermediaLinks = (note_id) => {
+        return {
+            self: { href: `https://plankton-app-2-9k8uf.ondigitalocean.app/api/notes/${note_id}` },
+            edit: { href: `https://plankton-app-2-9k8uf.ondigitalocean.app/api/notes/${note_id}`, method: 'PUT' },
+            delete: { href: `https://plankton-app-2-9k8uf.ondigitalocean.app/api/notes/${note_id}`, method: 'DELETE' }
+        };
+    };
 
-    // Get all notes
+    // Get all notes with hypermedia controls
     router.get('/', (req, res) => {
-        console.log('Fetching all notes...');
         const query = 'SELECT * FROM notes';
         mysqlConnection.query(query, (err, results) => {
             if (err) {
                 return res.status(500).json({ error: err.message });
             }
-            res.json(results);
+            
+            // Add hypermedia links to each note
+            const notesWithLinks = results.map(note => ({
+                ...note,
+                _links: generateHypermediaLinks(note.note_id)
+            }));
+            
+            res.json(notesWithLinks);
         });
     });
 
-    // Get a specific note by ID
+    // Get a specific note by ID with hypermedia controls
     router.get('/:id', (req, res) => {
         const query = 'SELECT * FROM notes WHERE note_id = ?';
         mysqlConnection.query(query, [req.params.id], (err, results) => {
@@ -25,7 +39,14 @@ module.exports = (mysqlConnection) => { // Accept mysqlConnection as a parameter
             if (results.length === 0) {
                 return res.status(404).send('Note not found.');
             }
-            res.json(results[0]);
+            
+            // Add hypermedia links to the note
+            const noteWithLinks = {
+                ...results[0],
+                _links: generateHypermediaLinks(results[0].note_id)
+            };
+            
+            res.json(noteWithLinks);
         });
     });
 
@@ -38,8 +59,17 @@ module.exports = (mysqlConnection) => { // Accept mysqlConnection as a parameter
             if (err) {
                 return res.status(500).json({ error: err.message });
             }
-            // Respond with the newly created note's ID and details
-            res.status(201).json({ note_id: result.insertId, note, follow_up, status, name });
+            
+            const newNote = {
+                note_id: result.insertId,
+                note,
+                follow_up,
+                status,
+                name,
+                _links: generateHypermediaLinks(result.insertId)
+            };
+
+            res.status(201).json(newNote);
         });
     });
 
@@ -55,7 +85,17 @@ module.exports = (mysqlConnection) => { // Accept mysqlConnection as a parameter
             if (result.affectedRows === 0) {
                 return res.status(404).send('Note not found.');
             }
-            res.json({ message: 'Note updated successfully.', note_id: req.params.id, note, follow_up, status, name });
+            
+            // Return the updated note with hypermedia controls
+            res.json({
+                message: 'Note updated successfully.',
+                note_id: req.params.id,
+                note,
+                follow_up,
+                status,
+                name,
+                _links: generateHypermediaLinks(req.params.id)
+            });
         });
     });
 
