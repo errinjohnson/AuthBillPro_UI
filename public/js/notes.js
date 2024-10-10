@@ -137,6 +137,7 @@ function editNote(selfUrl, editUrl) {
     });
 }
 
+
 function deleteNote(deleteUrl) {
     // Send a DELETE request using hypermedia control
     fetch(deleteUrl, {

@@ -115,31 +115,25 @@
             </table>
         </div>
         <form id="noteForm">
-            <!-- Hidden field for note_id (auto_incremented) -->
-            <input type="hidden" id="note_id" name="note_id">
-            <!-- Note field -->
-            <div class="form-group">
-                <label class="pt-4" for="note">ADD NOTE:</label>
-                <textarea class="form-control" id="note" name="note" rows="3" required></textarea>
-            </div>
-            <!-- Follow-up date field -->
-            <div class="form-group">
-                <label for="follow_up">Follow-up Date:</label>
-                <input type="date" class="form-control" id="follow_up" name="follow_up">
-            </div>
-            <!-- Status field -->
-            <div class="form-group">
-                <label for="status">Status:</label>
-                <input type="text" class="form-control" id="status" name="status" maxlength="255">
-            </div>
-            <!-- Name field -->
-            <div class="form-group">
-                <label for="name">Name:</label>
-                <input type="text" class="form-control" id="name" name="name" required>
-            </div>
-            <!-- Submit button -->
-            <button type="submit" class="btn btn-primary" id="submitButton">Add Note</button>
+            <input type="hidden" id="note_id" name="note_id" />
+            <input type="hidden" id="editUrl" name="editUrl" />  <!-- Hidden input for edit URL -->
+        
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" required />
+        
+            <label for="note">Note:</label>
+            <textarea id="note" name="note" required></textarea>
+        
+            <label for="follow_up">Follow-up Date:</label>
+            <input type="date" id="follow_up" name="follow_up" required />
+        
+            <label for="status">Status:</label>
+            <input type="text" id="status" name="status" required />
+        
+            <button type="submit" id="submitButton">Add Note</button>
         </form>
+        
+        
        </div>
     <!-- Second Column: Empty Placeholder -->
     <div class="empty-column">
