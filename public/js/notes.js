@@ -62,15 +62,15 @@ function fetchNotes() {
 
                     const row = `
                         <tr>
+                             <td>
+                                <button class="btn btn-info" onclick="editNote('${note._links.self.href}', '${note._links.edit.href}')">Edit</button>
+                                <button class="btn btn-danger" onclick="deleteNote('${note._links.delete.href}')">Delete</button>
+                            </td>
                             <td>${note.note_id}</td>
                             <td>${note.name}</td>
                             <td class="text-wrap" style="max-width: 300px;min-width: 150px;">${note.note}</td>
                             <td>${formattedDate}</td>
                             <td>${note.status}</td>
-                            <td>
-                                <button class="btn btn-info" onclick="editNote('${note._links.self.href}', '${note._links.edit.href}')">Edit</button>
-                                <button class="btn btn-danger" onclick="deleteNote('${note._links.delete.href}')">Delete</button>
-                            </td>
                         </tr>
                     `;
                     tableBody.insertAdjacentHTML('beforeend', row);
