@@ -7,12 +7,13 @@ const apiUrl = 'https://plankton-app-2-9k8uf.ondigitalocean.app/api/auth';
 // Accept mysqlConnection as a parameter and use it for database queries
 module.exports = (mysqlConnection) => {
 
-    // Function to generate hypermedia links for each authorization
-    const generateHypermediaLinks = (auth_number) => {
+    // Helper function to generate hypermedia links for each authorization
+    const generateHypermediaLinks = (auth_number, participant_id) => {
         return {
             self: { href: `${apiUrl}/${auth_number}` },
             edit: { href: `${apiUrl}/${auth_number}`, method: 'PUT' },
-            delete: { href: `${apiUrl}/${auth_number}`, method: 'DELETE' }
+            delete: { href: `${apiUrl}/${auth_number}`, method: 'DELETE' },
+            participant: { href: `https://plankton-app-2-9k8uf.ondigitalocean.app/api/participants/${participant_id}` }
         };
     };
 
@@ -21,11 +22,11 @@ module.exports = (mysqlConnection) => {
         const query = 'SELECT * FROM auth';
         mysqlConnection.query(query, (error, results) => {
             if (error) return res.status(500).json({ error });
-            
+
             // Add hypermedia links to each authorization
             const response = results.map(auth => ({
                 ...auth,
-                _links: generateHypermediaLinks(auth.auth_number)
+                _links: generateHypermediaLinks(auth.auth_number, auth.participant_id)
             }));
 
             res.json(response);
@@ -42,14 +43,14 @@ module.exports = (mysqlConnection) => {
             // Add hypermedia links to the authorization
             const response = {
                 ...results[0],
-                _links: generateHypermediaLinks(req.params.auth_number)
+                _links: generateHypermediaLinks(req.params.auth_number, results[0].participant_id)
             };
 
             res.json(response);
         });
     });
 
-    // Add new authorization
+    // Add new authorization with hypermedia controls
     router.post('/', (req, res) => {
         const {
             auth_number, auth_begin_date, auth_end_date, auth_rate,
@@ -79,7 +80,7 @@ module.exports = (mysqlConnection) => {
             res.status(201).json({
                 message: 'Authorization added successfully',
                 auth_number,
-                _links: generateHypermediaLinks(auth_number)
+                _links: generateHypermediaLinks(auth_number, participant_id)
             });
         });
     });
@@ -115,7 +116,7 @@ module.exports = (mysqlConnection) => {
             res.json({
                 message: 'Authorization updated successfully',
                 auth_number: req.params.auth_number,
-                _links: generateHypermediaLinks(req.params.auth_number)
+                _links: generateHypermediaLinks(req.params.auth_number, participant_id)
             });
         });
     });
