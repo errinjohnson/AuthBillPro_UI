@@ -11,9 +11,9 @@ document.getElementById('contactPhoneNumber').addEventListener('input', function
 
 document.addEventListener('DOMContentLoaded', function() {
     let isEditMode = false;
-    let currentAuthLinks = {};  // Store hypermedia links for the current authorization
+    let currentAuthLinks = {};  // Store the hypermedia links for the current authorization
 
-    // Function to load participants for the dropdown
+    // Function to load participants for the dropdown using hypermedia controls
     function loadParticipants() {
         fetch('https://plankton-app-2-9k8uf.ondigitalocean.app/api/participants')
             .then(response => response.json())
@@ -30,7 +30,7 @@ document.addEventListener('DOMContentLoaded', function() {
             .catch(error => console.error('Error fetching participants:', error));
     }
 
-    // Function to load offices for the dropdown (show office_id and office_name)
+    // Function to load offices for the dropdown using hypermedia controls
     function loadOffices() {
         fetch('https://plankton-app-2-9k8uf.ondigitalocean.app/api/vr_offices')
             .then(response => response.json())
@@ -55,31 +55,36 @@ document.addEventListener('DOMContentLoaded', function() {
                 const tbody = document.getElementById('authorizationsList');
                 tbody.innerHTML = ''; // Clear the table body
     
-                // For each authorization, fetch the participant details and then populate the row
+                // For each authorization, fetch participant details using hypermedia controls
                 data.forEach(auth => {
-                    // Extract just the date part and format as MM/DD/YYYY
                     const formattedBeginDate = formatDate(auth.auth_begin_date);
                     const formattedEndDate = formatDate(auth.auth_end_date);
 
-                    const row = `
-                        <tr>
-                            <td>
-                                <button class="btn btn-info" onclick="editAuthorization('${auth._links.self.href}', '${auth._links.edit.href}')">Edit</button>
-                            </td>
-                            <td>${auth.auth_number}</td>
-                            <td>${formattedBeginDate}</td>
-                            <td>${formattedEndDate}</td>
-                            <td>${auth.auth_rate}</td>
-                            <td>${auth.auth_billable_hours}</td>
-                            <td>${auth.auth_remaining_billable_hours}</td>
-                            <td>${auth.participant_id}</td>
-                            <td>${auth.office_name}</td>
-                            <td>${auth.office_email}</td>
-                            <td>${auth.contact_first_name}</td>
-                            <td>${auth.contact_last_name}</td>
-                            <td>${auth.contact_phone_number}</td>
-                        </tr>`;
-                    tbody.insertAdjacentHTML('beforeend', row);
+                    // Use the participant link from the hypermedia controls to fetch participant details
+                    fetch(auth._links.participant.href)
+                        .then(response => response.json())
+                        .then(participant => {
+                            const row = `
+                                <tr>
+                                    <td>
+                                        <button class="btn btn-info" onclick="editAuthorization('${auth._links.self.href}', '${auth._links.edit.href}')">Edit</button>
+                                    </td>
+                                    <td>${auth.auth_number}</td>
+                                    <td>${formattedBeginDate}</td>
+                                    <td>${formattedEndDate}</td>
+                                    <td>${auth.auth_rate}</td>
+                                    <td>${auth.auth_billable_hours}</td>
+                                    <td>${auth.auth_remaining_billable_hours}</td>
+                                    <td>${participant.first_name} ${participant.last_name}</td> <!-- Participant name via hypermedia controls -->
+                                    <td>${auth.office_name}</td>
+                                    <td>${auth.office_email}</td>
+                                    <td>${auth.contact_first_name}</td>
+                                    <td>${auth.contact_last_name}</td>
+                                    <td>${auth.contact_phone_number}</td>
+                                </tr>`;
+                            tbody.insertAdjacentHTML('beforeend', row);
+                        })
+                        .catch(error => console.error('Error fetching participant details:', error));
                 });
             })
             .catch(error => console.error('Error fetching authorizations:', error));
@@ -91,15 +96,13 @@ document.addEventListener('DOMContentLoaded', function() {
         return `${month}/${day}/${year}`;
     }
 
-    // Event listener to populate office details when an office is selected
+    // Event listener to populate office details using hypermedia controls
     document.getElementById('office').addEventListener('change', function() {
         const officeId = this.value;
         if (officeId) {
-            // Fetch the selected office's details
             fetch(`https://plankton-app-2-9k8uf.ondigitalocean.app/api/vr_offices/${officeId}`)
                 .then(response => response.json())
                 .then(office => {
-                    // Populate the office fields
                     document.getElementById('officeName').value = office.office_name;
                     document.getElementById('officeEmail').value = office.office_email;
                     document.getElementById('contactFirstName').value = office.contact_first_name;
@@ -108,7 +111,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 })
                 .catch(error => console.error('Error fetching office details:', error));
         } else {
-            // Clear the office details if no office is selected
             document.getElementById('officeName').value = '';
             document.getElementById('officeEmail').value = '';
             document.getElementById('contactFirstName').value = '';
@@ -117,7 +119,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    // Edit authorization using hypermedia links
+    // Edit authorization using hypermedia controls
     window.editAuthorization = function(selfUrl, editUrl) {
         fetch(selfUrl)
             .then(response => response.json())
@@ -201,3 +203,4 @@ document.addEventListener('DOMContentLoaded', function() {
     loadOffices();
     loadAuthorizations();
 });
+
