@@ -92,59 +92,53 @@
 </div>
 
   </div>
-  <div class="row-container">
-    <!-- First Column: Form and Notes Display -->
-    <div class="column">
-            <!-- Section to display notes in a table -->
-        <h3 class="mt-5">Notes List</h3>
-        <div class="table-responsive">
-            <table class="table table-bordered" id="notesTable">
-                <thead>
-                    <tr>
-                        <th>Note ID</th>
-                        <th>Name</th>
-                        <th>Note</th>
-                        <th>Follow-up</th>
-                        <th>Status</th>
-                        <th>Action</th>
-                   </tr>
-                </thead>
-                <tbody id="tableBody">
-                    <!-- Dynamically added notes will appear here -->
-                </tbody>
-            </table>
-        </div>
-        <form id="noteForm">
-            <input type="hidden" id="note_id" name="note_id" />
-            <input type="hidden" id="editUrl" name="editUrl" />  <!-- Hidden input for edit URL -->
-        
+  <div class="container mt-4">
+    <h2 class="text-center mb-4">Note Management</h2>
+
+    <!-- Form for adding/updating notes -->
+    <form id="noteForm" class="mb-4">
+        <input type="hidden" id="note_id" name="note_id" />
+        <input type="hidden" id="editUrl" name="editUrl" />
+
+        <div class="form-group">
             <label for="name">Name:</label>
-            <input type="text" id="name" name="name" required />
-        
-            <label for="note">Note:</label>
-            <textarea id="note" name="note" required></textarea>
-        
-            <label for="follow_up">Follow-up Date:</label>
-            <input type="date" id="follow_up" name="follow_up" required />
-        
-            <label for="status">Status:</label>
-            <input type="text" id="status" name="status" required />
-        
-            <button type="submit" id="submitButton">Add Note</button>
-        </form>
-        
-        
-       </div>
-    <!-- Second Column: Empty Placeholder -->
-    <div class="empty-column">
-        <!-- Weather section -->
-        <div id="weather-widget" class="weather-container">
-            <div id="forecast-container">
-                <!-- Forecast data will be inserted here -->
-            </div>
+            <input type="text" class="form-control" id="name" name="name" required />
         </div>
 
-    </div>
+        <div class="form-group">
+            <label for="note">Note:</label>
+            <textarea class="form-control" id="note" name="note" rows="3" required></textarea>
+        </div>
+
+        <div class="form-group">
+            <label for="follow_up">Follow-up Date:</label>
+            <input type="date" class="form-control" id="follow_up" name="follow_up" required />
+        </div>
+
+        <div class="form-group">
+            <label for="status">Status:</label>
+            <input type="text" class="form-control" id="status" name="status" required />
+        </div>
+
+        <button type="submit" class="btn btn-primary" id="submitButton">Add Note</button>
+    </form>
+
+    <!-- Table to display notes -->
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Note</th>
+                <th>Follow-up Date</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody id="tableBody">
+            <!-- Rows will be dynamically added here via JavaScript -->
+        </tbody>
+    </table>
 </div>
     <!-- Include Bootstrap and Custom JavaScript -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
