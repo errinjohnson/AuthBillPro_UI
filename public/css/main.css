@@ -203,6 +203,9 @@ body {
   box-shadow: none; /* Remove the shadow if desired */
 }
 
+.header-logo {
+  margin-left: 60px;
+}
 .header-logo img {
   max-width: 120px; /* Adjust this based on your logo size */
   height: auto;
@@ -224,6 +227,10 @@ body {
 @media (max-width: 480px) {
   #currentDateTime , .logout-btn {
     font-size: 14px; /* Even smaller font size for extra small screens */
+  }
+  .header-logo {
+    margin-left: 0;
+    padding: 20px;
   }
 
  }
