@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', async () => {
     const activityForm = document.getElementById('activityForm');
     const participantIdInput = document.getElementById('participant_id');
-    const authNumberInputContainer = document.getElementById('auth_number'); // Container to hold input or select
+    const authNumberInputContainer = document.getElementById('auth_number_container'); // Updated container name to auth_number_container
 
     // Fetch participants to populate the dropdown
     try {
@@ -43,8 +43,8 @@ document.addEventListener('DOMContentLoaded', async () => {
                     // If only one authorization exists, replace with a single input field
                     authNumberInputContainer.innerHTML = `<input type="text" id="auth_number" name="auth_number" class="form-control" value="${authorizations[0].auth_number}" readonly required>`;
                 } else {
-                    // No authorizations found, clear the input field
-                    authNumberInputContainer.innerHTML = `<input type="text" id="auth_number" name="auth_number" class="form-control" value="" required>`;
+                    // No authorizations found, display a message in a readonly input field
+                    authNumberInputContainer.innerHTML = `<input type="text" id="auth_number" name="auth_number" class="form-control" value="No auth for this participant" readonly required>`;
                 }
             } catch (error) {
                 console.error('Error fetching authorizations:', error);
