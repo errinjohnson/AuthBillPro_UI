@@ -32,6 +32,22 @@ module.exports = (mysqlConnection) => {
             }
         });
     });
+    // Fetch authorizations for a specific participant
+    router.get('/authorizations/:participant_id', (req, res) => {
+        const query = 'SELECT * FROM auth WHERE participant_id = ?';
+        const values = [req.params.participant_id];
+
+        mysqlConnection.query(query, values, (err, rows) => {
+            if (err) {
+                console.error('Error fetching authorizations: ', err);
+                res.status(500).send('Server error');
+            } else if (rows.length === 0) {
+                res.status(404).send('No authorizations found for the participant');
+            } else {
+                res.json(rows); // Send the authorizations as JSON
+            }
+        });
+    });
 
     // Add a new activity
     router.post('/', (req, res) => {
