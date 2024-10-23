@@ -1,8 +1,8 @@
 document.addEventListener('DOMContentLoaded', () => {
     const activityForm = document.getElementById('activityForm');
     const participantIdInput = document.getElementById('participant_id');
-    const authNumberInput = document.getElementById('auth_number');
-    
+    const authNumberInputContainer = document.getElementById('auth_number'); // Container to hold input or select
+
     // Event listener for when the participant ID is changed
     participantIdInput.addEventListener('change', async () => {
         const participantId = participantIdInput.value;
@@ -10,27 +10,32 @@ document.addEventListener('DOMContentLoaded', () => {
         if (participantId) {
             // Fetch authorizations for the selected participant
             try {
-                const response = await fetch(`/api/authorizations/${participantId}`);
+                const response = await fetch(`/api/authorizations/participant/${participantId}`);
                 if (!response.ok) throw new Error('Failed to fetch authorizations');
                 const authorizations = await response.json();
 
-                // If participant has multiple authorizations, let the user choose
+                // If participant has multiple authorizations, render a dropdown (select)
                 if (authorizations.length > 1) {
                     let authOptions = '';
                     authorizations.forEach(auth => {
                         authOptions += `<option value="${auth.auth_number}">${auth.auth_number}</option>`;
                     });
 
-                    authNumberInput.innerHTML = `<select class="form-control">${authOptions}</select>`;
+                    // Replace the current input with a select dropdown
+                    authNumberInputContainer.innerHTML = `<select id="auth_number" name="auth_number" class="form-control" required>${authOptions}</select>`;
                 } else if (authorizations.length === 1) {
-                    // Automatically fill in if only one authorization exists
-                    authNumberInput.value = authorizations[0].auth_number;
+                    // If only one authorization exists, replace with a single input field
+                    authNumberInputContainer.innerHTML = `<input type="text" id="auth_number" name="auth_number" class="form-control" value="${authorizations[0].auth_number}" readonly required>`;
                 } else {
-                    authNumberInput.value = ''; // No authorizations found
+                    // No authorizations found, clear the input field
+                    authNumberInputContainer.innerHTML = `<input type="text" id="auth_number" name="auth_number" class="form-control" value="" required>`;
                 }
             } catch (error) {
                 console.error('Error fetching authorizations:', error);
             }
+        } else {
+            // Reset auth number input if no participant ID is selected
+            authNumberInputContainer.innerHTML = `<input type="text" id="auth_number" name="auth_number" class="form-control" value="" required>`;
         }
     });
 
