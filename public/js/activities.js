@@ -1,7 +1,23 @@
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
     const activityForm = document.getElementById('activityForm');
     const participantIdInput = document.getElementById('participant_id');
     const authNumberInputContainer = document.getElementById('auth_number'); // Container to hold input or select
+
+    // Fetch participants to populate the dropdown
+    try {
+        const response = await fetch('/api/participants');
+        if (!response.ok) throw new Error('Failed to fetch participants');
+        
+        const participants = await response.json();
+        participants.forEach(participant => {
+            const option = document.createElement('option');
+            option.value = participant.participant_id;
+            option.textContent = `${participant.participant_name} (ID: ${participant.participant_id})`;
+            participantIdInput.appendChild(option);
+        });
+    } catch (error) {
+        console.error('Error fetching participants:', error);
+    }
 
     // Event listener for when the participant ID is changed
     participantIdInput.addEventListener('change', async () => {

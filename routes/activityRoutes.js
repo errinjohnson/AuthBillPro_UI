@@ -32,9 +32,23 @@ module.exports = (mysqlConnection) => {
             }
         });
     });
+
+    // Fetch all participants (new route)
+    router.get('/participants', (req, res) => {
+        const query = 'SELECT participant_id, participant_name FROM participants';
+        mysqlConnection.query(query, (err, rows) => {
+            if (err) {
+                console.error('Error fetching participants: ', err);
+                res.status(500).send('Server error');
+            } else {
+                res.json(rows);
+            }
+        });
+    });
+
     // Fetch authorizations for a specific participant
-    router.get('/authorizations/:participant_id', (req, res) => {
-        const query = 'SELECT * FROM auth WHERE participant_id = ?';
+    router.get('/authorizations/participant/:participant_id', (req, res) => {
+        const query = 'SELECT auth_number FROM auth WHERE participant_id = ?';
         const values = [req.params.participant_id];
 
         mysqlConnection.query(query, values, (err, rows) => {
