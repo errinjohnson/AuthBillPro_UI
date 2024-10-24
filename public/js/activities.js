@@ -51,7 +51,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 }
             } catch (error) {
                 console.error('Error fetching authorizations:', error);
-                authNumberInputContainer.innerHTML = `<p class="text-danger">Error fetching authorizations. Please try again later.</p>`;
+                authNumberInputContainer.innerHTML = `<p class="text-danger">No authorizations set up for this participant. Go to authorizations form an create authorization.</p>`;
             }
         } else {
             // Reset auth number input if no participant ID is selected
