@@ -46,11 +46,12 @@ document.addEventListener('DOMContentLoaded', async () => {
                     // If only one authorization exists, replace with a single input field
                     authNumberInputContainer.innerHTML = `<input type="text" id="auth_number" name="auth_number" class="form-control" value="${authorizations[0].auth_number}" readonly required>`;
                 } else {
-                    // No authorizations found, display a message
-                    authNumberInputContainer.innerHTML = `<p class="text-danger">No authorizations found for this participant</p>`;
+                    // No authorizations found, display a message in the container
+                    authNumberInputContainer.innerHTML = `<p class="text-danger">No authorizations found for this participant.</p>`;
                 }
             } catch (error) {
                 console.error('Error fetching authorizations:', error);
+                authNumberInputContainer.innerHTML = `<p class="text-danger">Error fetching authorizations. Please try again later.</p>`;
             }
         } else {
             // Reset auth number input if no participant ID is selected
@@ -89,6 +90,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     });
 });
+
 
 // Function to fetch all activities (for displaying in a table, for example)
 async function fetchActivities() {
