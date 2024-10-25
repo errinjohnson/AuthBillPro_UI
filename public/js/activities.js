@@ -1,19 +1,41 @@
 document.addEventListener('DOMContentLoaded', async () => {
     const activityForm = document.getElementById('activityForm');
     const participantIdInput = document.getElementById('participant_id');
-    const authNumberInputContainer = document.getElementById('auth_number_container'); // Use the container for dynamic content
+    const authNumberInputContainer = document.getElementById('auth_number_container'); // For dynamic content
+    const categorySelect = document.getElementById('categorySelect'); // Category dropdown
 
-    // Fetch participants to populate the dropdown
+    // Load categories into the category dropdown
+    async function loadCategories() {
+        try {
+            const response = await fetch('/api/activity_types'); // Adjust if needed
+            if (!response.ok) throw new Error('Failed to fetch categories');
+
+            const categories = await response.json();
+            categorySelect.innerHTML = '<option value="">Select a category</option>'; // Default option
+
+            categories.forEach(category => {
+                const option = document.createElement('option');
+                option.value = category.type_id; // Assuming `type_id` is the ID
+                option.textContent = category.type_name; // Display category name
+                categorySelect.appendChild(option);
+            });
+        } catch (error) {
+            console.error('Error loading categories:', error);
+        }
+    }
+
+    // Load categories when page loads
+    await loadCategories();
+
+    // Fetch participants for the participant dropdown
     try {
-        const response = await fetch('/api/participants'); // Adjust the API URL if needed
+        const response = await fetch('/api/participants'); // Adjust if needed
         if (!response.ok) throw new Error('Failed to fetch participants');
         
         const participants = await response.json();
         participants.forEach(participant => {
             const option = document.createElement('option');
             option.value = participant.participant_id;
-
-            // Concatenate first_name and last_name to create the full name for clarity
             option.textContent = `${participant.first_name} ${participant.last_name} (ID: ${participant.participant_id})`;
             participantIdInput.appendChild(option);
         });
@@ -21,34 +43,26 @@ document.addEventListener('DOMContentLoaded', async () => {
         console.error('Error fetching participants:', error);
     }
 
-    // Event listener for when the participant ID is changed
+    // Event listener for participant ID change
     participantIdInput.addEventListener('change', async () => {
         const participantId = participantIdInput.value;
-
-        // Clear any previous content inside authNumberInputContainer
-        authNumberInputContainer.innerHTML = '';
+        authNumberInputContainer.innerHTML = ''; // Clear previous content
 
         if (participantId) {
-            // Fetch authorizations for the selected participant
             try {
                 const response = await fetch(`/api/authorizations/participant/${participantId}`);
                 if (!response.ok) throw new Error('Failed to fetch authorizations');
                 const authorizations = await response.json();
 
-                // If participant has multiple authorizations, render a dropdown (select)
                 if (authorizations.length > 1) {
                     let authOptions = '<option value="">Select Authorization</option>';
                     authorizations.forEach(auth => {
                         authOptions += `<option value="${auth.auth_number}">${auth.auth_number}</option>`;
                     });
-
-                    // Replace the current container content with a select dropdown
                     authNumberInputContainer.innerHTML = `<select id="auth_number" name="auth_number" class="form-control" required>${authOptions}</select>`;
                 } else if (authorizations.length === 1) {
-                    // If only one authorization exists, replace with a single input field
                     authNumberInputContainer.innerHTML = `<input type="text" id="auth_number" name="auth_number" class="form-control" value="${authorizations[0].auth_number}" readonly required>`;
                 } else {
-                    // No authorizations found, display a message in the container
                     authNumberInputContainer.innerHTML = `<p class="text-danger">No authorizations found for this participant.</p>`;
                 }
             } catch (error) {
@@ -56,7 +70,6 @@ document.addEventListener('DOMContentLoaded', async () => {
                 authNumberInputContainer.innerHTML = `<p class="text-danger">Error fetching authorizations. Please try again later.</p>`;
             }
         } else {
-            // Reset auth number input if no participant ID is selected
             authNumberInputContainer.innerHTML = `<input type="text" id="auth_number" name="auth_number" class="form-control" value="" required>`;
         }
     });
@@ -64,13 +77,11 @@ document.addEventListener('DOMContentLoaded', async () => {
     // Form submission handler
     activityForm.addEventListener('submit', async (event) => {
         event.preventDefault();
-
-        // Gather form data
         const formData = new FormData(activityForm);
         const activityData = Object.fromEntries(formData.entries());
 
-        const activityId = activityData.activity_id; // Grab the activity ID for PUT or POST
-        const method = activityId ? 'PUT' : 'POST'; // Determine method based on if it's a new activity or update
+        const activityId = activityData.activity_id;
+        const method = activityId ? 'PUT' : 'POST';
         const url = activityId ? `/api/activities/${activityId}` : '/api/activities';
 
         try {
@@ -85,7 +96,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             if (!response.ok) throw new Error('Failed to save activity');
             const message = activityId ? 'Activity updated successfully' : 'Activity added successfully';
             alert(message);
-            // Optionally, reset the form or redirect
+            // Reset the form or redirect as needed
         } catch (error) {
             console.error('Error saving activity:', error);
             alert('An error occurred while saving the activity.');
