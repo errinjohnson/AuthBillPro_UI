@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             const option = document.createElement('option');
             option.value = participant.participant_id;
             // Display both participant name and ID for clarity
-            option.textContent = `${participant.participant_name} (ID: ${participant.participant_id})`;
+            option.textContent = `${participant.full_name} (ID: ${participant.participant_id})`; // Use `full_name` if that's the correct field
             participantIdInput.appendChild(option);
         });
     } catch (error) {
