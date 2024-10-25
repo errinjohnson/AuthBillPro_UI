@@ -5,15 +5,16 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     // Fetch participants to populate the dropdown
     try {
-        const response = await fetch('/api/participants');
+        const response = await fetch('/api/participants'); // Adjust the API URL if needed
         if (!response.ok) throw new Error('Failed to fetch participants');
         
         const participants = await response.json();
         participants.forEach(participant => {
             const option = document.createElement('option');
             option.value = participant.participant_id;
-            // Display both participant name and ID for clarity
-            option.textContent = `${participant.full_name} (ID: ${participant.participant_id})`; // Use `full_name` if that's the correct field
+
+            // Concatenate first_name and last_name to create the full name for clarity
+            option.textContent = `${participant.first_name} ${participant.last_name} (ID: ${participant.participant_id})`;
             participantIdInput.appendChild(option);
         });
     } catch (error) {
