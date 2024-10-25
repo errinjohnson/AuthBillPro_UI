@@ -12,6 +12,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         participants.forEach(participant => {
             const option = document.createElement('option');
             option.value = participant.participant_id;
+            // Display both participant name and ID for clarity
             option.textContent = `${participant.participant_name} (ID: ${participant.participant_id})`;
             participantIdInput.appendChild(option);
         });
@@ -51,7 +52,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 }
             } catch (error) {
                 console.error('Error fetching authorizations:', error);
-                authNumberInputContainer.innerHTML = `<p class="text-danger">No authorizations set up for this participant. Go to authorizations form an create authorization.</p>`;
+                authNumberInputContainer.innerHTML = `<p class="text-danger">Error fetching authorizations. Please try again later.</p>`;
             }
         } else {
             // Reset auth number input if no participant ID is selected
@@ -90,16 +91,3 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     });
 });
-
-
-// Function to fetch all activities (for displaying in a table, for example)
-async function fetchActivities() {
-    try {
-        const response = await fetch('/api/activities');
-        if (!response.ok) throw new Error('Failed to fetch activities');
-        const activities = await response.json();
-        // Code to display activities on the page
-    } catch (error) {
-        console.error('Error fetching activities:', error);
-    }
-}
