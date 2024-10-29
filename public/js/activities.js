@@ -1,22 +1,22 @@
 document.addEventListener('DOMContentLoaded', async () => {
     const activityForm = document.getElementById('activityForm');
     const participantIdInput = document.getElementById('participant_id');
-    const authNumberInputContainer = document.getElementById('auth_number_container'); // For dynamic content
-    const categorySelect = document.getElementById('categorySelect'); // Category dropdown
+    const authNumberInputContainer = document.getElementById('auth_number_container');
+    const categorySelect = document.getElementById('categorySelect');
+    const actBillableHoursInput = document.getElementById('actBillable_hours');
 
     // Load categories into the category dropdown
     async function loadCategories() {
         try {
-            const response = await fetch('/api/activity_types'); // Adjust if needed
+            const response = await fetch('/api/activity_types');
             if (!response.ok) throw new Error('Failed to fetch categories');
 
             const categories = await response.json();
-            categorySelect.innerHTML = '<option value="">Select a category</option>'; // Default option
-
+            categorySelect.innerHTML = '<option value="">Select a category</option>';
             categories.forEach(category => {
                 const option = document.createElement('option');
-                option.value = category.type_id; // Assuming `type_id` is the ID
-                option.textContent = category.type_name; // Display category name
+                option.value = category.type_id;
+                option.textContent = category.type_name;
                 categorySelect.appendChild(option);
             });
         } catch (error) {
@@ -24,12 +24,11 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     }
 
-    // Load categories when page loads
     await loadCategories();
 
     // Fetch participants for the participant dropdown
     try {
-        const response = await fetch('/api/participants'); // Adjust if needed
+        const response = await fetch('/api/participants');
         if (!response.ok) throw new Error('Failed to fetch participants');
         
         const participants = await response.json();
@@ -46,7 +45,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     // Event listener for participant ID change
     participantIdInput.addEventListener('change', async () => {
         const participantId = participantIdInput.value;
-        authNumberInputContainer.innerHTML = ''; // Clear previous content
+        authNumberInputContainer.innerHTML = '';
 
         if (participantId) {
             try {
@@ -83,22 +82,45 @@ document.addEventListener('DOMContentLoaded', async () => {
         const activityId = activityData.activity_id;
         const method = activityId ? 'PUT' : 'POST';
         const url = activityId ? `/api/activities/${activityId}` : '/api/activities';
+        const authNumber = activityData.auth_number;
 
         try {
+            // Fetch current authorization data to get remaining billable hours
+            const authResponse = await fetch(`/api/authorizations/${authNumber}`);
+            if (!authResponse.ok) throw new Error('Failed to fetch authorization data');
+            
+            const authData = await authResponse.json();
+            const actBillableHours = parseFloat(activityData.actBillable_hours);
+            const newRemainingHours = authData.auth_remaining_billable_hours - actBillableHours;
+
+            // Prepare payload with updated remaining hours
+            const activityPayload = {
+                ...activityData,
+                auth_remaining_billable_hours: newRemainingHours
+            };
+
+            // Save the activity
             const response = await fetch(url, {
-                method: method,
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(activityData),
+                method,
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(activityPayload)
             });
 
             if (!response.ok) throw new Error('Failed to save activity');
+
+            // Update authorization's remaining hours
+            await fetch(`/api/authorizations/${authNumber}`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ auth_remaining_billable_hours: newRemainingHours })
+            });
+
             const message = activityId ? 'Activity updated successfully' : 'Activity added successfully';
             alert(message);
-            // Reset the form or redirect as needed
+
+            // Optionally, reset form or redirect as needed
         } catch (error) {
-            console.error('Error saving activity:', error);
+            console.error('Error saving activity or updating authorization:', error);
             alert('An error occurred while saving the activity.');
         }
     });
