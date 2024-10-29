@@ -93,22 +93,22 @@ document.addEventListener('DOMContentLoaded', async () => {
             const actBillableHours = parseFloat(activityData.actBillable_hours);
             const newRemainingHours = authData.auth_remaining_billable_hours - actBillableHours;
 
-            // Prepare payload with updated remaining hours
-            const activityPayload = {
-                ...activityData,
-                auth_remaining_billable_hours: newRemainingHours
-            };
+            // Check if remaining hours would go negative
+            if (newRemainingHours < 0) {
+                alert('Billable hours exceed the remaining authorized hours.');
+                return;
+            }
 
-            // Save the activity
+            // Save the activity with the updated billable hours
             const response = await fetch(url, {
                 method,
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(activityPayload)
+                body: JSON.stringify(activityData)
             });
 
             if (!response.ok) throw new Error('Failed to save activity');
 
-            // Update authorization's remaining hours
+            // Update authorization's remaining hours in the database
             await fetch(`/api/authorizations/${authNumber}`, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
