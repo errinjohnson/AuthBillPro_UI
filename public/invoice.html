@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dashboard</title>
+    <link
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+   <link href="css/main.css" rel="stylesheet" />
+  </head>
+  <body>
+     <!-- Navigation Bar -->
+     <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#"><span id="logo"></span> AuthBillPro</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+            <li class="nav-item active">
+                <a class="nav-link" href="index.html">DASHBOARD <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="participants.html">Participants</a>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="authorizationsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Authorizations
+                </a>
+                <div class="dropdown-menu" aria-labelledby="authorizationsDropdown">
+                    <a class="dropdown-item" href="auth.html">Manage Authorizations</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="vr.html">Manage VR Offices</a>
+                </div>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="activitiesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Activities
+                </a>
+                <div class="dropdown-menu" aria-labelledby="activitiesDropdown">
+                    <a class="dropdown-item" href="activities.html">Manage Activites</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="category.html">Manage Categories</a>
+                </div>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="invoicesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Generate Invoice
+                </a>
+                <div class="dropdown-menu" aria-labelledby="invoicesDropdown">
+                    <a class="dropdown-item" href="#">Coming Soon - Generate Invoice</a>
+                    <a class="dropdown-item" href="#">Coming Soon - Manage Invoices</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="#">------------------</a>
+                </div>
+            </li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="expensesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  Expenditures
+              </a>
+            <div class="dropdown-menu" aria-labelledby="expensesDropdown">
+                <a class="dropdown-item" href="#">Coming Soon - Add | Update Expenditures</a>
+                <a class="dropdown-item" href="#">Coming Soon - Add Expense Category</a>
+                <a class="dropdown-item" href="#">Coming Soon - Add Vendor</a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="#">------------------</a>
+            </div>
+          </li>
+        </ul>
+    </div>
+  </nav>
+  <div class="dashboard-header header">
+    <!-- Left: Logo -->
+    <div class="header-logo">
+        <a href="https://www.oceanwavestech.com/" target="_blank">
+            <img src="img/oceanwavestechlogo2.jpg" alt="Ocean Waves Logo">
+        </a>
+    </div>
+    </div>
+</div>
+
+  </div>
+  <div class="container mt-5">
+    <div class="row">
+        <div class="col-md-12">
+            <h1 class="text-center">Invoice Management</h1>
+
+            <div class="form-group mt-4">
+                <label for="participantSelect">Select Participant</label>
+                <select id="participantSelect" class="form-control">
+                    <option value="">Select a participant</option>
+                </select>
+            </div>
+
+            <table class="table table-bordered mt-4">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>Activity ID</th>
+                        <th>Date</th>
+                        <th>Category</th>
+                        <th>Billable Hours</th>
+                        <th>Rate</th>
+                        <th>Total Charge</th>
+                        <th>Participant</th>
+                    </tr>
+                </thead>
+                <tbody id="invoiceTableBody">
+                    <tr>
+                        <td colspan="7" class="text-center">Select a participant to view invoices.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+    <!-- Include Bootstrap and Custom JavaScript -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="#"></script>
+  </body>
+</html>
