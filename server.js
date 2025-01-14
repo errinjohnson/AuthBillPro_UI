@@ -30,6 +30,7 @@ const authRoutes = require('./routes/authRoutes');
 const vrRoutes = require('./routes/vrRoutes');
 const categoryRoutes = require('./routes/categoryRoutes');
 const activityRoutes = require('./routes/activityRoutes');
+const invoiceRoutes = require('./routes/invoiceRoutes');
 // ------------------------------------------------------------------------------
 // Use the participant routes for any API calls that start with /api/participants
 app.use('/api/participants', participantRoutes(db));
@@ -58,6 +59,11 @@ console.log("activity routes have been set up");
 // Use the activity routes for any API calls that start with /api/activities
 app.use('/api/authorizations', authRoutes(db)); 
 console.log("auth routes for activities have been set up");
+
+
+app.use('/api/invoices', invoiceRoutes(db));
+console.log("invoice routes for invoices have been set up");
+
 // --------------------------------------------------------------
 
 // Function to log uptime
