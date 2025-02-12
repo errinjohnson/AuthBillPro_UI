@@ -30,22 +30,33 @@ document.addEventListener('DOMContentLoaded', function() {
             .catch(error => console.error('Error fetching participants:', error));
     }
 
-    // Function to load offices for the dropdown using hypermedia controls
-    function loadOffices() {
-        fetch('https://plankton-app-2-9k8uf.ondigitalocean.app/api/vr_offices')
-            .then(response => response.json())
-            .then(data => {
-                const officeSelect = document.getElementById('office');
-                officeSelect.innerHTML = ''; // Clear previous options
-                data.forEach(office => {
-                    const option = document.createElement('option');
-                    option.value = office.office_id; // Store office_id
-                    option.textContent = `${office.office_id} - ${office.office_name}`; // Show office_id and office_name
-                    officeSelect.appendChild(option);
-                });
-            })
-            .catch(error => console.error('Error fetching offices:', error));
-    }
+// Function to load offices for the dropdown using hypermedia controls
+function loadOffices() {
+    fetch('https://plankton-app-2-9k8uf.ondigitalocean.app/api/vr_offices')
+        .then(response => response.json())
+        .then(data => {
+            const officeSelect = document.getElementById('office');
+            officeSelect.innerHTML = ''; // Clear previous options
+
+            // Add a default "None" option
+            const defaultOption = document.createElement('option');
+            defaultOption.value = ''; // Empty value
+            defaultOption.textContent = 'None'; // Display text
+            officeSelect.appendChild(defaultOption);
+
+            // Populate with actual offices
+            data.forEach(office => {
+                const option = document.createElement('option');
+                option.value = office.office_id; // Store office_id
+                option.textContent = `${office.office_id} - ${office.office_name}`; // Show office_id and office_name
+                officeSelect.appendChild(option);
+            });
+
+            // Set "None" as the default selected option
+            officeSelect.value = '';
+        })
+        .catch(error => console.error('Error fetching offices:', error));
+}
 
     // Function to load authorizations with hypermedia controls
     function loadAuthorizations() {
